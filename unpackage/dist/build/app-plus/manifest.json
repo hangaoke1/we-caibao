@@ -148,9 +148,7 @@
       },
       "apple": {},
       "plugins": {
-        "push": {
-          "unipush": {}
-        },
+        "push": {},
         "payment": {},
         "audio": {
           "mp3": {

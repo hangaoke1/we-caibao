@@ -69,9 +69,7 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "push" : {
-                    "unipush" : {}
-                },
+                "push" : {},
                 "payment" : {}
             },
             "icons" : {
