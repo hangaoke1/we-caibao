@@ -7,8 +7,8 @@
   "id": "__UNI__A9D6471",
   "name": "裁宝",
   "version": {
-    "name": "1.0.2",
-    "code": 102
+    "name": "1.0.3",
+    "code": 103
   },
   "description": "",
   "launch_path": "__uniappview.html",
@@ -92,25 +92,25 @@
       },
       "splashscreen": {
         "android": {
-          "hdpi": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-          "xhdpi": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-          "xxhdpi": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png"
+          "hdpi": "",
+          "xhdpi": "",
+          "xxhdpi": ""
         },
         "ios": {
           "iphone": {
-            "portrait-896h@3x": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "landscape-896h@3x": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "portrait-896h@2x": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "landscape-896h@2x": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "iphonex": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "iphonexl": "/Users/hangaoke/Desktop/MIDOU/IOS-BOOT/828x1792.png",
-            "retina55": "/Users/hangaoke/Desktop/MIDOU/IOS-BOOT/1242x2208.png",
-            "retina55l": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "retina47": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "retina47l": "/Users/hangaoke/Desktop/MIDOU/IOS-BOOT/828x1792.png",
-            "retina40": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "retina40l": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png",
-            "retina35": "/Users/hangaoke/Desktop/we-hongdian/WechatIMG100.png"
+            "portrait-896h@3x": "",
+            "landscape-896h@3x": "",
+            "portrait-896h@2x": "",
+            "landscape-896h@2x": "",
+            "iphonex": "",
+            "iphonexl": "",
+            "retina55": "",
+            "retina55l": "",
+            "retina47": "",
+            "retina47l": "",
+            "retina40": "",
+            "retina40l": "",
+            "retina35": ""
           }
         }
       },
