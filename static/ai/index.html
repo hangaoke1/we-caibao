@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI_预测</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="static/app.css">
+<script type="text/javascript" src="static/uni.webview.1.5.1.js"></script>
+</head>
+<style type="text/css">
+  .wbe_title {
+    padding: 1.5rem 0 2rem 0!important;
+  }
+</style>
+<body>
+
+<div class="tool">
+	<a class="fanhui"><img src="./static/fanhui.png" width="30"></a>
+	<div class="title">米店预测系统</div>
+	<a class="video"></a>
+</div>
+
+<div class="wbe_title"><img src="static/ai_1.png?v2"/></div>
+
+<div class="menu">
+	<a class="item on"><text>今日预测</text></a>
+	<a class="item"><text>昨日预测</text></a>
+</div>
+
+<div class="list" id="today_list" style="display:block;">
+</div>
+
+
+<div class="list" id="today_hisy">
+	2
+</div>
+
+<div class="tip">
+	<p>赛前随赔率变化，预测概率也将有所变化。</p>
+	<p>离开赛时间越近预测概率准确性也就越高哦。</p>
+</div>
+
+<script type="text/javascript" src="static/util.js"></script>
+<script type="text/javascript">
+
+//取消浏览器的所有事件，使得active的样式在手机上正常生效
+document.addEventListener('touchstart',function(){
+    return false;
+},true);
+// 禁止选择
+document.oncontextmenu=function(){
+    return false;
+};
+
+//tab切换
+$(".menu .item").each(function(){
+
+	$(this).click(function(){
+
+		var i=$(this).index();
+
+		$(this).addClass("on");
+
+		$(this).siblings("a").removeClass("on");
+
+		$(".list").hide();
+
+		$(".list").eq(i).show();
+
+	});
+
+});
+
+//滚动
+$(window).scroll(function(){
+	var top=$(window).scrollTop();
+	if(top>=150){
+		$(".tool").addClass("fixed");
+	}else{
+		$(".tool").removeClass("fixed");
+	}
+});
+
+//请求数据
+$.ajax({
+	url:"http://api.anyong.pw/data/ai_yuce",
+	type:"post",
+	data:{},
+	dataType:"json",
+	beforeSend:function(XMLHttpRequest){
+ 		XMLHttpRequest.setRequestHeader("system","fengshoucai");
+ 		layer.open({
+ 			type:2,
+ 			shadeClose:false
+ 		});
+     },
+	success(res){
+		tpl(res.data.t.data.matches,"#today_list");
+		tpl(res.data.h.data.matches,"#today_hisy");
+	},
+	complete(){
+		layer.closeAll();
+	}
+});
+
+function tpl(data,obj){
+
+	var html="";
+
+	var resArr=["负","平","","胜"];
+
+	if(data){
+
+	data.forEach(function(e){
+
+		var c="r1";
+
+		var res="";
+
+		var w=parseInt(e.cell.probability)+5;
+
+		if(w>=30){
+			c="r4";
+		}
+
+		if(w>=50){
+			c="r1";
+		}
+
+		if(w>=70){
+			c="r2";
+		}
+
+		if(w>=90){
+			c="r3";
+		}
+
+		if(w>=100){
+			w=100;
+		}
+
+		if(e.result){
+
+			res=e.result==e.cell.predict_result?'zj':'wzj';
+
+		}
+
+		html+='<div class="item"><div class="rate '+c+'"><div class="mask"><span class="t1">'+w+'%</span><span class="t2">'+resArr[e.cell.predict_result]+'  '+e.cell.predict_reback+'</span></div></div><div class="inner"><h2 class="title">'+e.homesxname+'VS'+e.awaysxname+'</h2><p>'+e.order+'&nbsp;&nbsp;'+e.simpleleague+'</p><p>开赛:'+e.matchtime+'</p></div><span class="res '+res+'"></span></div>';
+
+	});
+
+	$(obj).html(html);
+
+	}
+
+}
+
+function plusReady () {
+  $(".fanhui").click(function(){
+    var ws=plus.webview.currentWebview();
+    plus.webview.close(ws);
+  });
+}
+if (window.plus) {
+  plusReady();
+} else {
+  document.addEventListener('plusready', plusReady, false);
+}
+
+// document.addEventListener('UniAppJSBridgeReady', function() {  
+
+// 	$(".fanhui").click(function(){
+// 		uni.navigateBack({
+// 		    delta: 1
+// 		});
+// 	});
+
+// 	// $(".video").click(function(){
+// 	// 	uni.navigateTo({
+// 	// 	    url:"/pages/index/demo"
+// 	// 	});
+// 	// });
+// });  
+</script>
+</body>
+</html>

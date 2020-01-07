@@ -1,0 +1,103 @@
+<template>
+  <view class="m-capital">
+   <weex-list class="u-list" :pageInit="pageInit" ref="weexList" @loadMore="loadMore">
+      <view class="u-item" v-for="(item, index) in list" :key="index">
+        <view class="u-top">
+          <text class="f-30">{{item.type}}</text>
+          <text v-if="item.out" class="f-30 green-6">-{{item.out.toFixed(2)}}元</text>
+          <text v-if="item.in" class="f-30 red-6">+{{item.in.toFixed(2)}}元</text>
+        </view>
+        <view class="u-bottom">
+          <text class="f-30 grey-3">{{item.createTime}}</text>
+          <text class="f-30 grey-3">账户余额: {{item.balance.toFixed(2)}}元</text>
+        </view>
+      </view>
+    </weex-list>
+  </view>
+</template>
+
+<script>
+import user from '@/api/user';
+import weexList from '@/components/weex-list/index.nvue';
+export default {
+  name: 'm-capital',
+  components: {
+    weexList
+  },
+  data() {
+    return {
+      list: [],
+      pageInit: {
+        pageNo: 1,
+        pageSize: 10
+      }
+    };
+  },
+  mounted() {},
+  methods: {
+    getList(opt) {
+      // 页面刷新
+      if (opt.refreshing) {
+        user
+          .queryCapitalDetail({
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo
+          })
+          .then(res => {
+            this.list = res;
+            setTimeout(() => {
+              this.$refs.weexList.endBySize(res.length);
+            }, 200)
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        user
+          .queryCapitalDetail({
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo
+          })
+          .then(res => {
+            this.list = [...this.list, ...res];
+            setTimeout(() => {
+              this.$refs.weexList.endBySize(res.length);
+            }, 200)
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    loadMore(opt) {
+      this.getList(opt);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+
+.m-capital {
+  flex: 1;
+}
+
+.u-item {
+  padding: 20rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+}
+
+.u-top, .u-bottom {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.u-top {
+  margin-bottom: 40rpx;
+}
+</style>

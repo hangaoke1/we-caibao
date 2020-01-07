@@ -1,0 +1,333 @@
+<template>
+  <view class="u-expend">
+    <view v-if="match" class="u-content">
+      <view class="u-title-wrap">
+        <view :style="{ height: statusBarHeight + 'px' }"></view>
+        <view class="u-title">
+          <text class="f-36 grey-10 u-host">{{ match.hostName }}</text>
+          <text class="f-36 grey-6 u-vs">VS</text>
+          <text class="f-36 grey-10 u-guest">{{ match.guestName }}</text>
+        </view>
+      </view>
+      <!-- 胜平负 -->
+      <view class="u-table-warp">
+        <view class="u-l">
+          <view class="u-norang"><text class="f-26 grey-5">0</text></view>
+          <view v-if="match.rate > 0" class="u-rang red-3-bg">
+            <text class="red-6 f-26">+{{ match.rate }}</text>
+          </view>
+          <view v-else class="u-rang geekblue-3-bg">
+            <text class="f-26 grey-5">{{ match.rate }}</text>
+          </view>
+        </view>
+        <view class="u-r">
+          <g-table width="660" borderColor="#eee">
+            <g-tr v-if="match.spfPassStatus === 5">
+              <g-td padding="0" borderColor="#eee">
+                <view class="u-rate g-center">
+                  <text class="f-24 grey-5">未开售</text>
+                </view>
+              </g-td>
+            </g-tr>
+            <g-tr v-else>
+              <g-td borderColor="#eee" v-for="choose in spf[0]" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate f-row" :class="{ 'z-active': match.choose.includes(choose.key) }">
+                  <text class="f-24" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ choose.name }}</text>
+                  <text class="f-24 grey-5" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ match[choose.key].toFixed(2) }}</text>
+                </view>
+              </g-td>
+            </g-tr>
+            <g-tr v-if="match.rqSpfPassStatus === 5">
+              <g-td padding="0" borderColor="#eee">
+                <view class="u-rate g-center">
+                  <text class="f-24 grey-5">未开售</text>
+                </view>
+              </g-td>
+            </g-tr>
+            <g-tr v-else>
+              <g-td borderColor="#eee" v-for="choose in spf[1]" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate f-row" :class="{ 'z-active': match.choose.includes(choose.key) }">
+                  <text class="f-24" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ choose.name }}</text>
+                  <text class="f-24 grey-5" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ match[choose.key].toFixed(2) }}</text>
+                </view>
+              </g-td>
+            </g-tr>
+          </g-table>
+        </view>
+      </view>
+      <!-- 半全场 -->
+      <view class="u-table-warp">
+        <view class="u-l u-label lime-3-bg">
+          <text class="f-30 lime-8" v-for="word in ['半', '全', '场']" :key="word">{{ word }}</text>
+        </view>
+        <view class="u-close u-r g-center" v-if="match.bqcPassStatus === 5">
+          <text class="f-24 grey-5">未开售</text>
+        </view>
+        <view class="u-r" v-else>
+          <g-table width="660" borderColor="#eee">
+            <g-tr v-for="(chooseList, index) in bqc" :key="index">
+              <g-td borderColor="#eee" v-for="choose in chooseList" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate" :class="{ 'z-active': match.choose.includes(choose.key) }">
+                  <text class="f-24" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ choose.name }}</text>
+                  <text class="f-24 grey-5" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ match[choose.key].toFixed(2) }}</text>
+                </view>
+              </g-td>
+            </g-tr>
+          </g-table>
+        </view>
+      </view>
+      <!-- 总进球 -->
+      <view class="u-table-warp">
+        <view class="u-l u-label yellow-4-bg">
+          <text class="f-30 yellow-8" v-for="word in ['总', '进', '球']" :key="word">{{ word }}</text>
+        </view>
+        <view class="u-close u-r g-center" v-if="match.zjqPassStatus === 5">
+          <text class="f-24 grey-5">未开售</text>
+        </view>
+        <view class="u-r" v-else>
+          <g-table width="660" borderColor="#eee">
+            <g-tr v-for="(chooseList, index) in zjq" :key="index">
+              <g-td borderColor="#eee" v-for="choose in chooseList" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate" :class="{ 'z-active': match.choose.includes(choose.key) }">
+                  <text class="f-24" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ choose.name }}</text>
+                  <text class="f-24 grey-5" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ match[choose.key].toFixed(2) }}</text>
+                </view>
+              </g-td>
+            </g-tr>
+          </g-table>
+        </view>
+      </view>
+      <!-- 比分 -->
+      <view class="u-table-warp">
+        <view class="u-l u-label blue-4-bg">
+          <text class="f-30 blue-8" v-for="word in ['比', '分']" :key="word">{{ word }}</text>
+        </view>
+        <view class="u-close u-r g-center" v-if="match.bfPassStatus === 5">
+          <text class="f-24 grey-5">未开售</text>
+        </view>
+        <view class="u-r" v-else>
+          <g-table width="660" borderColor="#eee">
+            <g-tr v-for="(chooseList, index) in bf" :key="index">
+              <g-td :col="choose.flex ? '' : '132'" borderColor="#eee" v-for="choose in chooseList" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate" :class="{ 'z-active': match.choose.includes(choose.key) }">
+                  <text class="f-24" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ choose.name }}</text>
+                  <text class="f-24 grey-5" :class="{ 'z-active-text': match.choose.includes(choose.key) }">{{ match[choose.key].toFixed(2) }}</text>
+                </view>
+              </g-td>
+            </g-tr>
+          </g-table>
+        </view>
+      </view>
+    </view>
+    <view class="u-bottom">
+      <view class="u-cancel" @tap="handleCancel"><text class="f-36">取消</text></view>
+      <view class="u-confirm red-6-bg" @tap="handleConfirm"><text class="f-36 white-1">确定</text></view>
+    </view>
+  </view>
+</template>
+
+<script>
+import _ from 'lodash';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import statusbarMixin from '@/mixins/statusbar.js';
+import proMixin from '@/mixins/pro.js';
+import gTable from '@/components/g-table/index.nvue';
+import gTr from '@/components/g-tr/index.nvue';
+import gTd from '@/components/g-td/index.nvue';
+export default {
+  components: {
+    gTable,
+    gTr,
+    gTd
+  },
+  mixins: [statusbarMixin, proMixin],
+  data() {
+    return {
+      id: '',
+      match: '',
+      // 枚举开始
+      spf: [
+        [{ key: 'sheng', name: '胜' }, { key: 'ping', name: '平' }, { key: 'fu', name: '负' }],
+        [{ key: 'rqSheng', name: '胜' }, { key: 'rqPing', name: '平' }, { key: 'rqFu', name: '负' }]
+      ],
+      // 半全场
+      bqc: [
+        [{ key: 'ss', name: '胜胜' }, { key: 'sp', name: '胜平' }, { key: 'sf', name: '胜负' }],
+        [{ key: 'ps', name: '平胜' }, { key: 'pp', name: '平平' }, { key: 'pf', name: '平负' }],
+        [{ key: 'fs', name: '负胜' }, { key: 'fp', name: '负平' }, { key: 'ff', name: '负负' }]
+      ],
+      // 总进球
+      zjq: [
+        [{ key: 't0', name: '0' }, { key: 't1', name: '1' }, { key: 't2', name: '2' }, { key: 't3', name: '3' }],
+        [{ key: 't4', name: '4' }, { key: 't5', name: '5' }, { key: 't6', name: '6' }, { key: 't7', name: '7+' }]
+      ],
+      // bf
+      bf: [
+        [{ key: 's10', name: '1:0' }, { key: 's20', name: '2:0' }, { key: 's21', name: '2:1' }, { key: 's30', name: '3:0' }, { key: 's31', name: '3:1' }],
+        [{ key: 's32', name: '3:2' }, { key: 's40', name: '4:0' }, { key: 's41', name: '4:1' }, { key: 's42', name: '4:2' }, { key: 's50', name: '5:0' }],
+        [{ key: 's51', name: '5:1' }, { key: 's52', name: '5:2' }, { key: 'sother', name: '胜其他', flex: true }],
+        [{ key: 'p00', name: '0:0' }, { key: 'p11', name: '1:1' }, { key: 'p22', name: '2:2' }, { key: 'p33', name: '3:3' }, { key: 'pother', name: '平其他' }],
+        [{ key: 'f01', name: '0:1' }, { key: 'f02', name: '0:2' }, { key: 'f12', name: '1:2' }, { key: 'f03', name: '0:3' }, { key: 'f13', name: '1:3' }],
+        [{ key: 'f23', name: '2:3' }, { key: 'f04', name: '0:4' }, { key: 'f14', name: '1:4' }, { key: 'f24', name: '2:4' }, { key: 'f05', name: '0:5' }],
+        [{ key: 'f15', name: '1:5' }, { key: 'f25', name: '2:5' }, { key: 'fother', name: '负其他', flex: true }]
+      ]
+    };
+  },
+  onLoad(option) {
+    const { id } = option;
+    this.id = id;
+  },
+  computed: {
+    ...mapState({
+      info: state => state.jczq
+    })
+  },
+  methods: {
+    ...mapActions({
+      updateJczq: 'updateJczq'
+    }),
+    ...mapMutations(['updateJczqChooseById']),
+    handleCancel() {
+      uni.navigateBack({
+        animationDuration: 300
+      });
+    },
+    handleConfirm() {
+      // 确认的时候同步到vuex
+      this.updateJczqChooseById({
+        id: this.match.id,
+        choose: _.cloneDeep(this.match.choose)
+      });
+      uni.navigateBack({
+        animationDuration: 300
+      });
+    },
+    handleChoose(choose) {
+      if (this.match.choose.includes(choose.key)) {
+        // 删除
+        this.match.choose = this.match.choose.filter(item => item !== choose.key);
+      } else {
+        // 添加
+        this.match.choose.push(choose.key);
+      }
+    }
+  },
+  created() {
+    this.match = '';
+  },
+  onReady() {
+    const match = this.info.data
+      .reduce((total, item) => {
+        return [...total, ...item.matches];
+      }, [])
+      .filter(item => item.id == this.id)[0];
+    this.match = _.cloneDeep(match);
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+
+.u-close {
+  background-color: #fff;
+}
+
+.u-expend {
+  padding: 0 0 200rpx 0;
+  background-color: #f6f8fa;
+}
+.u-title-wrap {
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: 750rpx;
+  padding-bottom: 60rpx;
+  margin-bottom: 20rpx;
+  background-color: #fff;
+}
+.u-title {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.u-content {
+}
+
+.u-host {
+  flex: 1;
+  text-align: right;
+}
+.u-guest {
+  flex: 1;
+  text-align: left;
+}
+.u-vs {
+  width: 150rpx;
+  text-align: center;
+}
+.u-table-warp {
+  flex-direction: row;
+  padding: 30rpx 20rpx;
+}
+.u-l {
+  width: 50rpx;
+}
+.u-label {
+  .g-center();
+}
+.u-norang {
+  flex: 1;
+  background-color: #e5e5e5;
+  align-items: center;
+  justify-content: center;
+}
+.u-rang {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.u-r {
+  flex: 1;
+}
+.u-rate {
+  justify-content: center;
+  align-items: center;
+  padding: 0 20rpx;
+  height: 100rpx;
+  background-color: #fff;
+  // transition-property: background-color;
+  // transition-duration: 300ms;
+  // transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+}
+.z-active,
+.z-select {
+  background-color: @red-6;
+}
+.z-active-text {
+  color: #fff;
+}
+.u-bottom {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  height: 100rpx;
+  background-color: #fff;
+}
+.u-cancel {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100rpx;
+}
+.u-confirm {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100rpx;
+}
+</style>

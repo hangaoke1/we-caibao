@@ -1,0 +1,171 @@
+<template>
+  <view class="u-coupon">
+    <view class="u-tab">
+      <view class="u-tab-item" v-for="(item, index) in ['可使用', '过期/用完']" :key="item" @tap="changeTab(index)">
+        <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
+      </view>
+      <view class="u-tab-line" :style="lineStyle"></view>
+    </view>
+    <swiper
+      style="flex: 1;"
+      :current="activeIndex"
+      @change="handleTabChange"
+    >
+      <swiper-item>
+        <scroller v-if="canUse.length">
+          <view v-for="(item, index) in canUse" :key="item.id" style="margin-top: 20rpx;">
+            <coupon-item :item="item" :type="0"></coupon-item>
+          </view>
+        </scroller>
+        <view class="u-empty" v-else>
+          <text class="f-36 grey-6">暂无卡券</text>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <scroller v-if="canNotUse.length">
+          <view v-for="(item, index) in canNotUse" :key="item.id" style="margin-top: 20rpx;">
+            <coupon-item :item="item" :type="0"></coupon-item>
+          </view>
+        </scroller>
+        <view class="u-empty" v-else>
+          <text class="f-36 grey-6">暂无卡券</text>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>
+
+<script>
+import user from '@/api/user/index.js';
+import couponItem from './coupon-item.nvue'
+const animation = weex.requireModule('animation');
+export default {
+  components: {
+    couponItem
+  },
+  data () {
+    return {
+      activeIndex: 0,
+      list: []
+    }
+  },
+  computed: {
+    canUse () {
+      return this.list.filter(item => item.enableFlag == 1)
+    },
+    canNotUse() {
+      return this.list.filter(item => item.enableFlag != 1)
+    },
+    lineStyle() {
+      return {
+        width: 375 + 'rpx',
+        left: this.activeIndex * 375 + 'rpx'
+      };
+    }
+  },
+  methods: {
+    handleTabChange(event) {
+      this.activeIndex = event.detail.current;
+    },
+    changeTab(index) {
+      this.activeIndex = index;
+
+      // 安卓去掉动画
+      if (uni.getSystemInfoSync().platform == "android") {
+        return
+      }
+
+      const listEl = this.$refs['list'];
+      animation.transition(
+        listEl,
+        {
+          styles: {
+            opacity: 0,
+            transform: 'translateY(100rpx)'
+          },
+          duration: 0,
+          delay: 0
+        },
+        () => {
+          animation.transition(
+            listEl,
+            {
+              styles: {
+                opacity: 1,
+                transform: 'translateY(0)'
+              },
+              duration: 200,
+              timingFunction: 'cubic-bezier(0.36, 0.66, 0.04, 1)',
+              delay: 0
+            },
+            () => {}
+          );
+        }
+      );
+    },
+  },
+  onReady() {
+    user.queryMyCoupons({
+      money: 0
+    }).then(res => {
+      this.list = res.list
+    })
+  }
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+.u-coupon {
+  flex: 1;
+  background-color: #f0f0f0;
+}
+.u-tab {
+  width: 750rpx;
+  height: 80rpx;
+  border-bottom-width: 1rpx;
+  border-top-width: 1rpx;
+  border-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+  .f-row();
+}
+.u-tab-item {
+  flex: 1;
+  height: 80rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+  .g-center();
+}
+.u-divide {
+  position: absolute;
+  width: 1rpx;
+  height: 40rpx;
+  left: 374rpx;
+  top: 20rpx;
+  background-color: #ccc;
+}
+.z-active {
+  background-color: @red-6;
+  border-color: @red-6;
+}
+.z-active-text {
+  color: @red-6;
+}
+.u-tab-line {
+  position: absolute;
+  left: 0;
+  bottom: -2rpx;
+  height: 6rpx;
+  background-color: @red-6;
+  transition-property: left;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+}
+.u-empty {
+  height: 200rpx;
+  .g-center();
+}
+</style>

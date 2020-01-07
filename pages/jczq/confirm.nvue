@@ -1,0 +1,825 @@
+<template>
+  <scroller class="u-confirm">
+    <!-- vuex bug -->
+    <view style="opacity: 0;height: 50rpx;margin-top: -50rpx;">
+      <text>{{ count }}{{ isBottomShow }}</text>
+    </view>
+    
+    <view v-for="match in selectRaces" :key="match.id" style="background-color: #fff;"><u-race :match="match" :type="1"></u-race></view>
+
+    <view style="height: 100rpx;"></view>
+
+    <view class="u-continue" @tap="handleContinue"><text class="f-36 grey-6">继续添加比赛</text></view>
+
+    <view style="height: 500rpx"></view>
+
+    <view class="u-bottom">
+      <view class="u-pass">
+        <view class="u-pass-left" @tap="showWaySelect">
+          <text v-if="showWas.length === 0 && !mixWay" class="f-30" style="width: 375rpx;text-align: center;">过关方式</text>
+          <text v-else class="f-30 lines-1" style="width: 375rpx;text-align: center;">{{ mixWay ? genName(mixWay): getWays(showWas) }}</text>
+        </view>
+        <view class="u-pass-right f-row">
+          <view style="margin-right: 10rpx;"><text class="f-24">投</text></view>
+          <view class="u-tou-icon" @tap.stop="countReduce"><text class="f-30">-</text></view>
+          <input ref="xInput" class="u-input" :cursor-spacing="65" type="number" v-model="count" @blur="handleBlur" />
+          <view class="u-tou-icon" @tap.stop="countAdd"><text class="f-30">+</text></view>
+          <view style="margin-left: 10rpx;margin-right: 10rpx;"><text class="f-24">倍</text></view>
+        </view>
+      </view>
+
+      <view class="u-action">
+        <view class="u-action-center">
+          <view class="u-order-top">
+            <text class="f-30 red-6">{{ baseCount }}</text>
+            <text class="f-30">注</text>
+            <text class="f-30 red-6">{{ count }}</text>
+            <text class="f-30">倍 共</text>
+            <text class="f-30 red-6">{{ baseCount * count * 2 }}</text>
+            <text class="f-30">元</text>
+          </view>
+          <view class="u-order-bottom">
+            <text class="f-26">预计奖金：</text>
+            <text class="f-26 red-6">{{ (minMaxPrize.min * count).toFixed(2) }} - {{ (minMaxPrize.max * count).toFixed(2) }}</text>
+            <text class="f-26">元</text>
+          </view>
+        </view>
+        <view class="u-action-right">
+          <view class="u-next" @click="goNext"><text class="f-24 white-1">下一步</text></view>
+        </view>
+      </view>
+    </view>
+
+    <wxc-popup :show="isBottomShow" @wxcPopupOverlayClicked="popupOverlayBottomClick" pos="bottom" height="300" ref="popup">
+      <view class="u-popup">
+        <view class="u-popup-header">
+          <view class="u-popup-icon"></view>
+          <view class="g-center"><text class="f-30">过关方式</text></view>
+          <view class="u-popup-icon" @tap="closePopup"><text class="iconfont f-30">&#xe734;</text></view>
+        </view>
+        <scroller style="height: 250px;">
+          <view class="u-way-title">
+            <text class="f-30">标准过关</text>
+          </view>
+          <view class="u-way-list">
+            <view class="u-way-item" v-for="item in selectArr" :key="item" :class="{ 'z-active': ways.includes(item) }" @click="handleWayChange(item)">
+              <text class="u-way-text f-34" :class="{ 'z-active-text': ways.includes(item) }">{{ genName(item) }}</text>
+            </view>
+          </view>
+          <tempalte v-if="selectCount >= 3">
+            <view class="u-way-title">
+              <text class="f-30">混合过关</text>
+            </view>
+            <view class="u-way-list">
+              <view class="u-way-item" v-for="item in mixWayArr" :key="item" :class="{ 'z-active': mixWay === item }" @click="handleMixWayChange(item)">
+                <text class="u-way-text f-34" :class="{ 'z-active-text': mixWay === item }">{{ genName(item) }}</text>
+              </view>
+            </view>
+          </tempalte>
+        </scroller>
+      </view>
+    </wxc-popup>
+
+    <!-- 下单 -->
+    <wxc-popup :show="isOrderShow" @wxcPopupOverlayClicked="popupOverlayOrderlick" pos="bottom" height="450" ref="orderPopup">
+      <view class="u-popup">
+        <view class="u-popup-header">
+          <view class="u-popup-icon"></view>
+          <view class="g-center"><text class="f-30">订单支付</text></view>
+          <view class="u-popup-icon" @tap="closeOrderPopup"><text class="iconfont f-30">&#xe734;</text></view>
+        </view>
+        <view class="u-total">
+          <text class="f-36 f-bold">¥ {{ baseCount * count * 2 }}</text>
+        </view>
+        <view class="u-form">
+          <view class="u-form-item">
+            <view class="u-label"><text class="f-36">账户余额</text></view>
+            <view class="u-value">
+              <text class="f-36 grey-6">{{ (balanceInfo.balance || 0).toFixed(2) }}</text>
+            </view>
+          </view>
+          <view class="u-form-item">
+            <view class="u-label"><text class="f-36">订单类型</text></view>
+            <view class="u-value"><text class="f-36 grey-6">自购</text></view>
+          </view>
+          <view class="u-form-item">
+            <view class="u-label"><text class="f-36">投注时间</text></view>
+            <view class="u-value">
+              <text class="f-36 grey-6">{{ date }}</text>
+            </view>
+          </view>
+<!--          <view class="u-form-item">
+            <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
+            <view class="u-value" @tap="goChooseCoupon">
+              <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
+              <template v-else>
+                <text v-if="!chooseCouponId" class="f-36 red-6">{{ coupons.length }}张可用彩金券</text>
+                <text v-else class="f-36 red-6">-{{ chooseCoupon.value }}</text>
+                <text class="f-36 iconfont grey-6">&#xe60d;</text>
+              </template>
+            </view>
+          </view> -->
+          
+          <view class="u-form-item">
+            <view class="u-label"><text class="f-36">扣款后账户余额</text></view>
+            <view class="u-value">
+              <text class="f-36 grey-6">{{moneyRemain}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="u-tip-warn"><text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text></view>
+        <view class="u-submit" @tap="doSubmit"><text class="f-36 white-1">余额支付</text></view>
+      </view>
+    </wxc-popup>
+  </scroller>
+</template>
+
+<script>
+import _ from 'lodash';
+import dayjs from 'dayjs';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import uRace from './u-race.nvue';
+import WxcPopup from '@/components/wxc-popup/index.nvue';
+import { genCountStd, genCountMix } from '@/lib/jczqZS.js';
+import { genPrizeStd, genPrizeMix } from '@/lib/jczqJJ.js';
+import { limitMap, key2code, mixWayMap } from '@/lib/jczq.js';
+import lottery from '@/api/lottery/index.js';
+import proMixin from '@/mixins/pro.js';
+import hideKeyBoardMixin from '@/mixins/hideKeyBoard.js';
+
+export default {
+  mixins: [proMixin, hideKeyBoardMixin],
+  components: {
+    uRace,
+    WxcPopup
+  },
+  data() {
+    return {
+      date: '',
+      isBottomShow: false,
+      isOrderShow: false,
+      count: 5,
+      mixWay: '', // 混合过关
+      ways: [] // 过关方式
+    };
+  },
+  computed: {
+    ...mapState({
+      balanceInfo: state => state.balanceInfo,
+      info: state => state.jczq,
+      coupons: state => state.coupons,
+      chooseCouponId: state => state.chooseCouponId
+    }),
+    // 混合过关数组
+    mixWayArr () {
+      if (this.selectCount < 3) {
+        return []
+      } else {
+        return mixWayMap[this.selectCount]
+      }
+    },
+    moneyRemain() {
+       const remain = (this.balanceInfo.balance - this.baseCount * this.count * 2 + this.couponValue)
+       if (remain > 0) {
+         return remain.toFixed(2)
+       } else {
+         return '余额不足'
+       }
+    },
+    couponValue () {
+      return this.chooseCoupon ? this.chooseCoupon.value : 0
+    },
+    chooseCoupon() {
+      return this.coupons.filter(coupon => coupon.id == this.chooseCouponId)[0];
+    },
+    // 计算总注数
+    baseCount() {
+      if (!this.selectRaces.length) {
+        return 0;
+      }
+      if (!this.ways.length && !this.mixWay) {
+        return 0
+      }
+      if (this.mixWay) {
+        // 混合过关
+        return genCountMix(_.cloneDeep(this.selectRaces), this.mixWay)
+      } else {
+        // 标准过关
+        return genCountStd(_.cloneDeep(this.selectRaces), _.cloneDeep(this.ways));
+      }
+    },
+    // 计算奖金范围
+    minMaxPrize() {
+      if (!this.selectRaces.length) {
+        return {
+          min: 0,
+          max: 0
+        };
+      }
+
+      if (!this.ways.length && !this.mixWay) {
+        return {
+          min: 0,
+          max: 0
+        };
+      }
+
+      if (this.mixWay) {
+        return genPrizeMix(_.cloneDeep(this.selectRaces), this.mixWay)
+      } else {
+        return genPrizeStd(_.cloneDeep(this.selectRaces), _.cloneDeep(this.ways));
+      }
+      
+    },
+    showWas() {
+      return this.ways.sort((a, b) => a - b);
+    },
+    selectRaces() {
+      let matches = [];
+      this.info &&
+        this.info.data.forEach(item => {
+          item.matches.forEach(match => {
+            if (match.choose.length) {
+              matches.push(match);
+            }
+          });
+        });
+      return matches;
+    },
+    selectCount() {
+      return this.selectRaces.length;
+    },
+    // 存在总进球6/半全场4/比分4 默认8
+    limit() {
+      let limit = 8;
+      this.selectRaces.forEach(item => {
+        item.choose.forEach(item => {
+          if (limitMap[item] < limit) {
+            limit = limitMap[item];
+          }
+        });
+      });
+      return limit;
+    },
+    selectArr() {
+      if (this.selectCount === 0) {
+        return [];
+      }
+      if (this.selectCount === 1) {
+        return [1];
+      } else {
+        return [2, 3, 4, 5, 6, 7, 8].slice(0, this.selectCount - 1).filter(item => item <= this.limit);
+      }
+    }
+  },
+  watch: {
+    limit(v) {
+      this.ways = [];
+    },
+    selectCount: {
+      handler() {
+        this.ways = [];
+      }
+    }
+  },
+  onReady() {
+    this.updateBalanceInfo();
+  },
+  mounted() {
+    const init = this.selectCount > this.limit ? this.limit : this.selectCount;
+    this.ways = [init];
+  },
+  methods: {
+    ...mapMutations(['updateChooseCouponId']),
+    ...mapActions({
+      updateBalanceInfo: 'updateBalanceInfo',
+      updateCoupons: 'updateCoupons'
+    }),
+    // 刷新当前时间
+    genDay() {
+      this.date = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    },
+    // 下单条件检测
+    goNext() {
+      // 1. 场次检测
+      if (this.selectCount === 0) {
+        return uni.showToast({
+          title: '至少选择1场比赛',
+          icon: 'none'
+        });
+      }
+      // 2. 场次检测 非单关提示
+      if (this.selectCount === 1 && !this.checkRaces(this.selectRaces[0])) {
+        return uni.showToast({
+          title: '非单关至少选择2场比赛',
+          icon: 'none'
+        });
+      }
+      // 3. 总场次检测
+      if (this.selectCount > 8) {
+        return uni.showToast({
+          title: '混合投注最多8场比赛',
+          icon: 'none'
+        });
+      }
+      // 4. 过关方式检测
+      if (this.ways.length === 0 && !this.mixWay) {
+        return uni.showToast({
+          title: '请选择过关方式',
+          icon: 'none'
+        });
+      }
+
+      uni.showLoading({
+        title: ''
+      });
+
+      // 5. 检测优惠券
+      this.updateCoupons({
+        money: this.baseCount * this.count * 2,
+        lotteryIds: 10059
+      })
+        .then(() => {
+          uni.hideLoading();
+          this.updateChooseCouponId('');
+          this.$refs.xInput.blur();
+          this.genDay();
+          this.isOrderShow = true;
+        })
+        .catch(err => {
+          console.error(err);
+          uni.hideLoading();
+        });
+    },
+    // 订单提交
+    async doSubmit() {
+      try {
+        // 关闭弹窗
+        this.closeOrderPopup();
+        
+        uni.showLoading({
+          title: '订单生成中'
+        });
+        // 计算奖金
+        const forecastBonus = (this.minMaxPrize.min * this.count).toFixed(2) + '~' + (this.minMaxPrize.max * this.count).toFixed(2);
+
+        // 预约下单
+        const preParams = this.genBuyPreParams();
+        console.log('预下单参数', preParams);
+        const preRes = await lottery.buyLotteryPre(preParams);
+        console.log('预下单结果', preRes);
+
+        // 下单
+        const params = {
+          app_schemeId: preRes.schemeId,
+          betType: 424,
+          buyMoney: this.baseCount * this.count * 2,
+          cId: this.chooseCouponId,
+          forecastBonus: forecastBonus,
+          lotteryId: 10059
+        };
+        console.log('下单参数', params);
+        const res = await lottery.buyLottery(params);
+        console.log('下单结果', res);
+
+        // 关闭loading
+        uni.hideLoading();
+
+        // 跳转到下单页面
+        const single = this.baseCount * 2;
+        this.navigateTo({
+          url: `/pages/order/success?schemeId=${res.schemeId}&single=${single}&lotteryId=10059`
+        });
+      } catch (err) {
+        uni.hideLoading();
+        console.error(err);
+      }
+    },
+    genBuyPreParams() {
+      const params = {
+        betType: 424,
+        buyAmount: this.baseCount * this.count * 2, // 订单金额
+        buyType: 1, // 0表示合买，1表示代购
+        cId: this.chooseCouponId, // 优惠券
+        cutRepeat: false, // 是否去掉重复
+        issueCount: 1,
+        issueId: this.info.data[0].issueId,
+        lotteryId: 10059, // 足球
+        multiple: this.count, // 倍数
+        pass: this.mixWay ?  this.genName(this.mixWay) : this.getWays(this.ways), // 过关方式
+        schemeAmount: this.baseCount * this.count * 2, // 订单金额
+        schemeNumber: this.genContent(), // 过关内容：
+        schemeNumberUnit: this.baseCount * this.count, // 注数
+        sels: this.info.sels // 奖期
+      };
+      return params;
+    },
+    genContent() {
+      // 20190930001`周一 001`赫尔辛堡`卡尔马`20190930001_0`false`3$
+      // 20190930002`周一 002`哈马比`厄勒布鲁`20190930002_0`false`1$
+      // 20190930003`周一 003`维京`姆延达伦`20190930003_0`false`210$
+      // 20190930004`周一 004`乌德勒支青年队`海尔蒙特`20190930004_0`false`100$
+      // 20190930005`周一 005`汉诺威96`纽伦堡`20190930005_0`false`333
+      const arr = [];
+      let str = 'content=';
+      let raceList = this.info.data.forEach(race => {
+        race.matches.forEach(match => {
+          if (match.choose.length) {
+            const val =
+              match.matchCode +
+              '`' +
+              race.dayOfWeekStr +
+              ' ' +
+              match.teamId +
+              '`' +
+              match.hostName +
+              '`' +
+              match.guestName +
+              '`' +
+              match.matchCode +
+              '_0' +
+              '`' +
+              'false' +
+              '`' +
+              match.choose.map(key => key2code[key]).join(',');
+            arr.push(val);
+          }
+        });
+      });
+      return str + arr.join('$');
+    },
+    // 选择优惠券
+    goChooseCoupon() {
+      if (!this.coupons.length) return;
+      this.navigateTo({
+        url: '/pages/user/couponChoose'
+      });
+    },
+    // 单关检测
+    checkRaces(match) {
+      // 只有 胜平负/让球胜平负 需要进行单关检测
+      const choose = match.choose;
+      const sfp = ['sheng', 'ping', 'fu']; // 胜平负
+      const rqSfp = ['rqSheng', 'rqPing', 'rqFu']; // 让球胜平负
+      const { spfSingleStatus, rqSpfSingleStatus } = match;
+      const sfpDan = spfSingleStatus === 0;
+      const rqSfpDan = rqSpfSingleStatus === 0;
+
+      // 如果存在胜平负，且胜平负单关关闭状态
+      if (_.intersection(choose, sfp).length && !sfpDan) {
+        return false;
+      }
+      // 如果存在让球胜平负，且让球胜平负单关关闭状态
+      if (_.intersection(choose, rqSfp).length && !rqSfpDan) {
+        return false;
+      }
+      return true;
+    },
+
+    // 获取所有过关名称
+    getWays(ways) {
+      let str = '';
+      for (let i = 0; i < ways.length; i++) {
+        if (i > 0) {
+          str += ',';
+        }
+        str = str + this.genName(ways[i]);
+      }
+      return str;
+    },
+
+    // 获取单个过关名称
+    genName(item) {
+      // 混合过关
+      if (String(item).indexOf('x') > -1) {
+        return  item.split('x')[0] + '串' + item.split('x')[1]
+      }
+
+      // 标准过关
+      if (item === 1) {
+        return '单关';
+      } else {
+        return item + '串1';
+      }
+    },
+
+    // 处理选择标准过关
+    handleWayChange(item) {
+      if (!item) return;
+      this.mixWay = '';
+      if (this.ways.includes(item)) {
+        this.ways = this.ways.filter(way => way !== item);
+      } else {
+        this.ways.push(item);
+      }
+    },
+
+    // 处理选择混合过关
+    handleMixWayChange(item) {
+      this.ways = [];
+      this.mixWay = item;
+    },
+
+    // 主动关闭过关弹窗
+    closePopup() {
+      this.$refs.popup.hide();
+    },
+
+    // 主动关闭订单弹窗
+    closeOrderPopup() {
+      this.$refs.orderPopup.hide();
+    },
+
+    // 关闭过关弹窗
+    popupOverlayBottomClick() {
+      this.isBottomShow = false;
+    },
+
+    // 关闭订单弹窗
+    popupOverlayOrderlick() {
+      this.isOrderShow = false;
+    },
+
+    // 显示过关方式列表
+    showWaySelect() {
+      if (this.selectCount === 1 && !this.checkRaces(this.selectRaces[0])) {
+        return uni.showToast({
+          title: '非单关至少选择2场比赛',
+          icon: 'none'
+        });
+      }
+      this.isBottomShow = true;
+    },
+
+    // 继续选择比赛
+    handleContinue() {
+      uni.navigateBack();
+    },
+
+    // 倍数增加
+    countAdd() {
+      this.count = +this.count + 1;
+    },
+
+    // 倍数减少
+    countReduce() {
+      if (this.count > 1) {
+        this.count -= 1;
+      }
+    },
+
+    // 处理输入框失焦
+    handleBlur() {
+      if (!this.count || this.count == 0) {
+        this.count = 1;
+      } else {
+        this.count = +this.count;
+      }
+    },
+
+    // 主动失焦
+    blur() {
+      this.$refs.xInput.blur();
+    }
+  },
+  onHide() {
+    this.blur();
+  },
+  onNavigationBarButtonTap(index) {
+    if (this.mixWay) {
+      return uni.showToast({
+        title: '混合过关暂不支持奖金优化',
+        icon: 'none'
+      })
+    }
+    if (this.ways.length === 0) {
+      return uni.showToast({
+        title: '请选择过关方式',
+        icon: 'none'
+      })
+    }
+    if (this.ways.length > 1) {
+      return uni.showToast({
+        title: '混合组合暂不支持奖金优化',
+        icon: 'none'
+      })
+    }
+    if (this.baseCount > 100) {
+      return uni.showToast({
+        title: '奖金优化最多仅支持100注',
+        icon: 'none'
+      })
+    }
+    const money = this.baseCount * this.count * 2
+    this.navigateTo({
+      url: '/pages/jczq/perf?way=' + this.ways[0] + '&money=' + money
+    })
+  },
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+.u-confirm {
+  flex: 1;
+  background-color: #f0f0f0;
+}
+.u-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 750rpx;
+  height: 200rpx;
+  background-color: #fff;
+  border-top-width: 1rpx;
+  border-top-color: #ccc;
+  border-style: solid;
+}
+
+.u-pass {
+  flex-direction: row;
+  align-items: center;
+  height: 100rpx;
+}
+.u-pass-left {
+  width: 375rpx;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.u-pass-right {
+  width: 375rpx;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.u-tou-left {
+  align-items: center;
+}
+
+.u-tou-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: #ccc;
+  .g-center();
+}
+
+.u-input {
+  text-align: center;
+  padding: 0 10rpx;
+  font-size: 28rpx;
+  width: 100rpx;
+  height: 60rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: #ccc;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.u-action {
+  height: 100rpx;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f0f0f0;
+  &-left,
+  &-right {
+    width: 200rpx;
+    .g-center();
+  }
+  &-center {
+    flex: 1;
+    .g-center();
+  }
+}
+.u-order-top,
+.u-order-bottom {
+  flex-direction: row;
+  align-items: center;
+}
+.u-next {
+  width: 120rpx;
+  height: 60rpx;
+  background-color: @red-6;
+  border-radius: 6rpx;
+  .g-center();
+}
+
+.u-continue {
+  width: 400rpx;
+  height: 80rpx;
+  margin-left: 175rpx;
+  margin-bottom: 100rpx;
+  border-style: solid;
+  border-width: 1rpx;
+  border-color: #ccc;
+  background-color: #fff;
+  .g-center();
+}
+
+.u-popup {
+  &-header {
+    width: 750rpx;
+    padding: 20rpx;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  &-icon {
+    width: 50rpx;
+    height: 50rpx;
+    .g-center();
+  }
+}
+.u-way-title {
+  padding: 0 20rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+  background-color: #f0f0f0;
+  flex-direction: row;
+  align-items: center;
+}
+.u-way-list {
+  width: 750rpx;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.u-way-item {
+  width: 220rpx;
+  height: 70rpx;
+  margin-left: 22.5rpx;
+  margin-bottom: 10rpx;
+  border-style: solid;
+  border-color: #ccc;
+  border-width: 1rpx;
+  border-radius: 6rpx;
+  .g-center();
+}
+
+.u-way-text {
+  color: #333;
+}
+.z-active {
+  border-color: @red-6;
+}
+.z-active-text {
+  color: @red-6;
+}
+
+.u-popup {
+  &-header {
+    width: 750rpx;
+    padding: 20rpx;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  &-icon {
+    width: 50rpx;
+    height: 50rpx;
+    .g-center();
+  }
+}
+.u-total {
+  width: 750rpx;
+  flex-direction: row;
+  justify-content: center;
+}
+.u-form {
+}
+.u-form-item {
+  width: 750rpx;
+  padding: 30rpx 30rpx;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom-color: #cccccc;
+  border-bottom-width: 1rpx;
+  border-style: solid;
+}
+.u-label {
+}
+.u-value {
+  flex-direction: row;
+  align-items: center;
+}
+.u-tip-warn {
+  padding: 30rpx;
+}
+.u-submit {
+  width: 700rpx;
+  height: 80rpx;
+  margin-left: 25rpx;
+  background-color: @red-6;
+  border-radius: 5rpx;
+  .g-center();
+}
+
+.u-hide {
+  width: 750rpx;
+  height: 400rpx;
+  background-color: #fff;
+  .g-center();
+}
+</style>

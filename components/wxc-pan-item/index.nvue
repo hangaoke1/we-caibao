@@ -1,0 +1,70 @@
+<template>
+  <div>
+    <div v-if="supportAndroid"
+         ref="wxc-pan-item"
+         @horizontalpan="dispatchPan"
+         @appear="onItemAppear"
+         @disappear="onItemDisAppear"
+         @tap="itemClicked">
+      <slot></slot>
+    </div>
+    <div v-else
+         ref="wxc-pan-item"
+         @tap="itemClicked">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+  import Binding from 'weex-bindingx';
+  export default {
+    props: {
+      url: {
+        type: String,
+        default: ''
+      },
+      needSlider: {
+        type: Boolean,
+        default: true
+      },
+    },
+    data: () => ({
+      isPanning: false,
+      appearMap: [],
+      supportAndroid: true
+    }),
+    mounted () {
+      setTimeout(() => {
+        if (this.supportAndroid && this.needSlider) {
+          const element = this.$refs['wxc-pan-item'];
+          Binding.prepare && Binding.prepare({
+            anchor: element.ref,
+            eventType: 'pan'
+          });
+        }
+      }, 300)
+    },
+    methods: {
+      itemClicked () {
+        if (this.isPanning) {
+          return;
+        }
+        this.$emit('wxcPanItemClicked', { extId: this.extId });
+      },
+      dispatchPan (e) {
+        if (this.supportAndroid && this.needSlider) {
+          if (e.state === 'start') {
+            this.isPanning = true;
+            const element = this.$refs['wxc-pan-item'];
+            element && this.$emit('wxcPanItemPan', { element, extId: this.extId });
+          } else if (e.state === 'end') {
+            setTimeout(() => {
+              this.isPanning = false;
+            }, 50);
+          }
+        }
+      }
+    }
+  };
+</script>

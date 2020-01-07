@@ -1,0 +1,316 @@
+<template>
+  <scroller class="u-jczq">
+   <view class="u-pannel-list" v-if="!isEmpty">
+      <we-panel v-for="(item, index) in info.data" :key="item.issueId" :len="item.matches.length" :initShow="needInitShow(index)">
+        <view slot="title" class="u-title">
+          <text class="f-28 grey-6">{{ item.dayKey }}</text>
+          <text class="f-28 grey-6 u-day">{{ item.dayOfWeekStr }}</text>
+          <text class="f-28 grey-6">{{ item.matches.length }}场比赛</text>
+        </view>
+        <view class="u-list">
+          <view class="u-list-item" v-for="match in item.matches" :key="match.id">
+            <u-race :match="match" :type="0"></u-race>
+          </view>
+        </view>
+      </we-panel>
+    </view>
+    <view v-else>
+      <image style="margin-top: 100rpx;width: 750rpx;height: 750rpx;" src='/static/fb_empty.png' mode="scaleToFill"></image>
+    </view>
+    <view class="u-loading" v-if="!info" style="background-color: #f0f0f0;">
+      <view class="u-loading-content">
+        <image class="u-loading-image" src="/static/211.gif"></image>
+        <text class="f-30 white-1">加载中</text>
+      </view>
+    </view>
+<!--    <view class="u-sk" v-if="!info">
+      <view class="u-sk-header">
+        <text class="iconfont u-arrow" style="font-size: 40rpx;color: #ccc;">&#xe60d;</text>
+      </view>
+      <view class="u-sk-race" v-for="item in 5" :key="item">
+        <view class="u-sk-top"></view>
+        <view class="u-sk-bottom">
+          <view class="u-sk-left"></view>
+          <view class="u-sk-right"></view>
+        </view>
+      </view>
+    </view> -->
+    <view class="u-bottom">
+      <view class="u-empty" @tap="resetChoose"><text class="f-30 red-6">清空</text></view>
+      <view class="u-center">
+        <view class="u-center-top">
+          <text class="f-32">已选</text>
+          <text class="f-32 red-6">{{ selectCount }}</text>
+          <text class="f-32">场</text>
+        </view>
+        <view class="u-center-bottom"><text class="f-24 grey-6">(页面赔率仅供参考)</text></view>
+      </view>
+      <view class="u-next" @click="goNext"><text class="f-30 white-1">下一步</text></view>
+    </view>
+  </scroller>
+</template>
+
+<script>
+import _ from 'lodash';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import lottery from '@/api/lottery/index.js';
+import wePanel from './u-panel.nvue';
+import uRace from './u-race.nvue';
+import proMixin from '@/mixins/pro.js';
+var modal = weex.requireModule('modal');
+export default {
+  mixins: [proMixin],
+  components: {
+    wePanel,
+    uRace
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      info: state => state.jczq
+    }),
+    isEmpty() {
+      return this.info && _.get(this.info, 'data.length', 0) === 0;
+    },
+    selectCount() {
+      let count = 0;
+      this.info &&
+        this.info.data.forEach(item => {
+          item.matches.forEach(match => {
+            if (match.choose.length) {
+              count += 1;
+            }
+          });
+        });
+      return count;
+    },
+    selectRaces() {
+      let matches = [];
+      this.info &&
+        this.info.data.forEach(item => {
+          item.matches.forEach(match => {
+            if (match.choose.length) {
+              matches.push(match);
+            }
+          });
+        });
+      return matches;
+    }
+  },
+  methods: {
+    ...mapActions({
+      updateJczq: 'updateJczq'
+    }),
+    ...mapMutations(['updateJczqChooseById', 'emptyJczqChoose']),
+    needInitShow (index) {
+      if (index === 0) {
+        return true
+      } else {
+        return _.get(this.info, 'data[0].matches.length') < 10
+      }
+    },
+    checkRaces(match) {
+      // 只有 胜平负/让球胜平负 需要进行单关检测
+      const choose = match.choose;
+      const sfp = ['sheng', 'ping', 'fu']; // 胜平负
+      const rqSfp = ['rqSheng', 'rqPing', 'rqFu']; // 让球胜平负
+      const { spfSingleStatus, rqSpfSingleStatus } = match;
+      const sfpDan = spfSingleStatus === 0;
+      const rqSfpDan = rqSpfSingleStatus === 0;
+
+      // 如果存在胜平负，且胜平负单关关闭状态
+      if (_.intersection(choose, sfp).length && !sfpDan) {
+        return false;
+      }
+      // 如果存在让球胜平负，且让球胜平负单关关闭状态
+      if (_.intersection(choose, rqSfp).length && !rqSfpDan) {
+        return false;
+      }
+      return true;
+    },
+    // 进入投注确认页面
+    goNext() {
+      // 1. 场次检测
+      if (this.selectCount === 0) {
+        return uni.showToast({
+          title: '至少选择1场比赛',
+          icon: 'none'
+        });
+      }
+      // 2. 场次检测 非单关提示
+      if (this.selectCount === 1 && !this.checkRaces(this.selectRaces[0])) {
+        return uni.showToast({
+          title: '非单关至少选择2场比赛',
+          icon: 'none'
+        });
+      }
+      if (this.selectCount > 8) {
+        return uni.showToast({
+          title: '混合投注最多8场比赛',
+          icon: 'none'
+        }); 
+      }
+      // 3. 放行
+      this.navigateTo({
+        url: '/pages/jczq/confirm'
+      });
+    },
+    resetChoose() {
+      modal.confirm(
+        {
+          message: '是否清空选择?',
+          okTitle: '确定',
+          cancelTitle: '取消'
+        },
+        value => {
+          if (value === '确定') {
+            this.emptyJczqChoose();
+          } else {
+          }
+        }
+      );
+    }
+  },
+  onReady() {
+    this.updateJczq();
+  },
+  mounted() {}
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+.u-jczq {
+  padding-bottom: 120rpx;
+}
+.u-title {
+  flex-direction: row;
+  align-items: center;
+}
+.u-day {
+  margin: 0 20rpx;
+}
+.u-list {
+  background-color: #f6f8fa;
+}
+.u-bottom {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  height: 120rpx;
+  padding: 0 20rpx;
+  background-color: #f6f8fa;
+  border-top-color: #ccc;
+  border-top-width: 1rpx;
+  border-style: solid;
+}
+.u-center-top {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.u-empty {
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  border-radius: 10rpx;
+}
+.u-next {
+  background-color: @red-6;
+  padding: 20rpx 30rpx;
+  border-radius: 10rpx;
+}
+
+.u-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 750rpx;
+  align-items: center;
+  justify-content: center;
+}
+.u-loading-content {
+  margin-top: -100rpx;
+  width: 300rpx;
+  height: 250rpx;
+  align-items: center;
+  border-radius: 10rpx;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.u-loading-image {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 50rpx;
+  margin-bottom: 30rpx;
+}
+
+.u-sk {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 750rpx;
+}
+
+.u-sk-header {
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16rpx;
+  height: 70rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+}
+
+.u-arrow {
+  transform: rotate(90deg);
+}
+
+.u-sk-race {
+  padding: 30rpx 0 40rpx 0;
+  background-color: #f0f0f0;
+  border-bottom-color: #ccc;
+  border-bottom-width: 1rpx;
+  border-style: solid;
+}
+
+.u-sk-top {
+  width: 400rpx;
+  height: 50rpx;
+  margin-left: 175rpx;
+  margin-bottom: 30rpx;
+  border-radius: 5rpx;
+  background-color: #ccc;
+}
+
+.u-sk-bottom {
+  padding: 0 30rpx;
+  flex-direction: row;
+  align-items: center;
+}
+
+.u-sk-left {
+  width: 100rpx;
+  height: 150rpx;
+  background-color: #ccc;
+  border-radius: 5rpx;
+}
+.u-sk-right {
+  width: 500rpx;
+  height: 180rpx;
+  margin-left: 45rpx;
+  background-color: #ccc;
+  border-radius: 5rpx;
+}
+</style>

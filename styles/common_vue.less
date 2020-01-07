@@ -1,0 +1,104 @@
+@import './var.less';
+@import './iconfont.less';
+.gen-f(@n, @i: 18) when (@i =< @n) {
+  .f-@{i} {
+    font-size: (@i) * 1rpx;
+  }
+  .gen-f(@n, (@i + 1));
+}
+
+.gen-f(50);
+
+.gen-color(@n, @colors, @i: 1) when (@i =< 10) {
+  .@{n}-@{i} {
+    color: extract(@colors, @i);
+  }
+  .@{n}-@{i}-bg {
+    background-color: extract(@colors, @i);
+  }
+  .gen-color(@n, @colors, (@i + 1));
+}
+
+.gen-color(red, @reds);
+.gen-color(volcano, @volcanos);
+.gen-color(gold, @golds);
+.gen-color(yellow, @yellows);
+.gen-color(lime, @limes);
+.gen-color(green, @greens);
+.gen-color(cyan, @cyans);
+.gen-color(blue, @blues);
+.gen-color(geekblue, @geekblues);
+.gen-color(purple, @purples);
+.gen-color(magenta, @magentas);
+.gen-color(grey, @greys);
+
+.white-1 {
+  color: #fff;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.f-l {
+  text-align: left;
+}
+
+.f-c {
+  text-align: center;
+}
+
+.f-r {
+  text-align: right;
+}
+
+.f-row {
+  flex-direction: row;
+}
+
+.f-column {
+  flex-direction: column;
+}
+
+.f-ac {
+  align-items: center;
+}
+
+.f-jc {
+  justify-content: center;
+}
+
+.g-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.fn_line_clamp(@line: 2) {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+// 单行省略
+.fn_ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gen-lines(@n, @i: 0) when (@i =< @n) {
+  .lines-@{i} {
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: @i;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+  .gen-lines(@n, (@i + 1));
+}
+
+.gen-lines(10);

@@ -1,0 +1,78 @@
+<template>
+	<view class="u-zqDetail">
+		<g-table width="750" >
+      <g-tr>
+        <g-td :padding="0" col="150">
+          <view class="g-title">
+            <text class="f-32">场次</text>
+          </view>
+        </g-td>
+        <g-td :padding="0">
+          <view class="g-title">
+            <text class="f-32">球队</text>
+          </view>
+        </g-td>
+        <g-td :padding="0" col="150">
+          <view class="g-title">
+            <text class="f-32">赛果</text>
+          </view>
+        </g-td>
+      </g-tr>
+      <g-tr v-for="(item, index) in drawNumber" :key="item">
+        <g-td :padding="0" col="150">
+          <view class="g-item">
+            <text class="f-32">{{index + 1}}</text>
+          </view>
+        </g-td>
+        <g-td :padding="0">
+          <view class="g-item">
+            <text class="f-32">{{team[index]}}</text>
+          </view>
+        </g-td>
+        <g-td :padding="0" col="150">
+          <view class="g-item">
+            <text class="f-32">{{item}}</text>
+          </view>
+        </g-td>
+      </g-tr>
+    </g-table>
+	</view>
+</template>
+
+<script>
+  import gTable from '@/components/g-table/index.nvue'
+  import gTr from '@/components/g-tr/index.nvue'
+  import gTd from '@/components/g-td/index.nvue'
+	export default {
+		components: {
+      gTable,
+      gTr,
+      gTd
+    },
+    data () {
+      return {
+        drawNumber: [],
+        team: [],
+      }
+    },
+    onLoad(option) {
+      const { drawNumber, team } = option;
+      this.drawNumber = drawNumber.split('');
+      this.team = team ? team.split(',') : [];
+    }
+	}
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+
+.g-title {
+  padding: 20rpx;
+  background-color: #f0f0f0;
+  .g-center();
+}
+.g-item {
+  padding: 20rpx;
+  .g-center();
+}
+</style>

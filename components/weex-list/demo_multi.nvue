@@ -1,0 +1,133 @@
+<template>
+  <view class="page-index">
+    <g-statusbar></g-statusbar>
+    <view class="page-index__header">
+      <view
+        class="page-index__tab"
+        v-for="(tab, index) in ['电影', '漫画', '小说']"
+        :key="tab"
+        @tap="activeIndex = index">
+        <text :class="{ 'tab--active': activeIndex === index}">{{tab}}</text>
+      </view>
+    </view>
+    <view class="page-index__search"></view>
+    <swiper
+      style="flex: 1;"
+      :current="activeIndex"
+      @change="handleTabChange"
+    >
+      <swiper-item v-for="(item, tabIndex) in dataList" :key="tabIndex">
+        <weex-list
+          class="page-index__list"
+          :pageInit="item.pageInit"
+          :ref="'weexList' + tabIndex"
+          :active="tabIndex === activeIndex"
+          @loadMore="loadMore(tabIndex, $event)"
+        >
+          <cell
+            class="page-index__item"
+            v-for="(newsItem, newsIndex) in item.list"
+            :key="newsIndex"
+          >
+            <div>
+              <text>{{ tabIndex }} 文章标题 {{ newsItem }}</text>
+            </div>
+          </cell>
+        </weex-list>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>
+
+<script>
+  import weexList from '@/components/weex-list/index.nvue';
+  import gStatusbar from '@/components/g-statusbar/index.nvue'
+  // import uniIcon from '@/components/uni-icon/uni-icon.vue'
+  export default {
+    name: 'page-index',
+    components: {
+      weexList,
+      gStatusbar
+    },
+    data() {
+      return {
+        activeIndex: 0,
+        dataList: [{
+            pageInit: {
+              pageNo: 1,
+              pageSize: 20
+            },
+            list: []
+          },
+          {
+            pageInit: {
+              pageNo: 1,
+              pageSize: 20
+            },
+            list: []
+          }
+        ]
+      };
+    },
+    mounted() {},
+    methods: {
+      handleTabChange(event) {
+        this.activeIndex = event.detail.current;
+      },
+      getList(tabIndex, opt) {
+        // 模拟获取数据
+        const current = opt.refreshing ? 0 : this.dataList[tabIndex].list.length;
+        const next = current + 20;
+        const newList = [];
+        for (let i = current; i < next; i++) {
+          newList.push(i);
+        }
+        if (opt.refreshing) {
+          this.dataList[tabIndex].list = newList;
+        } else {
+          this.dataList[tabIndex].list = this.dataList[tabIndex].list.concat(newList);
+        }
+        // 请求回掉中进行页面判断
+        this.$refs['weexList' + tabIndex][0].endBySize(20, 66);
+      },
+      loadMore(tabIndex, opt) {
+        // 模拟请求
+        setTimeout(() => {
+          this.getList(tabIndex, opt);
+        }, 1000);
+      }
+    }
+  };
+</script>
+
+<style lang="less">
+  .page-index {
+    flex: 1;
+  }
+  
+  .page-index__header {
+    padding: 40rpx 150rpx;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .page-index__search {
+    width: 700rpx;
+    height: 60rpx;
+    margin-left: 25rpx;
+    background-color: #ccc;
+    border-radius: 30rpx;
+  }
+  
+  .page-index__tab {
+    text-align: center;;
+  }
+  
+  .tab--active {
+    color: red;
+  }
+
+  .page-index__item {
+    padding: 20px;
+  }
+</style>

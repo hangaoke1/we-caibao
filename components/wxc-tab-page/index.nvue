@@ -1,0 +1,184 @@
+<template>
+  <div class="wxc-tab-page"
+       :style="{ height: tabPageHeight+'rpx', backgroundColor: wrapBgColor }">
+    <div class="tab-page-wrap"
+         ref="tab-page-wrap"
+         @horizontalpan="startHandler"
+         :style="{ height: tabPageHeight+'rpx' }">
+      <div ref="tab-container"
+           class="tab-container">
+        <slot></slot>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="less">
+  .wxc-tab-page {
+    width: 750rpx;
+  }
+
+  .tab-page-wrap {
+    width: 750rpx;
+  }
+  .tab-container {
+    flex: 1;
+    flex-direction: row;
+    position: absolute;
+  }
+</style>
+
+<script>
+  const dom = weex.requireModule('dom');
+  const animation = weex.requireModule('animation');
+  import Binding from 'weex-bindingx';
+
+  export default {
+    props: {
+      pageNum: {
+        tpye: Number,
+        default: 1
+      },
+      panDist: {
+        type: Number,
+        default: 50
+      },
+      spmC: {
+        type: [String, Number],
+        default: ''
+      },
+      titleUseSlot: {
+        type: Boolean,
+        default: false
+      },
+      tabPageHeight: {
+        type: [String, Number],
+        default: 1334
+      },
+      needSlider: {
+        type: Boolean,
+        default: true
+      },
+      isTabView: {
+        type: Boolean,
+        default: true
+      },
+      duration: {
+        type: [Number, String],
+        default: 300
+      },
+      timingFunction: {
+        type: String,
+        default: 'cubic-bezier(0.36, 0.66, 0.04, 1)'
+      },
+      wrapBgColor: {
+        type: String,
+        default: '#f2f3f4'
+      },
+    },
+    data: () => ({
+      currentPage: 0,
+      gesToken: 0,
+      isMoving: false,
+      startTime: 0,
+      deltaX: 0,
+      translateX: 0
+    }),
+    mounted () {
+      if (this.isTabView && this.needSlider) {
+        const tabPageEl = this.$refs['tab-page-wrap'];
+        Binding.prepare && Binding.prepare({
+          anchor: tabPageEl.ref,
+          eventType: 'pan'
+        });
+      }
+    },
+    methods: {
+      next () {
+        let page = this.currentPage;
+        if (page < this.pageNum - 1) {
+          page++;
+        }
+        this.setPage(page);
+      },
+      prev () {
+        let page = this.currentPage;
+        if (page > 0) {
+          page--;
+        }
+        this.setPage(page);
+      },
+      startHandler () {
+        if (this.isTabView && this.needSlider) {
+          this.bindExp(this.$refs['tab-page-wrap']);
+        }
+      },
+      bindExp (element) {
+        if (element && element.ref) {
+          if (this.isMoving && this.gesToken !== 0) {
+            Binding.unbind({
+              eventType: 'pan',
+              token: this.gesToken
+            })
+            this.gesToken = 0;
+            return;
+          }
+          const tabElement = this.$refs['tab-container'];
+          const { currentPage, panDist } = this;
+          const dist = currentPage * uni.upx2px(750);
+          // x-dist
+          const props = [{
+            element: tabElement.ref,
+            property: 'transform.translateX',
+            expression: `x-${dist}`
+          }];
+          const gesTokenObj = Binding.bind({
+            anchor: element.ref,
+            eventType: 'pan',
+            props
+          }, (e) => {
+            const { deltaX, state } = e;
+            if (state === 'end') {
+              if (deltaX < -panDist) {
+                this.next();
+              } else if (deltaX > panDist) {
+                this.prev();
+              } else {
+                this.setPage(currentPage);
+              }
+            }
+          });
+          this.gesToken = gesTokenObj.token;
+        }
+      },
+      setPage (page, url = null, animated = true) {
+        if (!this.isTabView) {
+          this.jumpOut(url);
+          return;
+        }
+        if (this.isMoving === true) {
+          return;
+        }
+        this.isMoving = false;
+        this.currentPage = page;
+        this._animateTransformX(page, animated);
+        this.$emit('wxcTabPageCurrentTabSelected', { page });
+      },
+      jumpOut (url) {},
+      _animateTransformX (page, animated) {
+        const { duration, timingFunction } = this;
+        const computedDur = animated ? duration : 0.00001;
+        const containerEl = this.$refs[`tab-container`];
+        const dist = page * uni.upx2px(750);
+        animation.transition(containerEl, {
+          styles: {
+            transform: `translateX(${-dist}px)`
+          },
+          duration: computedDur,
+          timingFunction,
+          delay: 0
+        }, () => {});
+      }
+    }
+  };
+</script>

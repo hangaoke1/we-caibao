@@ -1,0 +1,410 @@
+<template>
+  <list class="m-user">
+    <refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="refreshing ? 'show' : 'hide'">
+      <loading-indicator class="indicator"></loading-indicator>
+    </refresh>
+    <cell>
+      <view class="u-statusbar" :style="{ height: statusBarHeight + 'px' }"></view>
+      <view class="u-header">
+        <view class="u-user" @tap="goConfig">
+          <g-img width="80" height="80" radius="80" class="u-avatar" :src="userInfo.avatar" defaultSrc="/static/portrait.png"></g-img>
+          <view class="u-name">
+            <text class="u-name-text">{{ balanceInfo.userName }}</text>
+          </view>
+        </view>
+        <view class="u-config">
+          <text class="iconfont u-peizhi" style="font-size: 50rpx;" @tap="goConfig">&#xe708;</text>
+        </view>
+      </view>
+      <view class="u-wealth">
+        <view class="u-wealth-item">
+          <view class="u-count">
+            <text class="u-count-text f-bold">{{ (balanceInfo.balance || 0).toFixed(2) }}元</text>
+          </view>
+          <text class="u-count-label f-30">余额</text>
+        </view>
+      </view>
+
+      <view class="u-action">
+        <view class="u-action-item" @tap="goPayment">
+          <text class="iconfont f-44 gold-6">&#xe6ae;</text>
+          <text class="u-action-item-text">充值</text>
+        </view>
+        <view class="u-action-item" @tap="goConversion">
+          <text class="iconfont f-44 red-6">&#xe6af;</text>
+          <text class="u-action-item-text">转充</text>
+        </view>
+        <view class="u-action-item" @tap="goWidthDraw">
+          <text class="iconfont f-44 green-6">&#xe6d9;</text>
+          <text class="u-action-item-text">提现</text>
+        </view>
+      </view>
+      
+      <view class="u-other"><text class="f-30 f-bold">其他服务</text></view>
+      <view class="u-list">
+        <view class="u-list-item" v-for="(item, index) in tabList" :key="item" @tap="handleClick(item)">
+          <view class="u-list-label">
+            <text class="iconfont u-list-icon" style="font-size: 56rpx;" :style="{ color: map[item].color }">{{ map[item].icon }}</text>
+            <view>
+              <text class="u-item-name f-34 f-bold">{{ item }}</text>
+              <text class="f-24 grey-6">{{ map[item].tip }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </cell>
+  </list>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+import statusbarMixin from '@/mixins/statusbar.js';
+import iconfontMixin from '@/mixins/iconfont.js';
+import proMixin from '@/mixins/pro.js';
+import gImg from '@/components/g-img/index.nvue';
+import { openUrl } from '@/util/index.js';
+import checkUpdate from '@/lib/checkUpdate.js';
+// 1
+export default {
+  components: {
+    gImg
+  },
+  mixins: [statusbarMixin, iconfontMixin, proMixin],
+  computed: {
+    ...mapState({
+      test: state => state.test,
+      balanceInfo: state => state.balanceInfo,
+      userInfo: state => state.userInfo
+    })
+  },
+  data() {
+    return {
+      refreshing: false,
+      tabList: ['我的订单', '资金明细', '帮助中心', '版本更新'],
+      map: {
+        我的订单: {
+          icon: '\ue647',
+          color: '#f5222d',
+          tip: '查看全部订单'
+        },
+        资金明细: {
+          icon: '\ue756',
+          color: '#faad14',
+          tip: '查看资金流向'
+        },
+        我的卡券: {
+          icon: '\ue776',
+          color: '#eb2f96',
+        },
+        帮助中心: {
+          icon: '\ue73e',
+          color: '#1890ff',
+          tip: '查看常见问题'
+        },
+        版本更新: {
+          icon: '\ue708',
+          color: '#2f54eb',
+          tip: '获取最新版本'
+        }
+      }
+    };
+  },
+  mounted() {
+    this.init();
+  },
+  onShow() {
+    this.init();
+  },
+  methods: {
+    ...mapActions({
+      updateBalanceInfo: 'updateBalanceInfo',
+      updateUserInfo: 'updateUserInfo'
+    }),
+    goConversion () {
+      const vm = this;
+      if (this.userInfo.bindingIdentify != '1') {
+        return uni.showModal({
+          title: '提示',
+          content: '请先完成实名认证',
+          success: function(res) {
+            if (res.confirm) {
+              vm.navigateTo({
+                url: '/pages/config/bindidcard'
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          }
+        });
+      }
+      vm.navigateTo({
+        url: '/pages/conversion/conversion'
+      })
+    },
+    goWidthDraw() {
+      const vm = this;
+      if (this.userInfo.bindingIdentify != '1') {
+        return uni.showModal({
+          title: '提示',
+          content: '请先完成实名认证',
+          success: function(res) {
+            if (res.confirm) {
+              vm.navigateTo({
+                url: '/pages/config/bindidcard'
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          }
+        });
+      }
+      if (!this.userInfo.aliPay && !this.userInfo.bankAccount) {
+        return uni.showModal({
+          title: '温馨提示',
+          content: '请先绑定支付宝或银行卡',
+          cancelText: '绑银行卡',
+          confirmText: '绑支付宝',
+          success: function(res) {
+            if (res.confirm) {
+              vm.navigateTo({
+                url: '/pages/config/bindalipay'
+              })
+            } else if (res.cancel) {
+              vm.navigateTo({
+                url: '/pages/config/bindBankCard'
+              })
+            }
+          }
+        });
+      }
+      vm.navigateTo({
+        url: '/pages/withdraw/withdraw'
+      })
+    },
+    init() {
+      this.updateBalanceInfo();
+      this.updateUserInfo();
+    },
+    goPayment() {
+      this.navigateTo({
+        url: '/pages/user/payment'
+      });
+    },
+    handleClick(tab) {
+      if (tab === '帮助中心') {
+        openUrl({
+          url: '/hybrid/html/help/help.html#/help_center',
+          title: '帮助中心',
+          showAction: false
+        });
+      }
+      if (tab === '我的订单') {
+        this.navigateTo({
+          url: '/pages/user/order'
+        });
+      }
+      if (tab === '资金明细') {
+        this.navigateTo({
+          url: '/pages/user/capital'
+        });
+      }
+      if (tab === '我的卡券') {
+        this.navigateTo({
+          url: '/pages/user/coupon'
+        });
+      }
+      if (tab === '版本更新') {
+        checkUpdate(true)
+      }
+    },
+    goKefu() {
+      this.navigateTo({
+        url: '/pages/user/kefu'
+      });
+    },
+    goConfig() {
+      this.navigateTo({
+        url: '/pages/config/config'
+      });
+    },
+    onpullingdown() {},
+    async onrefresh() {
+      this.refreshing = true;
+      try {
+        await this.updateUserInfo();
+        await this.updateBalanceInfo();
+        this.refreshing = false;
+      } catch (err) {
+        this.refreshing = false;
+      }
+    }
+  }
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+
+.refresh {
+  width: 750rpx;
+  align-items: center;
+  justify-content: center;
+}
+.indicator {
+  margin: 30rpx 0;
+  height: 40rpx;
+  width: 40rpx;
+  color: #888;
+}
+
+.m-user {
+  flex: 1;
+  background-color: #eee;
+  padding-bottom: 30rpx;
+  margin-top: -2rpx;
+}
+
+.u-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 80rpx;
+}
+
+.u-statusbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #f94a49;
+}
+
+.u-header {
+  padding: 20rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f94a49;
+}
+.u-user {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.u-name {
+  margin-left: 20rpx;
+  &-text {
+    color: #fff;
+  }
+}
+.u-config {
+  flex-direction: row;
+}
+.u-kefu {
+  margin-right: 30rpx;
+  color: #fff;
+}
+.u-peizhi {
+  color: #fff;
+  margin-right: 20rpx;
+}
+.u-wallet {
+  padding: 20rpx;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f94a49;
+}
+.u-wallet-title {
+  margin-left: 10rpx;
+}
+.u-wallet-title-text {
+  font-size: 30rpx;
+  color: #fff;
+}
+
+.u-wealth {
+  padding: 30rpx 0 100rpx 0;
+  flex-direction: row;
+  background-color: #f94a49;
+}
+.u-wealth-item {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.u-change-item {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.u-count-text {
+  color: #fff;
+  font-size: 40rpx;
+}
+.u-count-label {
+  color: #eee;
+  font-size: 32rpx;
+}
+
+.u-action {
+  width: 700rpx;
+  margin-left: 25rpx;
+  margin-top: -40rpx;
+  flex-direction: row;
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+.u-action-item {
+  flex: 1;
+  height: 190rpx;
+  padding: 50rpx 0;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  &-text {
+    color: #000;
+    font-size: 30rpx;
+  }
+}
+
+.u-other {
+  width: 700rpx;
+  margin-left: 25rpx;
+  margin-top: 30px;
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+}
+
+.u-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 700rpx;
+  margin-left: 25rpx;
+}
+
+.u-list-item {
+  width: 348rpx;
+  height: 200rpx;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  margin-top: 1rpx;
+  margin-left: 1rpx;
+}
+.u-list-label {
+  flex-direction: row;
+  padding: 10rpx 0;
+  align-items: center;
+}
+
+.u-list-icon {
+  margin-top: -2rpx;
+  margin-right: 10rpx;
+}
+
+.u-item-name {
+  margin-bottom: 20rpx;
+}
+
+</style>

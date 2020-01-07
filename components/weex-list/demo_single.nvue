@@ -1,0 +1,92 @@
+<template>
+  <view class="page-radiostation">
+    <view>
+      <text>单个列表场景</text>
+    </view>
+    <weex-list
+      class="page-radiostation__list"
+      :pageInit="pageInit"
+      @loadMore="loadMore"
+      ref="weexList"
+    >
+      <cell>电台</cell>
+      <cell class="page-radiostation__ad">
+        <image
+          class="page-radiostation__img"
+          style="width:500px;height:500px"
+          src="https://vuejs.org/images/logo.png"
+        ></image>
+      </cell>
+      <cell
+        v-for="(newsItem, newsIndex) in list"
+        :key="newsIndex"
+      >
+        文章标题 {{newsItem}}
+      </cell>
+    </weex-list>
+  </view>
+</template>
+
+<script>
+  import WeexList from '@/components/weex-list/index.nvue'
+  export default {
+    name: 'page-radiostation',
+    components: {
+      WeexList
+    },
+    data() {
+      return {
+        pageInit: {
+          pageNo: 0,
+          pageSize: 10
+        },
+        list: []
+      };
+    },
+    mounted() {},
+    methods: {
+      getList(opt) {
+        const current = this.list.length
+        const next = current + 20
+        const newList = []
+        for (let i = current; i < next; i++) {
+          newList.push(i)
+        }
+        if (opt.refreshing) {
+          this.list = newList
+        } else {
+          this.list = this.list.concat(newList)
+        }
+        // 清除状态
+        this.$refs.weexList.endBySize(20, 66)
+      },
+      loadMore(opt) {
+        setTimeout(() => {
+          this.getList(opt)
+        }, 2000)
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .page-radiostation {
+    flex: 1;
+    -webkit-overflow-scrolling: "auto";
+
+    &__ad {
+      display: flex;
+      align-items: center;
+    }
+
+    &__img {
+      // border: 1px solid red;
+      border-radius: 500px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: red;
+    }
+
+    &__list {}
+  }
+</style>

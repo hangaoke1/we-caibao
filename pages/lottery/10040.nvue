@@ -1,0 +1,80 @@
+<template>
+  <!-- 任选九 -->
+  <list class="u-10040">
+    <cell v-for="(item, index) in list" :key="index">
+      <view class="u-item" @tap="goDetail(item)">
+        <view class="u-title">
+          <text class="f-30 grey-6">{{item.issue}}期</text>
+          <text class="f-30 grey-6">{{item.drawTime}}</text>
+        </view>
+        <view class="u-result">
+          <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item">
+           <text class="f-30 red-6">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </cell>
+  </list>
+</template>
+
+<script>
+import lottery from '@/api/lottery/index.js'
+import proMixin from '@/mixins/pro.js'
+export default {
+  mixins: [proMixin],
+  data () {
+    return {
+      list: []
+    }
+  },
+  onReady() {
+    lottery.getIssueNotifyCtzq({
+      lotteryId: 10040,
+      firstRow: 0,
+      fetchSize: 10
+    }).then(res => {
+      this.list = res;
+    })
+  },
+  methods: {
+    goDetail(item) {
+      this.navigateTo({
+        url: `/pages/lottery/zqDetail?drawNumber=${item.drawNumber}&team=${item.team}`
+      })
+    }
+  }
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+
+.u-item {
+  padding: 20rpx 20rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+}
+
+.u-title {
+  padding: 20rpx 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.u-result {
+  padding: 10rpx 0;
+  flex-direction: row;
+}
+
+.u-rect {
+  width: 30rpx;
+  height: 60rpx;
+  border-style: solid;
+  border-color: #ccc;
+  border-width: 1rpx;
+  margin-right: 10rpx;
+  .g-center();
+}
+</style>

@@ -1,0 +1,50 @@
+<template>
+  <view class="u-td" :style="iStyle"><slot></slot></view>
+</template>
+
+<script>
+export default {
+  props: {
+    col: [Number, String],
+    borderColor: {
+      tpye: String,
+      default: '#ccc'
+    },
+    padding: {
+      type: [Number, String],
+      default: 20
+    }
+  },
+  computed: {
+    iStyle() {
+      if (this.col) {
+        return {
+          width: this.col + 'rpx',
+          padding: this.padding + 'rpx',
+          borderColor: this.borderColor
+        };
+      } else {
+        return {
+          flex: 1,
+          padding: this.padding + 'rpx',
+          borderColor: this.borderColor
+        };
+      }
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+* {
+  display: flex;
+  flex-direction: column;
+}
+.u-td {
+  padding: 20rpx;
+  border-color: #ccc;
+  border-right-width: 1rpx;
+  border-bottom-width: 1rpx;
+  border-style: solid;
+}
+</style>

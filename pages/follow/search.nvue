@@ -1,0 +1,180 @@
+<template>
+	<view class="u-search">
+		<view class="u-history" v-if="isHistory" @touchstart="handleBlur">
+      <list>
+        <refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="refreshing ? 'show' : 'hide'">
+          <loading-indicator class="indicator"></loading-indicator>
+        </refresh>
+        <cell class="u-title">
+          <text class="f-32 red-6">热搜推荐</text>
+        </cell>
+        <cell class="u-item" v-for="item in hotSearchRecommendor" :key="item.userId" @tap="goDashen(item.userId)">
+          <view class="u-item-content">
+            <view class="u-user">
+               <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
+               <view class="u-hotcount" v-if="item.hotCount"><text class="f-22 white-1">{{item.hotCount}}</text></view>
+            </view>
+            <text class="u-name f-30 lines-1">{{item.userName}}</text>
+          </view>
+        </cell>
+      </list>
+    </view>
+    <view class="u-result" v-if="isResult">
+      <list>
+        <refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="refreshing ? 'show' : 'hide'">
+          <loading-indicator class="indicator"></loading-indicator>
+        </refresh>
+        <cell class="u-item" v-for="item in list" :key="item.userId"  @tap="goDashen(item.userId)">
+          <view class="u-item-content">
+            <view class="u-user">
+               <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
+               <view class="u-hotcount" v-if="item.hotCount"><text class="f-22 white-1">{{item.hotCount}}</text></view>
+            </view>
+            <text class="u-name f-30 lines-1">{{item.userName}}</text>
+            <view class="u-action" v-if="item.hotCount"><text class="white-1 f-28">跟单</text></view>
+          </view>
+        </cell>
+      </list>
+    </view>
+	</view>
+</template>
+
+<script>
+  import lottery from '@/api/lottery/index.js'
+  import gImg from '@/components/g-img/index.nvue'
+  import proMixin from '@/mixins/pro.js';
+	export default {
+    mixins: [proMixin],
+    components: {
+      gImg
+    },
+    data () {
+      return {
+        isHistory: true,
+        isResult: false,
+        refreshing: false,
+        hotSearchRecommendor: [],
+        list: []
+      }
+    },
+    methods: {
+      goDashen(id) {
+        this.handleBlur();
+        this.navigateTo({
+          url: '/pages/follow/detail?id=' + id
+        });
+      },
+      handleConfirm (text) {
+        if (!text) return
+        this.handleBlur()
+        lottery.getSearchUser({
+          username: text
+        }).then(res => {
+          this.isResult = true
+          this.isHistory = false
+          this.list = res.result
+        })
+      },
+      handleBlur() {
+        const webView = plus.webview.currentWebview()
+        webView.setTitleNViewSearchInputFocus(false)
+      },
+      onpullingdown() {},
+      onrefresh() {
+        this.refreshing = true;
+        this.getHotRecommendor().then(() => {
+          this.refreshing = false
+        }).catch(err => {
+          this.refreshing = false
+        })
+      },
+      getHotRecommendor() {
+        return lottery.getHotRecommendor().then(res => {
+          this.hotSearchRecommendor = res.hotSearchRecommendor
+        })
+      }
+    },
+		// 当 searchInput 输入时触发
+		onNavigationBarSearchInputChanged (e) {
+		  let text = e.text.trim();
+		  if (text) {
+		    this.isHistory = false
+		  } else {
+		    this.isHistory = true
+		    this.isResult = false
+		  }
+		},
+    // 点击软键盘搜索按键触发
+    onNavigationBarSearchInputConfirmed (e) {
+      let text = e.text.trim();
+      this.handleConfirm(text)
+    },
+    onNavigationBarButtonTap () {
+      // 清空
+      let wobj = plus.webview.currentWebview()
+      wobj.setTitleNViewSearchInputText('')
+      this.isHistory = true
+      this.isResult = false
+    },
+    created() {
+      this.getHotRecommendor()
+    }
+	}
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+
+.u-search {
+  flex: 1;
+  background-color: #fff;
+}
+.u-history, .u-result {
+  padding-top: 10rpx;
+  flex: 1;
+  background-color: #f0f0f0;
+}
+.u-title {
+  padding: 20rpx;
+  background-color: #f0f0f0;
+}
+.u-item {
+  padding-bottom: 10rpx;
+}
+.u-item-content {
+  width: 700rpx;
+  margin-left: 25rpx;
+  flex-direction: row;
+  align-items: center;
+  padding: 36rpx 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+.u-user {
+  width: 100rpx;
+  height: 100rpx;
+  .g-center();
+}
+.u-name {
+  flex: 1;
+  margin-left: 30rpx;
+}
+.u-hotcount {
+  position: absolute;
+  right: 0;
+  bottom: 10rpx;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 30rpx;
+  background-color: #E3423A;
+  .g-center();
+}
+
+.u-action {
+  width:118rpx;
+  height:56rpx;
+  background-color:#E3423A;
+  border-radius:10rpx;
+  .g-center();
+}
+</style>

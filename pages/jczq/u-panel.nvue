@@ -1,0 +1,70 @@
+<template>
+  <view class="u-panel">
+    <view class="u-title" @tap="show = !show">
+      <slot name="title">
+        <text class="f-30 grey-6">{{ title }}</text>
+      </slot>
+      <text class="iconfont u-arrow" :class="{'z-active': !show}" style="font-size: 40rpx;color: #ccc;">&#xe60d;</text>
+    </view>
+   <view class="u-panel" v-if="show">
+      <slot></slot>
+    </view>
+  </view>
+</template>
+
+<script>
+export default {
+  props: {
+    title: String,
+    len: Number,
+    initShow: Boolean
+  },
+  created () {
+    this.show = this.initShow
+  },
+  data() {
+    return {
+      show: true
+    };
+  },
+  methods: {
+    show() {
+      this.show = true;
+    },
+    hide() {
+      this.show = false;
+    }
+  }
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+
+.u-panel {
+  // transition-property: height;
+  // transition-duration: 300ms;
+  // transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  overflow: hidden;
+}
+.u-title {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 70rpx;
+  padding: 0 16rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+}
+.u-arrow {
+  transition-property: transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  transform: rotate(90deg);
+}
+.z-active {
+  transform: rotate(0);
+}
+</style>

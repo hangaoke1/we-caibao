@@ -1,3 +1,5 @@
 export default {
-  server: 'http://101.132.119.190:9610'
+  name: 'MiDian',
+  nameZh: '米店',
+  server: 'http://client.bbbhr.cn'
 }

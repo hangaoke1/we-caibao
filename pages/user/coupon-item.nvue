@@ -1,0 +1,150 @@
+<template>
+  <view class="u-coupon-item" @click="handleChoose">
+    <view class="u-top">
+      <view class="u-left">
+        <text class="red-6 f-40" :style="iStyle">¥</text>
+        <text class="red-6" style="font-size:78rpx;" :style="iStyle">{{ item.value }}</text>
+      </view>
+      <view class="u-right">
+        <text class="f-24" :style="iStyle">{{ item.name }}</text>
+        <text class="f-22 grey-6" :style="iStyle">消费金额满{{ item.condition }}减{{ item.value }}元</text>
+      </view>
+      <view class="u-type" style="background-color: #ccc;" v-if="item.enableFlag == 2"><text class="f-22 white-1">已失效</text></view>
+      <view class="u-type" style="background-color: #ccc;" v-else-if="item.enableFlag == 3"><text class="f-22 white-1">已使用</text></view>
+      <view class="u-type" style="background-color: #fff7d1;" v-if="item.lotteryIds == 0 && item.enableFlag == 1"><text class="f-22 yellow-7" :style="iStyle">通用</text></view>
+      <view class="u-check" v-if="type == 1">
+        <g-radio :value="item.id == chooseCouponId"></g-radio>
+      </view>
+    </view>
+    <view class="u-bottom">
+      <view class="u-date">
+        <text class="f-22 grey-6" :style="iStyle">有效期：{{ item.startTime }} 至 {{ item.endTime }}</text>
+      </view>
+      <view @tap="goUse" class="u-action" v-if="item.enableFlag == 1 && type === 0">
+        <text class="f-30 red-6" :style="iStyle">去使用</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import { mapState, mapActions, mapMutations } from 'vuex';
+import gRadio from '@/components/g-radio/index.nvue';
+import proMixin from '@/mixins/pro.js';
+export default {
+  mixins: [proMixin],
+  props: {
+    type: [Number, String], // 0普通 1: 选择
+    item: Object // 1可用 2、3不可用 （2表示已失效，3表示已使用）
+  },
+  components: {
+    gRadio
+  },
+  computed: {
+    ...mapState({
+      chooseCouponId: state => state.chooseCouponId
+    }),
+    iStyle() {
+      if (this.item.enableFlag != 1) {
+        return { color: '#ccc' };
+      } else {
+        return {};
+      }
+    }
+  },
+  data() {
+    return {
+      checked: false
+    };
+  },
+  methods: {
+    ...mapMutations(['updateChooseCouponId']),
+    handleChoose () {
+      if (this.type === 1) {
+        const id = this.chooseCouponId === this.item.id ? '' : this.item.id
+        this.updateChooseCouponId(id)
+        uni.navigateBack()
+      }
+    },
+    // 去使用
+    goUse () {
+      // 10026: '超级大乐透',
+      // 10039: '胜负彩',
+      // 10040: '任选9场',
+      // 10058: '竞彩篮球',
+      // 10059: '竞彩足球',
+      // 10108: '江苏11选5'
+      switch(this.item.lotteryIds) {
+        case '0':
+        uni.switchTab({
+          url: '/pages/index/index'
+        })
+        break;
+        case '10058':
+        this.navigateTo({
+          url: '/pages/jclq/jclq'
+        })
+        break;
+        case '10059':
+        this.navigateTo({
+          url: '/pages/jczq/jczq'
+        })
+        break;
+      }
+    }
+  }
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+.u-coupon-item {
+  width: 700rpx;
+  margin-left: 24rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.u-top {
+  padding: 30rpx 65rpx;
+  flex-direction: row;
+  align-items: center;
+  border-bottom-color: #ccc;
+  border-style: dashed;
+  border-bottom-width: 1rpx;
+}
+.u-left {
+  margin-right: 20rpx;
+  flex-direction: row;
+  align-items: center;
+}
+.u-right {
+  flex: 1;
+}
+.u-type {
+  position: absolute;
+  right: -60rpx;
+  top: 20rpx;
+  width: 200rpx;
+  height: 40rpx;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+}
+.u-bottom {
+  padding: 0 33rpx;
+  height: 80rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.u-action {
+  width: 128rpx;
+  height: 52rpx;
+  border-width: 1rpx;
+  border-color: @red-6;
+  border-style: solid;
+  border-radius: 10rpx;
+  .g-center();
+}
+</style>

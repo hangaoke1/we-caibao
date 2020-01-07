@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+  </head>
+  <style>
+  html, body {
+    padding: 0;
+    margin: 0;
+  }
+  .page {
+    width: 100%;
+    height: 100%;
+  }
+  .loading {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: auto;
+  }
+</style>
+  <body>
+    <div class="page">
+      <img class="loading" src="./loading.gif" alt="" />
+    </div>
+  </body>
+  <script type="text/javascript">
+    // ios下中转页面
+    var ws = null;
+    var embed = null;
+    var url = location.search.split('=')[1];
+    url = decodeURIComponent(url)
+    function plusReady() {
+      ws = plus.webview.currentWebview();
+      embed = plus.webview.create('', url, {
+        'uni-app': 'none',
+        top: ws.offset - 6 || 0
+      }, {
+        url: url
+      });
+      if (url === 'https://live.m.500.com/home/zq/jczq/cur?render=local') {
+        embed.setCssFile('_www/static/rmad.css');
+      }
+      if(url === 'http://m.js11x5.icaile.com/chart/') {
+        embed.setCssFile('_www/static/rmad11x5.css'); 
+      }
+      embed.addEventListener('close', () => {
+        embed = null;
+        ws.close()
+      })
+      embed.loadURL(url)
+      setTimeout(() => {
+        ws.append(embed);
+      }, 1000)
+    }
+    if (window.plus) {
+      plusReady();
+    } else {
+      document.addEventListener('plusready', plusReady, false);
+    }
+  </script>
+</html>

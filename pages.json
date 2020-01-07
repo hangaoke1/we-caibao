@@ -1,16 +1,473 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "裁宝"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "裁宝",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/page
+    {
+      "path": "pages/index/index",
+      "style": {
+        "app-plus": {
+          "titleNView": false,
+          "pullToRefresh": {
+            "support": true,
+            "style": "circle",
+            "color": "#f5222d"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/follow/detail",
+      "style": {
+        "navigationBarTitleText": "大神详情",
+        "navigationBarBackgroundColor": "#f84847",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/follow/focus",
+      "style": {
+        "navigationBarTitleText": "我的关注",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    },
+
+    {
+      "path": "pages/register/register",
+      "style": {
+        "app-plus": {
+          "titleNView": false,
+          "softinputNavBar": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "app-plus": {
+          "titleNView": false,
+          "softinputNavBar": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    }, {
+      "path": "pages/jczq/jczq",
+      "style": {
+        "navigationBarTitleText": "混合投注",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/jczq/confirm",
+      "style": {
+        "navigationBarTitleText": "投注确认",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "softinputNavBar": "auto",
+          "titleNView": {
+            "buttons": [{
+              // "fontSrc": "/static/iconfont.ttf",
+              // "text": "\ue600"
+              "text": "奖金优化",
+              "width": "80px",
+              "fontSize": "16px"
+            }]
+          }
+        }
+      }
+    }, {
+      "path": "pages/jczq/expend",
+      "style": {
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    }, {
+      "path": "pages/jczq/perf",
+      "style": {
+        "navigationBarTitleText": "奖金优化",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "softinputNavBar": "auto"
+        }
+      }
+    }, {
+      "path": "pages/jclq/jclq",
+      "style": {
+        "navigationBarTitleText": "混合投注",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/jclq/expend",
+      "style": {
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    }, {
+      "path": "pages/jclq/confirm",
+      "style": {
+        "navigationBarTitleText": "投注确认",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "softinputNavBar": "auto"
+        }
+      }
+    }, {
+      "path": "pages/user/order",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/user/coupon",
+      "style": {
+        "navigationBarTitleText": "我的卡券",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/user/couponChoose",
+      "style": {
+        "navigationBarTitleText": "选择优惠券",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/user/capital",
+      "style": {
+        "navigationBarTitleText": "资金明细",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/follow/follow",
+      "style": {
+        "navigationBarTitleText": "跟单大厅",
+        "navigationBarBackgroundColor": "#f94a49",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "pullToRefresh": {
+            "support": true,
+            "style": "circle",
+            "color": "#f5222d"
+          },
+          "titleNView": false
+        }
+      }
+    }, {
+      "path": "pages/follow/search",
+      "style": {
+        "app-plus": {
+          // "softinputMode": "adjustPan",
+          "titleNView": {
+            "titleColor": "#000",
+            "backgroundColor": "#fff",
+            "titleSize": "40px",
+            "buttons": [{
+              "type": "close",
+              "width": "auto",
+              "fontSize": "28px",
+              "color": "#000"
+            }],
+            "searchInput": {
+              "backgroundColor": "#F1F1F1",
+              "borderRadius": "6px",
+              "placeholder": "请输入用户名 如：梅西",
+              "autoFocus": false,
+              "align": "left"
+            }
+          }
+        }
+      }
+    }, {
+      "path": "pages/lottery/lottery",
+      "style": {
+        "navigationBarTitleText": "开奖中心",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/lottery/10108",
+      "style": {
+        "navigationBarTitleText": "往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/lottery/10026",
+      "style": {
+        "navigationBarTitleText": "往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/lottery/10039",
+      "style": {
+        "navigationBarTitleText": "往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/lottery/10040",
+      "style": {
+        "navigationBarTitleText": "往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/lottery/10058",
+      "style": {
+        "navigationBarTitleText": "篮球往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "titleNView": {
+            "buttons": [{
+              "fontSrc": "/static/iconfont.ttf",
+              "text": "\ue72a"
+              // "type": "menu"
+            }]
+          }
+        }
+      }
+    }, {
+      "path": "pages/lottery/10059",
+      "style": {
+        "navigationBarTitleText": "足球往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "titleNView": {
+            "buttons": [{
+              "fontSrc": "/static/iconfont.ttf",
+              "text": "\ue72a"
+              // "type": "menu"
+            }]
+          }
+        }
+      }
+    }, {
+      "path": "pages/lottery/zqDetail",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    }, {
+      "path": "pages/user/kefu",
+      "style": {
+        "navigationBarTitleText": "客服中心",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/user/orderDetail",
+      "style": {
+        "navigationBarTitleText": "订单详情",
+        "navigationBarBackgroundColor": "#f84847",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/test/test",
+      "style": {
+        "navigationBarTitleText": "测试"
+      }
+    }, {
+      "path": "pages/bifen/bifen",
+      "style": {
+        "navigationBarTitleText": "比分",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    }, {
+      "path": "pages/user/payment",
+      "style": {
+        "navigationBarTitleText": "充值",
+        "navigationBarBackgroundColor": "#f5222d",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/case/case",
+      "style": {
+        "navigationBarTitleText": "方案详情",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/js11x5/js11x5",
+      "style": {
+        "navigationBarTitleText": "江苏11选5",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white",
+        "titleNView": {
+          "buttons": [{
+            "text": "走势图",
+            "width": "80px",
+            "fontSize": "16px"
+          }]
+        }
+      }
+    }, {
+      "path": "pages/js11x5/confirm",
+      "style": {
+        "navigationBarTitleText": "投注确认",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/order/success",
+      "style": {
+        "navigationBarTitleText": "下单成功",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/order/publish",
+      "style": {
+        "navigationBarTitleText": "发单",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/config/config",
+      "style": {
+        "navigationBarTitleText": "配置中心",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/config/bindalipay",
+      "style": {
+        "navigationBarTitleText": "绑定支付宝",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/config/bindidcard",
+      "style": {
+        "navigationBarTitleText": "实名认证",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/config/bindBankCard",
+      "style": {
+        "navigationBarTitleText": "绑定银行卡",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/config/password",
+      "style": {
+        "navigationBarTitleText": "修改密码",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/withdraw/withdraw",
+      "style": {
+        "navigationBarTitleText": "提现",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/toto14/toto14",
+      "style": {
+        "navigationBarTitleText": "胜负彩",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/toto14/confirm",
+      "style": {
+        "navigationBarTitleText": "确认投注",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/toto9/toto9",
+      "style": {
+        "navigationBarTitleText": "任选九",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/toto9/confirm",
+      "style": {
+        "navigationBarTitleText": "确认投注",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/conversion/conversion",
+      "style": {
+        "navigationBarTitleText": "转充",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/forget/forget",
+      "style": {
+        "navigationBarTitleText": "忘记密码",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#929292",
+    "selectedColor": "#fc454d",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "fontSize": "12px",
+    "iconWidth": "30px",
+    "list": [{
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabbar/synormal@2x.png",
+        "selectedIconPath": "static/tabbar/syclick@2x.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/follow/follow",
+        "iconPath": "static/tabbar/fjnormal@2x.png",
+        "selectedIconPath": "static/tabbar/fjclick@2x.png",
+        "text": "跟单"
+      },
+      {
+        "pagePath": "pages/bifen/bifen",
+        "iconPath": "static/tabbar/dtnormal@2x.png",
+        "selectedIconPath": "static/tabbar/dtclick@2x.png",
+        "text": "比分"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/tabbar/wdnormal@2x.png",
+        "selectedIconPath": "static/tabbar/wdclick@2x.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarBackgroundColor": "#D42F2C",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "",
+    "backgroundColor": "#F8F8F8",
+    "app-plus": {
+      "scrollIndicator": "none"
+    }
+  }
 }

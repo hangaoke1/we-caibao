@@ -1,0 +1,23 @@
+<template>
+	<view class="u-radio" @tap="handleChange">
+		<text class="iconfont red-6" v-if="value">&#xe62e;</text>
+    <text class="iconfont grey-6" v-else>&#xe650;</text>
+	</view>
+</template>
+
+<script>
+	export default {
+		props: {
+      value: Boolean
+    },
+    methods: {
+      handleChange() {
+        this.$emit('input', !this.value)
+      }
+    }
+	}
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+</style>

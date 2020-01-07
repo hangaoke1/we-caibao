@@ -1,0 +1,200 @@
+<template>
+  <list
+    class="weex-single-list"
+    :loadmoreoffset="100"
+    :show-scrollbar="false"
+    @scroll="onScroll"
+    @loadmore="loadMore()"
+    ref="list"
+  >
+   <refresh
+      v-if="refresh"
+      class="refresh"
+      @refresh="onRefresh"
+      @pullingdown="onPullingDown"
+      :display="refreshing ? 'show' : 'hide'"
+    >
+      <loading-indicator class="indicator"></loading-indicator>
+      <!-- <text class="refresh-text">{{refreshing ? '正在加载..' : pullingText[pullingState]}}</text> -->
+    </refresh>
+    <cell>
+     <view ref="content">
+      <slot></slot>
+     </view>
+    </cell>
+    <cell class="loading-init">
+      <text class="loading-text" @tap="customerLoad">{{loadingText[loading]}}</text>
+    </cell>
+    <cell v-if="!isAndroid">
+      <view :style="{height: placeHeight + 'px'}"></view>
+    </cell>
+  </list>
+</template>
+
+<script>
+  const dom = weex.requireModule('dom')
+  export default {
+    name: 'weex-single-list',
+    props: {
+      refresh: {
+        tpye: Boolean,
+        default: true
+      },
+      pageInit: {
+        tpye: Object,
+        default: () => {
+          return {
+            pageNo: 1,
+            pageSize: 20
+          }
+        }
+      },
+      active: {
+        tpye: Boolean,
+        default: true
+      }
+    },
+    data() {
+      return {
+        isAndroid: uni.getSystemInfoSync().platform == "android",
+        placeHeight: 0,
+        init: false,
+        pageOption: JSON.parse(JSON.stringify(this.pageInit)),
+        refreshing: false,
+        pullingState: 0,
+        pullingText: {
+          0: '下拉刷新',
+          1: '释放刷新'
+        },
+        loadingText: {
+          0: '上拉加载更多...',
+          1: '正在加载...',
+          2: '没有更多数据了'
+        },
+        loading: 0 // 0是未加载 1加载中 2没有更多了
+      }
+    },
+    watch: {
+      active: {
+        handler(v) {
+          if (this.init || !v) {
+            return
+          }
+          // TODO: android bug
+          if (uni.getSystemInfoSync().platform == "android") {
+            setTimeout(() => {
+              this.init = true
+              this.loadMore()
+            }, 20)
+          } else {
+            this.init = true
+            this.loadMore()
+          }
+        },
+        immediate: true
+      }
+    },
+    methods: {
+      resetHeight () {
+        if (this.isAndroid) { return }
+        dom.getComponentRect(this.$refs.list, (res) => {
+          const outHeight = res.size.height
+          dom.getComponentRect(this.$refs.content, (res2) => {
+            let innerHeight = res2.size.height
+            let offset = outHeight - innerHeight
+            this.placeHeight = offset > 0 ? offset + 50 : 0
+          })
+        })
+      },
+      customerLoad () {
+        this.loadMore()
+      },
+      loadMore() {
+        if (this.loading === 0) {
+          this.loading = 1
+          this.$emit('loadMore', Object.assign({}, this.pageOption, {
+            refreshing: this.refreshing
+          }))
+        }
+      },
+      onRefresh() {
+        this.$emit('onRefresh')
+        this.refreshing = true;
+        this.reset()
+      },
+      onPullingDown(event) {
+        if (this.refreshing) { return };
+        this.pullingState =  Math.abs(event.pullingDistance) > Math.abs(event.viewHeight) ? 1 : 0;
+        this.$emit('onPullingDown')
+      },
+      reset() {
+        this.pullingState = 0;
+        this.loading = 0;
+        this.pageOption.pageNo = this.pageInit.pageNo;
+        this.loadMore()
+        this.$refs['list'].resetLoadmore()
+      },
+      endBySize(dataSize, totalSize) {
+        let hasNext;
+        let {
+          pageNo,
+          pageSize
+        } = this.pageOption;
+    
+        if (totalSize) {
+          let loadSize = (pageNo - this.pageInit.pageNo) * pageSize + dataSize; // 已加载的数据总数
+          hasNext = loadSize < totalSize; // 是否还有下一页
+        } else {
+          hasNext = dataSize === pageSize
+        }
+ 
+        this.pageOption.pageNo++
+        
+        if (this.refreshing) {
+          this.refreshing = false;
+        }
+        
+        this.resetHeight();
+        
+        this.loading = hasNext ? 0 : 2;
+        this.$refs['list'].resetLoadmore()
+      },
+      onScroll(contentSize) {
+        this.$emit('onScroll', contentSize.contentOffset.y)
+      }
+    },
+    mounted () {},
+  };
+</script>
+
+<style lang="less">
+  .refresh,
+  .loading {
+    width: 750rpx;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20rpx 0;
+  }
+
+  .refresh-text,
+  .loading-text {
+    padding: 30rpx 0;
+    font-size: 28rpx;
+    color: #888;
+  }
+
+  .loading-init {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10rpx 0;
+  }
+
+  .indicator {
+    height: 30rpx;
+    width: 30rpx;
+    margin-right: 6rpx;
+    color: #000000;
+  }
+</style>

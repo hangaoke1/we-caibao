@@ -1,0 +1,152 @@
+<template>
+  <view class="m-login">
+    <view class="u-logo"><image class="u-img" src="/static/user/register.png"></image></view>
+
+    <view class="u-input-wrap">
+      <view class="u-input-item">
+        <text class="iconfont" style="font-size: 46rpx;color: #ccc;">&#xe770;</text>
+        <input class="u-input" type="text" v-model="form.username" placeholder="请输入用户名" />
+      </view>
+      <!-- hack ios下无法弹出中文 -->
+      <input class="u-input" type="text" style="position: absolue;left:0;top:0;width: 1rpx;height: 1rpx;"/>
+
+      <view class="u-input-item">
+        <text class="iconfont" style="font-size: 46rpx;color: #ccc;">&#xe6ad;</text>
+        <input class="u-input" type="password" v-model="form.password" placeholder="请输入密码" />
+      </view>
+      
+      <view class="u-forget" @tap="goForget">
+        <text class="f-30 grey-5">忘记密码</text>
+      </view>
+
+      <view class="u-action">
+        <view class="u-login" @tap="handleLogin"><text class="u-login-text">登录</text></view>
+      </view>
+
+      <view class="u-action">
+        <view class="u-register" @tap="goRegister"><text class="u-register-text">注册</text></view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import { set, get } from '@/storage/index.js';
+import apiAuth from '@/api/auth/index.js';
+import proMixin from '@/mixins/pro.js';
+import iconfontMixin from '@/mixins/iconfont.js';
+import hideKeyBoardMixin from '@/mixins/hideKeyBoard.js';
+
+export default {
+  mixins: [iconfontMixin, proMixin, hideKeyBoardMixin],
+  data() {
+    return {
+      form: {
+        username: '',
+        password: ''
+      }
+    };
+  },
+  created() {
+    this.form.username =  get('ACCOUNT') || '';
+  },
+  methods: {
+    goForget () {
+      this.navigateTo({
+        url: '/pages/forget/forget'
+      });
+    },
+    goRegister() {
+      this.navigateTo({
+        url: '/pages/register/register'
+      });
+    },
+    handleLogin() {
+      uni.showToast({
+        title: '',
+        icon: 'loading'
+      });
+      apiAuth.login(this.form).then(res => {
+        uni.hideToast();
+        set('SESSION', res.clientUserSession);
+        set('ACCOUNT', this.form.username)
+        uni.switchTab({
+          url: '/pages/index/index'
+        });
+      });
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+.u-img {
+  width: 750rpx;
+  height: 500rpx;
+}
+
+.u-input-wrap {
+  width: 668rpx;
+  padding: 50rpx;
+  margin-left: 41rpx;
+  margin-top: -100rpx;
+  border-radius: 10rpx;
+  background-color: #fff;
+  box-shadow: 0px 3px 20px 1px rgba(1, 12, 74, 0.08);
+}
+
+.u-input-item {
+  flex-direction: row;
+  // align-items: center;
+  padding: 10rpx 20rpx 10rpx 0;
+  margin-bottom: 30rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+}
+.u-input {
+  flex: 1;
+  height: 60rpx;
+  margin-left: 20rpx;
+  margin-right: 10rpx;
+  font-size: 30rpx;
+}
+.u-action {
+  align-items: center;
+  justify-content: center;
+  border-radius: 40rpx;
+}
+.u-login {
+  align-items: center;
+  justify-content: center;
+  margin-top: 40rpx;
+  width: 528rpx;
+  height: 80rpx;
+  background-color: #e73a3a;
+  border-radius: 12rpx;
+  &-text {
+    font-size: 32rpx;
+    color: #fff;
+  }
+}
+.u-forget {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.u-register {
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+  width: 528rpx;
+  height: 80rpx;
+  border-width: 2rpx;
+  border-color: #e73a3a;
+  border-style: solid;
+  border-radius: 12rpx;
+  &-text {
+    font-size: 32rpx;
+    color: #e73a3a;
+  }
+}
+</style>

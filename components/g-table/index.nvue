@@ -1,0 +1,31 @@
+<template>
+  <view class="u-table" :style="iStyle"><slot></slot></view>
+</template>
+
+<script>
+export default {
+  props: {
+    width: [Number, String],
+    borderColor: {
+      tpye: String,
+      default: '#ccc'
+    }
+  },
+  computed: {
+    iStyle () {
+      return {
+        width: this.width + 'rpx',
+        borderColor: this.borderColor
+      }
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.u-table {
+  border-top-width: 1rpx;
+  border-left-width: 1rpx;
+  border-style: solid;
+}
+</style>

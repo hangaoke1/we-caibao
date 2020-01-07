@@ -1,0 +1,189 @@
+<template>
+  <view class="container">
+    <wxc-overlay :left="left" v-if="show" :show="true" :hasAnimation="false"></wxc-overlay>
+    <view class="dialog-box" v-if="show" :style="{ top: top + 'rpx'}">
+      <view class="dialog-content">
+        <slot name="title">
+          <text class="content-title" v-if="title">{{ title }}</text>
+        </slot>
+        <slot name="content">
+          <text class="content-subtext">{{ content }}</text>
+        </slot>
+        <view class="no-prompt" v-if="showNoPrompt" @tap="noPromptClicked">
+          <image :src="noPromptIcon" class="no-prompt-icon"></image>
+          <text class="no-prompt-text">{{ noPromptText }}</text>
+        </view>
+      </view>
+      <view class="dialog-footer" v-if="showBottom">
+        <view class="footer-btn cancel" v-if="!single" @tap="secondaryClicked">
+          <text class="btn-text" :style="{ color: secondBtnColor }">{{ cancelText }}</text>
+        </view>
+        <view class="footer-btn confirm" @tap="primaryClicked">
+          <text class="btn-text" :style="{ color: mainBtnColor }">{{ confirmText }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<style scoped>
+.container {
+  position: fixed;
+  width: 750rpx;
+}
+.dialog-box {
+  position: fixed;
+  left: 75rpx;
+  width: 600rpx;
+  background-color: #ffffff;
+  border-radius: 10rpx;
+}
+.dialog-content {}
+.content-title {
+  color: #333333;
+  font-size: 36rpx;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+.content-subtext {
+  color: #666666;
+  font-size: 26rpx;
+  line-height: 36rpx;
+  text-align: center;
+}
+.dialog-footer {
+  flex-direction: row;
+  align-items: center;
+  border-top-color: #f3f3f3;
+  border-top-width: 1rpx;
+}
+.footer-btn {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 90rpx;
+}
+.cancel {
+  border-right-color: #f3f3f3;
+  border-right-width: 1rpx;
+}
+.btn-text {
+  font-size: 36rpx;
+  color: #666666;
+}
+.no-prompt {
+  width: 486rpx;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 24rpx;
+}
+.no-prompt-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 12rpx;
+}
+.no-prompt-text {
+  font-size: 24rpx;
+  color: #a5a5a5;
+}
+</style>
+
+<script>
+import WxcOverlay from '../wxc-overlay';
+const CHECKED = 'https://gw.alicdn.com/tfs/TB1UT3VpgMPMeJjy1XdXXasrXXa-42-42.png';
+const UN_CHECKED = 'https://gw.alicdn.com/tfs/TB1hE3VpgMPMeJjy1XdXXasrXXa-42-42.png';
+export default {
+  components: { WxcOverlay },
+  props: {
+    show: {
+      type: Boolean,
+      default: false
+    },
+    single: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    content: {
+      type: String,
+      default: ''
+    },
+    top: {
+      type: Number,
+      default: 400
+    },
+    cancelText: {
+      type: String,
+      default: '取消'
+    },
+    confirmText: {
+      type: String,
+      default: '确定'
+    },
+    mainBtnColor: {
+      type: String,
+      default: '#EE9900'
+    },
+    secondBtnColor: {
+      type: String,
+      default: '#666666'
+    },
+    showNoPrompt: {
+      type: Boolean,
+      default: false
+    },
+    showBottom: {
+      type: Boolean,
+      default: true
+    },
+    noPromptText: {
+      type: String,
+      default: '不再提示'
+    },
+    isChecked: {
+      type: Boolean,
+      default: false
+    },
+    left: {
+      type: Number,
+      default: 0
+    }
+  },
+  data: () => ({
+    noPromptIcon: UN_CHECKED,
+    pageHeight: 1334,
+    isWeb: false
+  }),
+  created() {
+    const {
+      env: { deviceHeight, deviceWidth }
+    } = weex.config;
+    this.pageHeight = (deviceHeight / deviceWidth) * 750;
+  },
+  methods: {
+    wxcOverlayBodyClicking() {
+      this.isShow && this.$emit('wxcPopupOverlayClicked');
+    },
+    secondaryClicked() {
+      this.$emit('wxcDialogCancelBtnClicked', {
+        type: 'cancel'
+      });
+    },
+    primaryClicked(e) {
+      this.$emit('wxcDialogConfirmBtnClicked', {
+        type: 'confirm'
+      });
+    },
+    noPromptClicked(e) {
+      const isChecked = !this.isChecked;
+      this.noPromptIcon = isChecked ? CHECKED : UN_CHECKED;
+      this.$emit('wxcDialogNoPromptClicked', { isChecked });
+    }
+  }
+};
+</script>

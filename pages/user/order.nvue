@@ -1,0 +1,291 @@
+<template>
+  <view class="m-order">
+    <view class="u-tab">
+      <view
+        class="u-tab-item"
+        v-for="(item, index) in ['全部', '个人订单', '我的发单', '我的跟单']"
+        :key="item"
+        @tap="changeTab(index)"
+      >
+        <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
+      </view>
+      <view class="u-tab-line" :style="lineStyle"></view>
+    </view>
+    
+    <swiper
+      style="flex: 1;"
+      :current="activeIndex"
+      @change="handleTabChange"
+    >
+      <swiper-item v-for="(tabData, tabIndex) in dataList" :key="tabIndex" style="flex: 1;">
+        <weex-list
+          class="u-list"
+          :pageInit="tabData.pageInit"
+          :ref="'weexList' + tabIndex"
+          :active="tabIndex === activeIndex"
+          @loadMore="loadMore(tabIndex, $event)"
+        >
+          <view class="u-item" v-for="(item, index) in tabData.list" :key="item.schemeId" @tap="goDetail(item)">
+            <view class="u-top">
+              <view class="u-top-left">
+                <text class="f-30">{{ item.lotteryName }}</text>
+                <text class="f-30 u-schemeAmount"> {{ item.schemeAmount }}</text>
+                <text class="f-30">元</text>
+              </view>
+              <view class="u-top-right">
+                <text class="f-30 u-schemeAmount" v-if="item.statusDesc === '中奖'">中{{ item.prize.toFixed(2) }}元</text>
+                <text class="f-30" v-else>{{ item.statusDesc }}</text>
+              </view>
+            </view>
+            <view class="u-bottom">
+              <view class="u-bottom-left">
+                <text class="f-30" v-if="item.orderType === 0">个人订单</text>
+                <view class="u-gendan" v-else-if="item.orderType === 1">
+                  <text class="f-30">跟单</text>
+                  <text class="f-30 u-schemeAmount">{{ item.followCount }}</text>
+                  <text class="f-30">人</text>
+                  <text class="f-30">金额</text>
+                  <text class="f-30 u-schemeAmount">{{ item.followMoney }}</text>
+                  <text class="f-30">元</text>
+                </view>
+                <text class="f-30" v-else-if="item.orderType === 2">发单人: {{ item.publishName }}</text>
+              </view>
+              <view class="u-bottom-right"><text class="f-30">{{ item.initiateTime.slice(5) }} {{ type[item.orderType] }}</text></view>
+            </view>
+          </view>
+        </weex-list>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>
+
+<script>
+import user from '@/api/user';
+import weexList from '@/components/weex-list/index.nvue';
+import proMixin from '@/mixins/pro.js';
+export default {
+  mixins: [proMixin],
+  name: 'm-order',
+  components: {
+    weexList
+  },
+  data() {
+    return {
+      type: {
+        1: '发单',
+        2: '已跟单'
+      },
+      list: [],
+      activeIndex: 0,
+      dataList: [
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        },
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        },
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        },
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        }
+      ]
+    };
+  },
+  mounted() {},
+  computed: {
+    lineStyle() {
+      return {
+        width: 750 / 4 + 'rpx',
+        left: (this.activeIndex * 750) / 4 + 'rpx'
+      };
+    }
+  },
+  methods: {
+    handleTabChange(event) {
+      this.activeIndex = event.detail.current;
+    },
+    changeTab(index) {
+      this.activeIndex = index;
+    },
+    // 订单详情
+    goDetail(item) {
+      if (item.orderType === 0) {
+        // 个人订单
+        this.navigateTo({
+          url: `/pages/user/orderDetail?schemeId=${item.schemeId}&statusDesc=${item.statusDesc}`
+        });
+      }
+      if (item.orderType === 1) {
+        // 发单
+        this.navigateTo({
+          url: `/pages/case/case?id=${item.schemeId}&statusDesc=${
+            item.statusDesc
+          }&fromOrder=1&schemeId=${item.schemeId}`
+        });
+      }
+      if (item.orderType === 2) {
+        // 跟单
+        this.navigateTo({
+          url: `/pages/case/case?id=${item.publishOrderId}&statusDesc=${
+            item.statusDesc
+          }&fromOrder=1&schemeId=${item.schemeId}`
+        });
+      }
+    },
+    getList(tabIndex, opt) {
+      // 页面刷新
+      if (opt.refreshing) {
+        user
+          .queryMyScheme({
+            searchType: tabIndex, // 0默认 1个人订单 2我的发单 3我的跟单
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo * 10
+          })
+          .then(res => {
+            this.dataList[tabIndex].list = res;
+            setTimeout(() => {
+              this.$refs['weexList' + tabIndex][0].endBySize(res.length);
+            }, 200);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        user
+          .queryMyScheme({
+            searchType: tabIndex,
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo * 10
+          })
+          .then(res => {
+            this.dataList[tabIndex].list = [...this.dataList[tabIndex].list, ...res];
+            setTimeout(() => {
+              this.$refs['weexList' + tabIndex][0].endBySize(res.length);
+            }, 200);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    loadMore(tabIndex, opt) {
+      this.getList(tabIndex, opt);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+
+.m-order {
+  flex: 1;
+}
+
+.u-header {
+  padding: 20rpx 24rpx;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.u-tab {
+  width: 750rpx;
+  height: 80rpx;
+  border-bottom-width: 1rpx;
+  border-top-width: 1rpx;
+  border-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+  .f-row();
+}
+.u-tab-item {
+  flex: 1;
+  height: 80rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #ccc;
+  border-style: solid;
+  background-color: #fff;
+  .g-center();
+}
+
+.z-active {
+  background-color: @red-6;
+  border-color: @red-6;
+}
+.z-active-text {
+  color: @red-6;
+}
+.u-tab-line {
+  position: absolute;
+  left: 0;
+  bottom: -2rpx;
+  height: 6rpx;
+  background-color: @red-6;
+  transition-property: left;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+}
+
+.u-item {
+  padding: 20px;
+  border-bottom-width: 1rpx;
+  border-bottom-color: #eee;
+  border-style: solid;
+}
+
+.u-top {
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  &-right {
+    flex-direction: row;
+    align-items: center;
+  }
+  &-left {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.u-bottom {
+  flex-direction: row;
+  justify-content: space-between;
+  &-right {
+    flex-direction: row;
+    align-items: center;
+  }
+  &-left {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.u-gendan {
+  flex-direction: row;
+  align-items: center;
+}
+.u-schemeAmount {
+  color: @red-6;
+}
+
+</style>

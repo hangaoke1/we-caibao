@@ -1,0 +1,15 @@
+#bottom_box_allPage, #home, #miss, #mine, #result, .fixed_setting, .container-ads, .more_chart{
+  display: none!important;
+}
+#choice {
+  pointer-events: none;
+}
+.contact_top {
+  display: none!important;
+}
+tr:nth-last-of-type(6) {
+  display: none!important;
+}
+.adsbygoogle {
+  display: none!important;
+}

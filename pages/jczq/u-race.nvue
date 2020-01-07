@@ -1,0 +1,253 @@
+<template>
+  <view class="u-race">
+    <view class="u-title">
+      <text class="f-30 grey-6 u-host">{{ match.hostName }}</text>
+      <text class="f-30 grey-10 u-vs">VS</text>
+      <text class="f-30 grey-6 u-guest">{{ match.guestName }}</text>
+    </view>
+    <view class="u-info">
+      <view class="u-left">
+        <text class="f-24 yellow-7">{{ match.teamId }}</text>
+        <text class="f-24 yellow-7">{{ match.leagueName }}</text>
+        <text class="f-24 yellow-7" style="margin-bottom: 10rpx;">{{ match.sellEndTime.slice(11, 16) }}截止</text>
+        <text class="f-20 yellow-8" @tap="goH5(match.h5Url)">赛事分析</text>
+        <text class="iconfont yellow-8" style="font-size: 24rpx;" @tap="goH5(match.h5Url)">&#xe637;</text>
+      </view>
+      <view class="u-right">
+        <view class="u-l">
+          <view class="u-norang"><text class="f-26 grey-5">0</text></view>
+          <view v-if="match.rate > 0" class="u-rang red-3-bg">
+            <text class="red-6 f-26">+{{ match.rate }}</text>
+          </view>
+          <view v-else class="u-rang geekblue-3-bg">
+            <text class="f-26 grey-5">{{ match.rate }}</text>
+          </view>
+        </view>
+        <view class="u-c">
+          <g-table width="400">
+            
+            <!-- 胜平负 -->
+            <g-tr :class="{'u-border-red': match.spfSingleStatus === 0}">
+              <g-td v-if="match.spfPassStatus === 5">
+                <view class="g-center">
+                  <text class="f-24 grey-5">未开售</text>
+                </view>
+              </g-td>
+              
+              <g-td v-else v-for="choose in spf[0]" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate" :class="{'z-active': match.choose.includes(choose.key)}">
+                  <text class="f-24" :class="{'z-active-text': match.choose.includes(choose.key)}">{{choose.name}}</text>
+                  <text class="f-24 grey-5" :class="{'z-active-text': match.choose.includes(choose.key)}"> {{match[choose.key].toFixed(2)}}</text>
+                </view>
+              </g-td>
+            </g-tr>
+            
+            <!-- 让球胜平负 -->
+            <g-tr :class="{'u-border-red': match.rqSpfSingleStatus === 0}">
+              <g-td v-if="match.rqspfPassStatus === 5">
+                <view class="g-center">
+                  <text class="f-24 grey-5">未开售</text>
+                </view>
+              </g-td>
+              <g-td v-else v-for="choose in spf[1]" :key="choose.key" padding="0" @click.native="handleChoose(choose)">
+                <view class="u-rate" :class="{'z-active': match.choose.includes(choose.key)}">
+                  <text class="f-24" :class="{'z-active-text': match.choose.includes(choose.key)}">{{choose.name}}</text>
+                  <text class="f-24 grey-5" :class="{'z-active-text': match.choose.includes(choose.key)}"> {{match[choose.key].toFixed(2)}}</text>
+                </view>
+              </g-td>
+            </g-tr>
+          </g-table>
+        </view>
+        <view class="u-r" :class="{'z-select': !!match.choose.length}" @tap="goExpend">
+          <block v-if='!match.choose.length'>
+            <text class="f-26 yellow-9">展开</text>
+            <text class="f-26 yellow-9">全部</text>
+          </block>
+          <block v-else>
+            <text class="f-26 white-1">已选</text>
+            <text class="f-26 white-1">{{match.choose.length}}项</text>
+          </block>
+        </view>
+      </view>
+    </view>
+    <view class="u-danguan red-6-bg" v-if="isDan">
+      <text class="white-1 f-bold f-30">单</text>
+    </view>
+    <view class="u-delete" v-if="type == 1" @tap="handleDelete">
+      <text class="f-22 red-6 iconfont">&#xe726;</text>
+    </view>
+  </view>
+</template>
+
+<script>
+import { mapMutations } from 'vuex';
+import gTable from '@/components/g-table/index.nvue';
+import gTr from '@/components/g-tr/index.nvue';
+import gTd from '@/components/g-td/index.nvue';
+import proMixin from '@/mixins/pro.js';
+import {openUrl} from '@/util/index.js'
+export default {
+  mixins: [proMixin],
+  components: {
+    gTable,
+    gTr,
+    gTd
+  },
+  props: {
+    match: Object,
+    type: Number // 0: 选择页面 1:投注确认页面
+  },
+  computed: {
+    // 胜平负单关才显示单字
+    isDan () {
+      return this.match.spfSingleStatus === 0 || 
+      this.match.rqSpfSingleStatus === 0 || 
+      this.match.rqspfSingleStatus === 0
+    }
+  },
+  data() {
+    return {
+      spf: [
+        [{ key: 'sheng', name: '胜'}, {key: 'ping', name: '平'}, {key: 'fu', name: '负'}],
+        [{ key: 'rqSheng', name: '胜'}, {key: 'rqPing', name: '平'}, {key: 'rqFu', name: '负'}]
+      ]
+    }
+  },
+  methods: {
+    ...mapMutations(['updateJczqChooseById']),
+    goH5 (url) {
+      if (!url) {
+        return uni.showToast({
+          title: '这场比赛暂无赛事分析',
+          icon: 'none'
+        })
+      }
+      openUrl({url})
+    },
+    // 清空当前比赛内容
+    handleDelete () {
+      this.updateJczqChooseById({
+        id: this.match.id,
+        choose: []
+      })
+    },
+    goExpend () {
+      this.navigateTo({
+        url: '/pages/jczq/expend?id=' + this.match.id,
+        animationType: 'slide-in-right'
+      })
+    },
+    handleChoose(choose) {
+      if (this.match.choose.includes(choose.key)) {
+        // 删除
+        this.match.choose = this.match.choose.filter(item => item !== choose.key)
+      } else {
+        // 添加
+        this.match.choose.push(choose.key)
+      }
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/common.less';
+.u-race {
+  border-bottom-color: #ccc;
+  border-bottom-width: 1rpx;
+  border-style: solid;
+  padding-bottom: 40rpx;
+}
+.u-title {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx 0;
+}
+.u-host {
+  flex: 1;
+  text-align: right;
+}
+.u-guest {
+  flex: 1;
+  text-align: left;
+}
+.u-vs {
+  width: 150rpx;
+  text-align: center;
+}
+
+.u-info {
+  flex-direction: row;
+}
+.u-left {
+  padding: 0 24rpx;
+  justify-content: center;
+  align-items: center;
+}
+
+.u-right {
+  flex-direction: row;
+  background-color: #fff;
+}
+.u-l {
+  width: 50rpx;
+}
+.u-norang {
+  flex: 1;
+  background-color: #e5e5e5;
+  align-items: center;
+  justify-content: center;
+}
+.u-rang {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.u-c {
+  flex: 1;
+}
+.u-rate {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+}
+.z-active, .z-select {
+  background-color: @red-6;
+}
+.z-active-text {
+  color: #fff;
+}
+.u-r {
+  width: 120rpx;
+  justify-content: center;
+  align-items: center;
+  border-width: 1rpx;
+  border-style: solid;
+  border-color: #ccc;
+  border-left-width: 0;
+}
+.u-border-red {
+  border-width: 2rpx;
+  border-style: solid;
+  border-color: @red-6;
+}
+.u-danguan {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60rpx;
+  height: 60rpx;
+  .g-center();
+}
+.u-delete {
+  position: absolute;
+  right: 20rpx;
+  top: 24rpx;
+  width: 50rpx;
+  height: 50rpx;
+  .g-center();
+}
+</style>

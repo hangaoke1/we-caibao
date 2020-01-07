@@ -1,0 +1,34 @@
+<template>
+  <view class="u-coupon">
+    <view v-for="item in coupons" :key="item.id" style="margin-top: 20rpx;">
+      <coupon-item :item="item" :type="1"></coupon-item>
+    </view>
+  </view>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+import couponItem from './coupon-item.nvue';
+export default {
+  components: {
+    couponItem
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      coupons: state => state.coupons
+    })
+  },
+  methods: {}
+};
+</script>
+
+<style lang="less">
+@import '~@/styles/common.less';
+.u-coupon {
+  flex: 1;
+  background-color: #f0f0f0;
+}
+</style>
