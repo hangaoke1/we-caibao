@@ -5,12 +5,12 @@
     "iPad"
   ],
   "id": "__UNI__A9D6471",
-  "name": "裁宝",
+  "name": "米宝",
   "version": {
-    "name": "1.0.3",
-    "code": 103
+    "name": "1.0.0",
+    "code": 100
   },
-  "description": "",
+  "description": "小巧灵活的免费图片裁剪工具",
   "launch_path": "__uniappview.html",
   "developer": {
     "name": "",

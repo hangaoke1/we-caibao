@@ -3,13 +3,22 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "裁宝"
+				"navigationBarTitleText": "小裁",
+        "app-plus": {
+          "titleNView": {
+            "buttons": [{
+              "text": "反馈",
+              "width": "80px",
+              "fontSize": "16px"
+            }]
+          }
+        }
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "裁宝",
+		"navigationBarTitleText": "小裁",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}
