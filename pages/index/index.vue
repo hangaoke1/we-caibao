@@ -19,18 +19,29 @@
     </swiper>
 
     <!-- 开奖/直播 -->
-    <view class="u-res">
-      <g-img width="444" height="160" src="/static/home/ai.png" @tap.native="goAi"></g-img>
-      <g-img width="250" height="160" src="/static/home/bifen.png" @tap.native="goLottery"></g-img>
+    <view class="u-race">
+      <view class="u-race-item" @tap="goLottery">
+        <text class="iconfont red-6" style="font-size: 80rpx;">&#xe600;</text>
+        <view class="u-race-info">
+          <view class="u-race-title">比赛开奖</view>
+          <view class="u-race-tip">赛事早知道</view>
+        </view>
+      </view>
+      <view class="u-race-item" @tap="goAi">
+        <text class="iconfont red-6" style="font-size: 66rpx;margin-top: -6rpx;">&#xe675;</text>
+        <view class="u-race-info">
+          <view class="u-race-title">比赛预测</view>
+          <view class="u-race-tip">AI智能分析</view>
+        </view>
+      </view>
     </view>
-
     <!-- 公告 -->
     <view class="u-notice">
-      <text class="iconfont gold-6 f-36">&#xe6f2;</text>
+      <view class="u-notice-icon"><text class="f-bold f-30 white-1">公告</text></view>
       <swiper
         class="u-notice-list"
         :vertical="true"
-        :autoplay="false"
+        :autoplay="autoplay"
         :circular="true"
         interval="2000"
       >
@@ -60,31 +71,43 @@
         </view>
       </view>
     </view>
-    
-    <view class="u-out-wrap" v-if="hotOrder">
-      <view class="u-title" @tap="goFollow">
-        <view><text class="f-36 grey-6 f-bold">跟热门 稳收米</text></view>
-        <view class="u-more">
-          <text class="f-36 grey-6">更多</text>
-          <text class="iconfont grey-6 f-36">&#xe60d;</text>
+
+    <view style="height: 30rpx;background-color: #f0f0f0;" v-if="hotOrder || PopularOrder"></view>
+    <!-- 热门订单 -->
+    <swiper
+      v-if="hotOrder || PopularOrder"
+      class="u-banner"
+      style="height: 500rpx;"
+      :indicator-dots="true"
+      :circular="true"
+      :autoplay="autoplay"
+      interval="4000"
+    >
+      <swiper-item v-if="hotOrder">
+        <view>
+          <view class="u-title red-6-bg" @tap="goFollow">
+            <view><text class="f-30 white-1">热门单</text></view>
+            <view class="u-more">
+              <text class="f-30 white-1">更多</text>
+              <text class="iconfont white-1 f-30">&#xe60d;</text>
+            </view>
+          </view>
+          <we-order :info="hotOrder"></we-order>
         </view>
-      </view>
-      <view class="u-wrap">
-        <we-order :info="hotOrder"></we-order>
-      </view>
-    </view>
-    <view class="u-out-wrap" v-if="PopularOrder">
-      <view class="u-title" @tap="goFollow">
-        <view><text class="f-36 grey-6 f-bold">跟大神 易中奖</text></view>
-        <view class="u-more">
-          <text class="f-36 grey-6">更多</text>
-          <text class="iconfont grey-6 f-36">&#xe60d;</text>
+      </swiper-item>
+      <swiper-item v-if="PopularOrder">
+        <view>
+          <view class="u-title gold-6-bg" @tap="goFollow">
+            <view><text class="f-30 white-1">人气单</text></view>
+            <view class="u-more">
+              <text class="f-30 white-1">更多</text>
+              <text class="iconfont white-1 f-30">&#xe60d;</text>
+            </view>
+          </view>
+          <we-order :info="PopularOrder"></we-order>
         </view>
-      </view>
-      <view class="u-wrap">
-        <we-order :info="PopularOrder"></we-order>
-      </view>
-    </view>
+      </swiper-item>
+    </swiper>
 
     <view class="u-dialog" v-if="show">
       <view class="u-mask" @tap="hideDialog()"></view>
@@ -108,7 +131,6 @@ import { get } from '@/storage/index.js';
 import gImg from '@/components/g-img/index.vue';
 import weOrder from './order.vue';
 import iconfontMixin from '../../mixins/iconfont.js';
-
 export default {
   mixins: [iconfontMixin],
   components: {
@@ -209,6 +231,9 @@ export default {
       uni.navigateTo({
         url: '/pages/lottery/lottery'
       });
+      // uni.navigateTo({
+      //   url: '/pages/test/test'
+      // });
     },
     // 获取热门列表
     getList() {
@@ -310,15 +335,30 @@ export default {
   width: 750rpx;
   height: 400rpx;
 }
-
-.u-res {
-  box-sizing: border-box;
+.u-race {
   width: 750rpx;
-  padding: 0 20rpx;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 40rpx;
+}
+.u-race-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.u-race-info {
+  margin-left: 10rpx;
+  display: flex;
+  flex-direction: column;
+}
+.u-race-title {
+  font-size: 30rpx;
+  color: #333333;
+}
+.u-race-tip {
+  font-size: 22rpx;
+  color: #999999;
 }
 
 .u-notice {
@@ -326,23 +366,25 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  box-sizing: border-box;
-  width: 700rpx;
-  margin-left: 25rpx;
-  padding: 0 20rpx;
-  background: #eee;
 }
-
+.u-notice-icon {
+  box-sizing: border-box;
+  padding: 10rpx 30rpx;
+  height: 60rpx;
+  background-color: @red-6;
+  display: flex;
+  .g-center();
+}
 .u-notice-list {
   box-sizing: border-box;
   flex: 1;
-  height: 80rpx;
+  height: 60rpx;
   border-top: 1rpx solid #f0f0f0;
   border-bottom: 1rpx solid #f0f0f0;
 }
 .u-notice-list-item {
   box-sizing: border-box;
-  height: 80rpx;
+  height: 60rpx;
   padding-left: 20rpx;
   display: flex;
   align-items: center;
@@ -390,7 +432,7 @@ export default {
 
 .u-title {
   box-sizing: border-box;
-  padding: 20rpx 0;
+  padding: 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -420,11 +462,5 @@ export default {
   left: 125rpx;
   top: 450rpx;
   border-radius: 20rpx;
-}
-.u-out-wrap {
-  padding: 20rpx;
-}
-.u-wrap {
-  border: 15rpx solid #eee;
 }
 </style>

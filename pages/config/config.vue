@@ -4,9 +4,7 @@
       <view class="u-form-item" style="margin-bottom: 60rpx;" @tap="chooseImg">
         <view class="u-form-item__label f-36">头像</view>
         <view class="u-form-item__content">
-          <div class="u-avatar">
-             <g-img :src="userInfo.avatar" defaultSrc="/static/portrait.png"></g-img>
-          </div>
+          <image class="u-avatar" :src="userInfo.avatar"></image>
           <text class="f-36 iconfont u-arrow">&#xe60d;</text>
         </view>
       </view>
@@ -65,7 +63,7 @@
         </view>
       </view>
     </view>
-    <view class="u-version">Powered by {{name}}@ (v{{version}})</view>
+    <view class="u-version">Powered by MiDou@ (v{{version}})</view>
 
     <button class="u-action" type="warn" @tap="logout">退出登录</button>
   </view>
@@ -76,16 +74,10 @@ import { set } from '@/storage';
 import { mapState, mapActions } from 'vuex';
 import { encryptMobile } from '@/util';
 import user from '@/api/user/index.js'
-import gImg from '@/components/g-img/index.vue';
-import config from '@/config';
 
 export default {
-  components: {
-    gImg
-  },
   data () {
     return {
-      name: config.name,
       version: ''
     }
   },

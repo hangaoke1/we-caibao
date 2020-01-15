@@ -17,7 +17,7 @@
       "path": "pages/follow/detail",
       "style": {
         "navigationBarTitleText": "大神详情",
-        "navigationBarBackgroundColor": "#f84847",
+        "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
     },
@@ -154,15 +154,14 @@
       "path": "pages/follow/follow",
       "style": {
         "navigationBarTitleText": "跟单大厅",
-        "navigationBarBackgroundColor": "#f94a49",
+        "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white",
         "app-plus": {
           "pullToRefresh": {
             "support": true,
             "style": "circle",
             "color": "#f5222d"
-          },
-          "titleNView": false
+          }
         }
       }
     }, {
@@ -183,7 +182,7 @@
             "searchInput": {
               "backgroundColor": "#F1F1F1",
               "borderRadius": "6px",
-              "placeholder": "请输入用户名 如：梅西",
+              "placeholder": "请输入用户名 如：米兜",
               "autoFocus": false,
               "align": "left"
             }
@@ -273,7 +272,7 @@
       "path": "pages/user/orderDetail",
       "style": {
         "navigationBarTitleText": "订单详情",
-        "navigationBarBackgroundColor": "#f84847",
+        "navigationBarBackgroundColor": "#f5222d",
         "navigationBarTextStyle": "white"
       }
     },
@@ -430,11 +429,9 @@
   ],
   "tabBar": {
     "color": "#929292",
-    "selectedColor": "#fc454d",
+    "selectedColor": "#FF9813",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
-    "fontSize": "12px",
-    "iconWidth": "30px",
     "list": [{
         "pagePath": "pages/index/index",
         "iconPath": "static/tabbar/synormal@2x.png",
@@ -464,7 +461,7 @@
   "globalStyle": {
     "navigationBarBackgroundColor": "#D42F2C",
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "",
+    "navigationBarTitleText": "米兜",
     "backgroundColor": "#F8F8F8",
     "app-plus": {
       "scrollIndicator": "none"

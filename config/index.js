@@ -1,5 +1,6 @@
 export default {
-  name: 'MiDian',
-  nameZh: '米店',
-  server: 'http://client.bbbhr.cn'
+  // #ifdef APP-PLUS
+  server: 'http://client.zcwy.vip'
+  // server: 'http://client.midou.live'
+  // #endif
 }

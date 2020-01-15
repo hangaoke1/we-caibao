@@ -1,20 +1,16 @@
 <template>
   <view class="u-order">
     <view class="u-banner">
-      <image class="u-banner-bg" src="/static/ds_top_bg.png"></image>
-      <view class="u-title f-40 white-1 f-bold">{{ info.lotteryName }}</view>
+      <view class="u-title f-30 white-1">{{ info.lotteryName }}</view>
     </view>
     <view class="u-info">
-       <image v-if="statusDesc === '中奖'" class="u-prize-icon" src="/static/icon_score_match_hit.png"></image>
-       <image v-if="statusDesc === '未中奖'" class="u-prize-icon" src="/static/icon_score_match_miss.png"></image>
- 
       <view class="u-info-item">
         <view class="f-26 red-6">{{ (info.schemeAmount || 0).toFixed(1) }}元</view>
         <view class="f-26 grey-6" style="margin-top: 10rpx;">订单金额</view>
       </view>
       <view class="u-info-item">
         <view class="f-26 red-6" v-if="['待出票', '出票成功'].includes(statusDesc)">---</view>
-        <view class="f-26 grey-6" v-if="statusDesc === '未中奖'">0.00元</view>
+        <view class="f-26 grey-6" v-if="statusDesc === '未中奖'">未中奖</view>
         <view class="f-26 red-6" v-if="statusDesc === '中奖'">
           {{ (info.pureSchemePrize || 0).toFixed(2) }}元
         </view>
@@ -24,6 +20,7 @@
       <view class="u-info-item" v-if="showCommendation && info.rewardAmount">
         <view class="f-26 red-6" v-if="['待出票', '出票成功', '未中奖'].includes(statusDesc)">---</view>
         <view class="f-26 red-6" v-if="statusDesc === '中奖'">
+          <!-- {{ (info.pureSchemePrize / 1.05 * 0.05 || 0).toFixed(2) }}元 -->
           {{ (info.rewardAmount || 0).toFixed(2) }}元
         </view>
         <view class="f-26 grey-6" style="margin-top: 10rpx;">平台活动</view>
@@ -98,49 +95,25 @@ export default {
 .u-order {
   min-height: 100vh;
   background: #f0f0f0;
-  overflow-x: hidden;
 }
 .u-banner {
-  position: relative;
   box-sizing: border-box;
   width: 750rpx;
-  height: 280rpx;
-}
-.u-banner-bg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.u-title {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  height: 240rpx;
+  background: @red-6;
+  padding: 40rpx;
 }
 .u-info {
-  position: relative;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   width: 665rpx;
   height: 144rpx;
   margin: 0 auto;
-  margin-top: 20rpx;
+  margin-top: -72rpx;
   background: #fff;
   border-radius: 12rpx;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 91, 0.18);
-}
-.u-prize-icon {
-  position: absolute;
-  right: -40rpx;
-  top: -30rpx;
-  width: 140rpx;
-  height: 126rpx;
-  transform: rotate(30deg);
 }
 .u-info-item {
   flex: 1;

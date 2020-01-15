@@ -5,7 +5,7 @@
     <view class="u-user" @tap="goUser">
       <!-- <image class="u-avatar" :src="info.avatar"></image> -->
       <div class="u-avatar">
-        <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
+        <g-img :src="info.avatar"></g-img>
       </div>
       <view class="u-info">
         <view class="u-info-item">
@@ -549,7 +549,6 @@ export default {
     this.fromOrder = options.fromOrder;
     this.statusDesc = options.statusDesc;
     this.schemeId = options.schemeId;
-    this.count = options.count || 10
   },
 
   onReady() {

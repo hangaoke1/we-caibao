@@ -1,0 +1,124 @@
+<template>
+  <view class="m-order">
+    <view class="u-header">
+      <view class="u-tab" v-for="(tab, index) in ['电影', '漫画', '小说']" :key="tab" @tap="activeIndex = index">
+        <text :class="{ 'z-active': activeIndex === index }">{{ tab }}</text>
+      </view>
+    </view>
+    <swiper style="flex: 1;" :current="activeIndex" @change="handleTabChange">
+      <swiper-item v-for="(item, tabIndex) in dataList" :key="tabIndex">
+        <weex-list class="u-list" :pageInit="item.pageInit" :ref="'weexList' + tabIndex" :active="tabIndex === activeIndex" @loadMore="loadMore(tabIndex, $event)">
+          <cell class="u-item" v-for="(newsItem, newsIndex) in item.list" :key="newsIndex">
+            <div>
+              <text>{{ tabIndex }} 文章标题 {{ newsItem.lotteryName }}</text>
+            </div>
+          </cell>
+        </weex-list>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>
+
+<script>
+import user from '@/api/user';
+import weexList from '@/components/weex-list/index.nvue';
+export default {
+  name: 'm-order',
+  components: {
+    weexList
+  },
+  data() {
+    return {
+      activeIndex: 0,
+      dataList: [
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        },
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        },
+        {
+          pageInit: {
+            pageNo: 0,
+            pageSize: 10
+          },
+          list: []
+        }
+      ]
+    };
+  },
+  mounted() {},
+  methods: {
+    handleTabChange(event) {
+      this.activeIndex = event.detail.current;
+    },
+    getList(tabIndex, opt) {
+      // console.log(tabIndex, opt.pageNo, opt.pageSize)
+      // 页面刷新
+      if (opt.refreshing) {
+        user
+          .queryMyScheme({
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo * 10
+          })
+          .then(res => {
+            this.dataList[tabIndex].list = res;
+            this.$refs['weexList' + tabIndex][0].endBySize(res.length);
+          }).catch(err => {
+            console.log(err)
+          });
+      } else {
+        user
+          .queryMyScheme({
+            type: 0,
+            fetchSize: opt.pageSize,
+            firstRow: opt.pageNo * 10
+          })
+          .then(res => {
+            this.dataList[tabIndex].list = [...this.dataList[tabIndex].list, ...res]
+            this.$refs['weexList' + tabIndex][0].endBySize(res.length);
+          }).catch(err => {
+            console.log(err)
+          });;
+      }
+    },
+    loadMore(tabIndex, opt) {
+      this.getList(tabIndex, opt);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+@import '~@/styles/var.less';
+.m-order {
+  flex: 1;
+}
+
+.u-header {
+  padding: 20rpx 24rpx;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.u-tab {
+  text-align: center;
+}
+
+.z-active {
+  color: @red-6;
+}
+
+.u-item {
+  padding: 20px;
+}
+</style>

@@ -18,12 +18,12 @@
       <g-td col="150" padding="0">
         <view class="u-td-wrap" style="flex-direction: column;">
           <text class="f-30 iconfont" :class="[match.matchId ? 'red-6': 'grey-1']"  @tap="goH5(match)">&#xe609;</text>
-          <text class="f-24">{{ fmtWeek(match.issue) }}{{ match.teamId }}</text>
+          <text class="f-24" v-if="match.teamId">{{ fmtWeek(match.issue) }}{{ match.teamId }}</text>
           <text class="f-24">{{ match.matchTime.split(' ')[0].slice(-5) }}</text>
           <text class="f-24">{{ match.matchTime.split(' ')[1].slice(0, 5) }}</text>
         </view>
       </g-td>
-      <g-td col="240" padding="0">
+     <g-td col="240" padding="0">
         <view class="u-td-wrap" style="flex-direction: column;">
           <text class="f-24">{{ match.hostName }}</text>
           <text class="f-24 red-6">vs</text>
@@ -39,17 +39,17 @@
             :class="{ 'red-6': isHit(choose, match) }"
           >
             {{ [403, 401, 400].includes(choose) ? '(' + match.rate + ')' : ''
-            }}{{ jczqMap[choose].name }}[{{ match.odds[index] }}]
+            }}{{ jczqMap[choose].name }}[{{ match.odds[index] || '-' }}]
           </text>
         </view>
         <view class="u-td-wrap" style="flex-direction: column;" v-else>
-          <!-- <text class="f-24">未开始</text> -->
           <text class="iconfont f-24 grey-6">&#xe6ad;</text>
         </view>
       </g-td>
       <g-td col="120" padding="0">
         <view class="u-td-wrap" style="flex-direction: column;">
-          <template v-if="match.bingo !== '-1'">
+          <text v-if="!match.teamId" class="f-24">比赛取消</text>
+          <template v-else-if="match.bingo !== '-1'">
             <text class="f-24 red-6" v-for="bingo in match.bingos" :key="bingo.name">
               {{ bingo.value }}
             </text>
@@ -84,7 +84,7 @@ export default {
     }
   },
   mounted() {
-    // console.log(JSON.stringify(this.matches))
+    // console.log('>>>>', JSON.stringify(this.matches))
   },
   methods: {
     goH5(match) {
@@ -104,6 +104,7 @@ export default {
       return map[dayjs(date).day()];
     },
     isHit(choose, item) {
+      if (!item.teamId) { return false }
       const results = item.bingos.map(bingo => bingo.value);
       const chooseName = this.jczqMap[choose].name;
       return results.includes(chooseName);

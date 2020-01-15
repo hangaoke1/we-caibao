@@ -69,7 +69,7 @@
         <g-td padding="0" col="150">
           <view class="u-td-wrap">
             <text class="f-30 iconfont" :class="[item.matchId ? 'red-6': 'grey-1']" @tap="goH5(item)">&#xe609;</text>
-            <text class="f-24">{{ fmtWeek(item.issue) }}{{ item.teamId }}</text>
+            <text class="f-24" v-if="item.teamId">{{ fmtWeek(item.issue) }}{{ item.teamId }}</text>
             <text class="f-24">{{ item.matchTime.split(' ')[0].slice(-5) }}</text>
             <text class="f-24">{{ item.matchTime.split(' ')[1] }}</text>
           </view>
@@ -86,14 +86,15 @@
             <view v-for="(choose, index) in item.choose" :key="choose">
               <text class="f-24" :class="{'red-6': isHit(choose, item) }">
                 {{ [403, 401, 400].includes(choose) ? '(' + item.rate + ')' : ''
-                }}{{ map[choose].name }}[{{ item.odds[index] }}]
+                }}{{ map[choose].name }}[{{ item.odds[index] || '-' }}]
               </text>
             </view>
           </view>
         </g-td>
         <g-td padding="0" col="120">
           <view class="u-td-wrap">
-            <template v-if="item.bingo !== '-1'">
+            <text v-if="!item.teamId" class="f-24">比赛取消</text>
+            <template v-else-if="item.bingo !== '-1'">
               <text class="f-24 red-6" v-for="bingo in item.bingos" :key="bingo.name">
                 {{ bingo.value }}
               </text>
@@ -142,6 +143,7 @@ export default {
       openUrl({url});
     },
     isHit (choose, item) {
+      if (!item.teamId) { return false }
       const results = item.bingos.map(bingo => bingo.value);
       const chooseName = this.map[choose].name;
       return results.includes(chooseName);

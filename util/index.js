@@ -1,9 +1,8 @@
 /**
  * 打开h5
  */
-import config from '@/config'
 export const openUrl = function(params) {
-  const {url, titletext = config.nameZh, showAction = true, showTitle = true, needRedirect = false} =  params;
+  const {url, titletext = '米兜', showAction = true, showTitle = true, needRedirect = false} =  params;
   const info = uni.getSystemInfoSync()
   const gifRatio = 658 / 494
   const width = info.windowWidth
