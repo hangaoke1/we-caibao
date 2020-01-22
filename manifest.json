@@ -2,8 +2,8 @@
     "name" : "米宝",
     "appid" : "__UNI__A9D6471",
     "description" : "小巧灵活的免费图片裁剪工具",
-    "versionName" : "1.0.0",
-    "versionCode" : 100,
+    "versionName" : "1.0.1",
+    "versionCode" : 101,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : "10000"

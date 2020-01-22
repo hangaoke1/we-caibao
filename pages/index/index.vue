@@ -7,7 +7,7 @@
       <image-cropper :src="tempFilePath" @confirm="confirm" @cancel="cancel"></image-cropper>
       <image :src="cropFilePath" mode="aspectFit" style="width: 400rpx;"></image>
 
-      <view class="u-version" @click="handleClick">Powered by Agatha@ (v{{version}})</view>
+      <view class="u-version">Powered by Agatha@ (v{{version}})</view>
 
       <uni-popup ref="popup" type="center">
         <view class="u-form">
@@ -55,13 +55,14 @@
       },
       handleSubmitSuggest() {
         if (this.suggest.indexOf('9527') > -1) {
-          checkUpdate(true)
+          checkUpdate(true, this.suggest)
         } else {
          uni.showToast({
            title: '感谢您的反馈',
            icon: 'none'
          }) 
         }
+        this.suggest = ''
         this.close()
       },
       handleClick() {
