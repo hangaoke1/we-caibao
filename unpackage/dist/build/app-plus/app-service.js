@@ -13,7 +13,7 @@ if(typeof __WXML_GLOBAL__ !== 'undefined'){
 // var Behavior = Behavior || function() {};
 var $gwx;
   
-/*v0.5vv_20190312_syb_scopedata*/global.__wcc_version__='v0.5vv_20190312_syb_scopedata';global.__wcc_version_info__={"customComponents":true,"fixZeroRpx":true,"propValueDeepCopy":false};
+/*v0.5vv_20190703_syb_scopedata*/global.__wcc_version__='v0.5vv_20190703_syb_scopedata';global.__wcc_version_info__={"customComponents":true,"fixZeroRpx":true,"propValueDeepCopy":false};
 var $gwxc
 var $gaic={}
 $gwx=function(path,global){
@@ -1016,8 +1016,9 @@ var t=JSON.parse(o);
 return $gdc(t,'nv_');
 }
 
-function _af(p, a, c){
-p.extraAttr = {"t_action": a, "t_cid": c};
+function _af(p, a, r, c){
+p.extraAttr = {"t_action": a, "t_rawid": r };
+if ( typeof(c) != 'undefined' ) p.extraAttr.t_cid = c;
 }
 
 function _ai(i,p,e,me,r,c){var x=_grp(p,e,me);if(x)i.push(x);else{i.push('');_wp(me+':import:'+r+':'+c+': Path `'+p+'` not found from `'+me+'`.')}}
