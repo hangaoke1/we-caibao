@@ -11,7 +11,7 @@
         <cell class="u-item" v-for="item in hotSearchRecommendor" :key="item.userId" @tap="goDashen(item.userId)">
           <view class="u-item-content">
             <view class="u-user">
-               <g-img width="80" height="80" radius="80" :src="item.avatar"></g-img>
+               <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
                <view class="u-hotcount" v-if="item.hotCount"><text class="f-22 white-1">{{item.hotCount}}</text></view>
             </view>
             <text class="u-name f-30 lines-1">{{item.userName}}</text>
@@ -27,7 +27,7 @@
         <cell class="u-item" v-for="item in list" :key="item.userId"  @tap="goDashen(item.userId)">
           <view class="u-item-content">
             <view class="u-user">
-               <g-img width="80" height="80" radius="80" :src="item.avatar"></g-img>
+               <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
                <view class="u-hotcount" v-if="item.hotCount"><text class="f-22 white-1">{{item.hotCount}}</text></view>
             </view>
             <text class="u-name f-30 lines-1">{{item.userName}}</text>

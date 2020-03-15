@@ -11,7 +11,8 @@
         </view>
       </view>
       
-      <button class="u-action" type="warn" @tap="doBinding()">确认绑定</button>
+      <button v-if="!hasBind" class="u-action" type="warn" @tap="doBinding()">确认绑定</button>
+      <button v-else class="u-action" type="warn" @tap="doBinding()">确认修改</button>
     </view>
 	</view>
 </template>
@@ -25,6 +26,17 @@
 				alipay: ''
 			};
 		},
+    computed: {
+      ...mapState({
+        userInfo: state => state.userInfo
+      }),
+      hasBind() {
+        return !!this.userInfo.aliPay
+      }
+    },
+    mounted () {
+      this.alipay = this.userInfo.aliPay
+    },
     methods: {
       ...mapActions({
         updateUserInfo: 'updateUserInfo',

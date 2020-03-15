@@ -7,8 +7,8 @@
   "id": "__UNI__A9D6471",
   "name": "米宝",
   "version": {
-    "name": "1.0.0",
-    "code": 100
+    "name": "4.0.2",
+    "code": 402
   },
   "description": "小巧灵活的免费图片裁剪工具",
   "launch_path": "__uniappview.html",
@@ -174,9 +174,11 @@
     },
     "tabBar": {
       "color": "#929292",
-      "selectedColor": "#FF9813",
+      "selectedColor": "#fc454d",
       "borderStyle": "rgba(0,0,0,0.4)",
       "backgroundColor": "#ffffff",
+      "fontSize": "12px",
+      "iconWidth": "30px",
       "list": [
         {
           "pagePath": "pages/index/index",

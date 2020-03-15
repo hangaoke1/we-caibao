@@ -2,15 +2,14 @@
   <view class="u-order">
     <view class="u-header">
       <view class="u-user" @tap="goDashen">
-        <!-- <image class="u-avatar" :src="info.avatar"></image> -->
         <div class="u-avatar">
-          <g-img :src="info.avatar"></g-img>
+          <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
         </div>
         <text class="u-name f-30 lines-1">{{info.userName}}</text>
       </view>
       <view class="u-hot">
         <text class="f-30" style="margin-right: 10rpx;">人气</text>
-        <text class="iconfont red-6 f-28" v-for="item in hotCount" :key="item">&#xe6c2;</text>
+        <g-img width="35" height="35" src="/static/icon_hot_topic.png" v-for="item in hotCount" :key="item"></g-img>
       </view>
     </view>
     <view class="u-content" @click="goOrder">
@@ -33,9 +32,12 @@
           </view>
         </view>
       </view>
-      <view class="u-action">
-        <text class="f-36 white-1">跟单</text>
+    </view>
+    <view class="u-bottom">
+      <view class="u-count">
+        <view class="u-count-item" :class="{'u-active': item === count}" v-for="item in list" :key="item" @click="selectCount(item)">{{item}}倍</view>
       </view>
+      <view class="u-buy" @click="goOrder">立即下单</view>
     </view>
   </view>
 </template>
@@ -50,12 +52,21 @@ export default {
   components: {
     gImg
   },
+  data () {
+    return {
+      list: [10, 20, 50, 100],
+      count: 10
+    }
+  },
   computed: {
     hotCount () {
       return Number(this.info.starCount)
     },
   },
   methods: {
+    selectCount (c) {
+      this.count = c
+    },
     goDashen() {
       uni.navigateTo({
         url: '/pages/follow/detail?id=' + this.info.userId
@@ -63,7 +74,7 @@ export default {
     },
     goOrder() {
       uni.navigateTo({
-        url: '/pages/case/case?id=' + this.info.schemeId
+        url: `/pages/case/case?id=${this.info.schemeId}&count=${this.count}`
       });
     },
   }
@@ -75,7 +86,7 @@ export default {
 .u-order {
   box-sizing: border-box;
   padding: 30rpx;
-  height: 400rpx;
+  height: 460rpx;
 }
 .u-header {
   display: flex;
@@ -114,7 +125,7 @@ export default {
 
 .u-table {
   box-sizing: border-box;
-  width: 500rpx;
+  width: 640rpx;
   border-top: 1rpx solid #ccc;
   border-left: 1rpx solid #ccc;
 }
@@ -131,5 +142,46 @@ export default {
   display: flex;
   flex-direction: column;
   .g-center();
+}
+
+.u-bottom {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.u-count {
+  display: flex;
+  align-items: center;
+  border: 2rpx solid #eee;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+}
+.u-count-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  width: 110rpx;
+  color: @grey-6;
+  border-right: 2rpx solid #eee;
+  &:nth-last-of-type(1) {
+    border-right: none;
+  }
+}
+
+.u-buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  width: 150rpx;
+  font-size: 30rpx;
+  background: @red-6;
+  color: #fff;
+  border-radius: 10rpx;
+}
+.u-active {
+  color: @red-6;
 }
 </style>

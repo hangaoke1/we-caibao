@@ -1,11 +1,10 @@
 <template>
   <!-- 大神详情 -->
   <view class="u-detail">
-    <image style="width: 750rpx;height: 350rpx;" src="/static/dashen.jpeg"></image>
+    <image style="width: 750rpx;height: 350rpx;" src="/static/ds_top_bg.png"></image>
     <view class="u-info">
-      <!-- <image class="u-avatar" :src="homeInfo.avatar"></image> -->
       <div class="u-avatar">
-        <g-img :src="homeInfo.avatar"></g-img>
+        <g-img :src="homeInfo.avatar" defaultSrc="/static/portrait.png"></g-img>
       </div>
       <view class="u-msg">
         <text class="f-28 white-1 f-bold" style="margin-bottom: 10rpx;">

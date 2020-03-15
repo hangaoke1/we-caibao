@@ -67,6 +67,7 @@ export default {
         icon: 'loading'
       });
       apiAuth.login(this.form).then(res => {
+        console.log('>>> 登录', res)
         uni.hideToast();
         set('SESSION', res.clientUserSession);
         set('ACCOUNT', this.form.username)

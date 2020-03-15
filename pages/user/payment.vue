@@ -121,6 +121,7 @@ export default {
         P_RequestType
       })
         .then(res => {
+          console.log('>>> 支付链接', res)
           this.loading = false;
           uni.hideLoading();
           const payH5 = res.url;

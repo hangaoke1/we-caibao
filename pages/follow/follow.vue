@@ -1,5 +1,48 @@
 <template>
   <view class="u-follow">
+    <view class="u-navbar">
+      <image class="u-navbar-bg" src="/static/bg_god_list_win_toolbar.png"></image>
+    </view>
+    <view class="u-rank">
+      <view class="u-focus white-1 f-32 f-bold" @click="goMyFocus">关注</view>
+      <image class="u-rank-bg" src="/static/bg_god_list_win_head.png"></image>
+      <view class="u-one" v-if="hotRecommendor[0]" @click="goDashen(hotRecommendor[0].userId)">
+        <image src="/static/icon_crown_1.png" class="u-rank-icon"></image>
+        <div class="u-avatar" style="margin-bottom: 2rpx;">
+          <g-img :src="hotRecommendor[0].avatar" defaultSrc="/static/portrait.png"></g-img>
+        </div>
+        <view class="lines-1">
+          <text class="f-26 white-1 f-bold">{{ hotRecommendor[0].userName }}</text>
+        </view>
+        <view class="u-rank-combo">
+          <text class="f-26" style="color: #9b5111;">{{hotRecommendor[0].continueRedCount}}连红</text>
+        </view>
+      </view>
+      <view class="u-two" v-if="hotRecommendor[1]" @click="goDashen(hotRecommendor[1].userId)">
+        <image src="/static/icon_crown_2.png" class="u-rank-icon"></image>
+        <div class="u-avatar" style="margin-bottom: 2rpx;">
+          <g-img :src="hotRecommendor[1].avatar" defaultSrc="/static/portrait.png"></g-img>
+        </div>
+        <view class="lines-1">
+          <text class="f-26 white-1 f-bold">{{ hotRecommendor[1].userName }}</text>
+        </view>
+        <view class="u-rank-combo">
+          <text class="f-26" style="color: #9b5111;">{{hotRecommendor[1].continueRedCount}}连红</text>
+        </view>
+      </view>
+      <view class="u-three" v-if="hotRecommendor[2]" @click="goDashen(hotRecommendor[2].userId)">
+        <image src="/static/icon_crown_3.png" class="u-rank-icon"></image>
+        <div class="u-avatar" style="margin-bottom: 2rpx;">
+          <g-img :src="hotRecommendor[2].avatar" defaultSrc="/static/portrait.png"></g-img>
+        </div>
+        <view class="lines-1">
+          <text class="f-26 white-1 f-bold">{{ hotRecommendor[2].userName }}</text>
+        </view>
+        <view class="u-rank-combo">
+          <text class="f-26" style="color: #9b5111;">{{hotRecommendor[2].continueRedCount}}连红</text>
+        </view>
+      </view>
+    </view>
     <!-- 标题 -->
     <view class="u-title">
       <text class="red-6 f-34">大神推荐</text>
@@ -10,9 +53,8 @@
     <view class="u-dashen-list">
       <view class="u-dashen-item" v-for="item in hotRecommendor" :key="item.userId" @click="goDashen(item.userId)">
         <view>
-          <!-- <image class="u-avatar" :src="item.avatar"></image> -->
           <div class="u-avatar">
-            <g-img :src="item.avatar"></g-img>
+            <g-img :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
           </div>
         </view>
         <view class="lines-1">
@@ -30,7 +72,7 @@
     
     <!-- 标题 -->
     <view class="u-title">
-      <text class="red-6 f-34">我的关注</text>
+      <text class="red-6 f-34">近期关注</text>
       <view class="u-go"><text class="iconfont" style="font-size: 36rpx;color: #ccc;opacity: 0;">&#xe60b;</text></view>
     </view>
     
@@ -38,9 +80,8 @@
     <view class="u-dashen-list">
       <view class="u-dashen-item" v-for="item in focusList" :key="item.userId" @click="goDashen(item.userId)">
         <view>
-          <!-- <image class="u-avatar" :src="item.avatar"></image> -->
           <div class="u-avatar">
-            <g-img :src="item.avatar"></g-img>
+            <g-img :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
           </div>
         </view>
         <view class="lines-1">
@@ -52,14 +93,6 @@
         <view class="u-combo" v-if="item.continueRedCount">
           <view class="u-combo-left f-20 white-1">{{ item.continueRedCount }}</view>
           <view class="u-combo-right f-20">连红</view>
-        </view>
-      </view>
-      <view class="u-dashen-item" @tap="goMyFocus">
-        <view>
-          <image class="u-avatar-more" src="/static/more.png"></image>
-        </view>
-        <view class="lines-1">
-          <text class="f-26" style="opacity: 0;">更多</text>
         </view>
       </view>
     </view>
@@ -184,7 +217,7 @@ export default {
     // 我的关注
     getMyCarePerson () {
       return lottery.getMyCarePerson().then(res => {
-        this.focusList = res.result.slice(0, 3);
+        this.focusList = res.result.slice(0, 4);
       });
     },
     goSearch() {
@@ -224,6 +257,7 @@ export default {
         setTimeout(() => {
           tab.loading = false;
         }, 1000);
+        return
       }
 
       tab.loading = true;
@@ -233,7 +267,6 @@ export default {
         firstRow: tab.pageNo,
         type: this.activeIndex === 0 ? 7 : 8
       };
-      console.log(params)
       lottery
         .getCopyListNew(params)
         .then(res => {
@@ -259,6 +292,9 @@ export default {
   onShow() {
     this.getDashen()
     this.getMyCarePerson()
+  },
+  onNavigationBarButtonTap() {
+    this.goMyFocus()
   }
 };
 </script>
@@ -271,6 +307,92 @@ export default {
   background-color: #f0f0f0;
 }
 
+.u-navbar {
+  position: relative;
+  width: 750rpx;
+  height: 128rpx;
+}
+
+.u-navbar-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.u-focus {
+  position: absolute;
+  right: 20rpx;
+  top: -30rpx;
+  z-index: 10;
+}
+
+.u-rank {
+  position: relative;
+  width: 750rpx;
+  height: 400rpx;
+  background-color: #fff;
+}
+.u-rank-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.u-rank-combo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120rpx;
+  height: 40rpx;
+  border-radius: 20rpx;
+  background-color: #ffd6b5;
+}
+
+.u-one {
+  position: absolute;
+  left: 300rpx;
+  top: 20rpx;
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+.u-two {
+  position: absolute;
+  left: 80rpx;
+  top: 50rpx;
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+.u-three {
+  position: absolute;
+  left: 530rpx;
+  top: 50rpx;
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+.u-rank-icon {
+  position: absolute;
+  left: 6rpx;
+  top: -20rpx;
+  width: 50rpx;
+  height: 50rpx;
+  transform: rotate(-15deg);
+  z-index: 2;
+}
 .u-title {
   display: flex;
   justify-content: space-between;
@@ -322,7 +444,6 @@ export default {
   width: 30rpx;
   height: 30rpx;
   border-radius: 30rpx;
-  // background-color: #e3423a;
   background-color: red;
   display: flex;
   .g-center();

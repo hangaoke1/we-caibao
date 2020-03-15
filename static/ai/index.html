@@ -16,7 +16,7 @@
 
 <div class="tool">
 	<a class="fanhui"><img src="./static/fanhui.png" width="30"></a>
-	<div class="title">米兜预测系统</div>
+	<div class="title">米店预测系统</div>
 	<a class="video"></a>
 </div>
 
@@ -83,7 +83,7 @@ $(window).scroll(function(){
 
 //请求数据
 $.ajax({
-	url:"http://api.anyong.pw/data/ai_yuce",
+	url:"http://client.zcwy.vip/user/ai_app.htm",
 	type:"post",
 	data:{},
 	dataType:"json",
@@ -103,14 +103,30 @@ $.ajax({
 	}
 });
 
+tpl('', "#today_list");
+
 function tpl(data,obj){
 
 	var html="";
 
 	var resArr=["负","平","","胜"];
+  
+  // data = [{
+  //   result: '', // 赛果：0负 1平 3胜
+  //   cell: {
+  //     probability: '60',
+  //     predict_result: 0, // 预测：0负 1平 3胜
+  //     predict_reback: '', // 未知
+  //   },
+  //   order: '', // 未知
+  //   simpleleague: '', //未知
+  //   matchtime: '12:00:00',
+  //   homesxname: '热刺',
+  //   awaysxname: '皇马'
+  // }]
 
 	if(data){
-
+ 
 	data.forEach(function(e){
 
 		var c="r1";
@@ -140,9 +156,7 @@ function tpl(data,obj){
 		}
 
 		if(e.result){
-
 			res=e.result==e.cell.predict_result?'zj':'wzj';
-
 		}
 
 		html+='<div class="item"><div class="rate '+c+'"><div class="mask"><span class="t1">'+w+'%</span><span class="t2">'+resArr[e.cell.predict_result]+'  '+e.cell.predict_reback+'</span></div></div><div class="inner"><h2 class="title">'+e.homesxname+'VS'+e.awaysxname+'</h2><p>'+e.order+'&nbsp;&nbsp;'+e.simpleleague+'</p><p>开赛:'+e.matchtime+'</p></div><span class="res '+res+'"></span></div>';

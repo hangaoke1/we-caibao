@@ -33,7 +33,7 @@
       <view class="u-action" @tap="hanldeRegister"><text class="u-action-text">立即注册</text></view>
       <view class="u-tip">
         <text class="u-tip-text">*注册即代表您同意</text>
-        <text class="u-tip-text u-agreement">《米兜用户协议》</text>
+        <text class="u-tip-text u-agreement">《{{name}}用户协议》</text>
       </view>
       <view class="g-center" style="display: flex;margin-top: 10rpx;">
         <text class="f-24 blue-6" @click="goLogin">已有账号，前往登录</text>
@@ -45,10 +45,12 @@
 <script>
 import apiAuth from '@/api/auth/index.js';
 import { set } from '@/storage/index.js';
+import config from '@/config';
 
 export default {
   data() {
     return {
+      name: config.nameZh,
       // 倒计时
       count: 60,
       countdown: false,

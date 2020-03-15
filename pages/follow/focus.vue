@@ -7,7 +7,7 @@
         <view class="u-header">
           <!-- <image class="u-avatar" :src="item.avatar"></image> -->
           <div class="u-avatar">
-            <g-img :src="item.avatar"></g-img>
+            <g-img :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
           </div>
           <!-- 热门跟单 -->
           <view class="u-hotcount" v-if="item.hotCount">

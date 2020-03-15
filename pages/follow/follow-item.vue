@@ -4,7 +4,7 @@
       <view class="u-user" @tap="goDashen">
         <!-- <image class="u-avatar" :src="info.avatar" alt="" /> -->
         <div class="u-avatar">
-          <g-img :src="info.avatar"></g-img>
+          <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
         </div>
         <view class="lines-1">
           <text class="f-30">{{ info.userName }}</text>

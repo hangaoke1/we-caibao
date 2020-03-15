@@ -1,6 +1,5 @@
 export default {
-  // #ifdef APP-PLUS
+  name: 'Mibao',
+  nameZh: '米宝',
   server: 'http://client.zcwy.vip'
-  // server: 'http://client.midou.live'
-  // #endif
 }
