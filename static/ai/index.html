@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
 <link rel="stylesheet" type="text/css" href="static/app.css">
 <script type="text/javascript" src="static/uni.webview.1.5.1.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 </head>
 <style type="text/css">
   .wbe_title {
@@ -95,8 +96,8 @@ $.ajax({
  		});
      },
 	success(res){
-		tpl(res.data.t.data.matches,"#today_list");
-		tpl(res.data.h.data.matches,"#today_hisy");
+		tpl(res.t.data.matches,"#today_list");
+		tpl(res.h.data.matches,"#today_hisy");
 	},
 	complete(){
 		layer.closeAll();
@@ -159,7 +160,7 @@ function tpl(data,obj){
 			res=e.result==e.cell.predict_result?'zj':'wzj';
 		}
 
-		html+='<div class="item"><div class="rate '+c+'"><div class="mask"><span class="t1">'+w+'%</span><span class="t2">'+resArr[e.cell.predict_result]+'  '+e.cell.predict_reback+'</span></div></div><div class="inner"><h2 class="title">'+e.homesxname+'VS'+e.awaysxname+'</h2><p>'+e.order+'&nbsp;&nbsp;'+e.simpleleague+'</p><p>开赛:'+e.matchtime+'</p></div><span class="res '+res+'"></span></div>';
+		html+='<div class="item"><div class="rate '+c+'"><div class="mask"><span class="t1">'+w+'%</span><span class="t2">'+resArr[e.cell.predict_result]+'  '+e.cell.predict_reback+'</span></div></div><div class="inner"><h2 class="title">'+e.homesxname+'VS'+e.awaysxname+'</h2><p>'+e.order+'&nbsp;&nbsp;'+e.simpleleague+'</p><p>开赛: '+dayjs(e.matchtime).format('MM-DD HH:mm:ss')+'</p></div><span class="res '+res+'"></span></div>';
 
 	});
 

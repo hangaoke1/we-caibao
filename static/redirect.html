@@ -45,7 +45,7 @@
       if (url === 'https://live.m.500.com/home/zq/jczq/cur?render=local') {
         embed.setCssFile('_www/static/rmad.css');
       }
-      if(url === 'http://m.js11x5.icaile.com/chart/') {
+      if(url.indexOf('m.chart.icaile.com') > -1) {
         embed.setCssFile('_www/static/rmad11x5.css'); 
       }
       embed.addEventListener('close', () => {

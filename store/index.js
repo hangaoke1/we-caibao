@@ -18,9 +18,13 @@ const store = new Vuex.Store({
     // 财产信息
     balanceInfo: {},
     // 竞猜篮球
-    jclq: '',
+    jclq: {
+      dataList: []
+    },
     // 竞猜足球
-    jczq: '',
+    jczq: {
+      data: []
+    },
     // 胜负彩
     toto14: '',
     // 任选9
@@ -52,7 +56,9 @@ const store = new Vuex.Store({
     /* ----- 足球开始 ----- */
     // 清空足球内容
     emptyJczq(state) {
-      state.jczq = ''
+      state.jczq = {
+        data: []
+      }
     },
     // 刷竞猜足球
     updateJczq(state, data) {
@@ -83,7 +89,9 @@ const store = new Vuex.Store({
     /* ----- 篮球开始 ----- */
     // 清空篮球内容
     emptyJclq(state) {
-      state.jclq = ''
+      state.jclq = {
+        dataList: []
+      }
     },
     // 刷竞猜篮球
     updateJclq(state, data) {

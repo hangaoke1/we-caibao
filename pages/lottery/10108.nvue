@@ -1,5 +1,5 @@
 <template>
-  <!-- 江苏11选5 -->
+  <!-- 山东11选5 -->
   <list class="u-10108">
     <cell v-for="(item, index) in list" :key="index">
       <view class="u-item">

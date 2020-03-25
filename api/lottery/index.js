@@ -42,7 +42,7 @@ export default {
   getIssueNotifyCtzq: param => api.get('/lottery/issue_notify_ctzq.htm', param),
   // 立即发单 do_copy_publish
   doCopyPublish: param => api.get('/lottery/do_copy_publish.htm', param),
-  // 江苏11选5
+  // 山东11选5
   queryCurIssue: param => api.get('/lottery/query_cur_issue.htm', param),
   // 胜平负 /lottery/toto14.htm
   queryToTo14: param => api.get('/lottery/toto14.htm', param),

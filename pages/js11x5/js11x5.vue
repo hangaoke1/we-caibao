@@ -207,7 +207,7 @@ export default {
     },
     // 剩余期数
     remain () {
-      return 41 - Number(this.pre)
+      return 43 - Number(this.pre)
     },
     // 判断是否是任选1-8
     isRenxuan() {
@@ -625,7 +625,7 @@ export default {
   },
   onNavigationBarButtonTap() {
     openUrl({
-      url: 'http://m.js11x5.icaile.com/chart/',
+      url: 'https://m.chart.icaile.com/chart/sd/fbzs.html',
       needRedirect: true
     })
   }

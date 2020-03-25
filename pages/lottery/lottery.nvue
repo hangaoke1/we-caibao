@@ -46,7 +46,7 @@
                 <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">{{text}} </text>
               </view>
             </view>
-            <!-- 江苏11选5 -->
+            <!-- 山东11选5 -->
             <view v-if="item.lotteryId == 10108" class="u-result">
               <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item">
                 <text class="f-30 white-1">{{item}}</text>
@@ -119,7 +119,7 @@
           10040: '任选9场',
           10058: '竞彩篮球',
           10059: '竞彩足球',
-          10108: '江苏11选5'
+          10108: '山东11选5'
         }
         this.drawList = res.drawList.filter(item => !!lotteryMap[item.lotteryId]);
       })

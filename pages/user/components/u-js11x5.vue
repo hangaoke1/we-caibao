@@ -1,5 +1,5 @@
 <template>
-  <!-- 江苏11选5 注意改成多选时候需要调整！！！ -->
+  <!-- 山东11选5 注意改成多选时候需要调整！！！ -->
   <view class="u-js">
     <view class="u-section">
       <view class="u-title">
