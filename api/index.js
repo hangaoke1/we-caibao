@@ -54,6 +54,11 @@ export default function axios(opts) {
       // data为一个数组，数组第一项为错误信息，第二项为返回数据
       const [error, res] = data;
       if (error) {
+        uni.showToast({
+          title: '网络异常,请重试',
+          duration: 2000,
+          icon: 'none'
+        });
         throw new Error(error.message)
       } else {
         const data = _.get(res, 'data', {})

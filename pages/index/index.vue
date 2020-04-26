@@ -108,7 +108,6 @@ import { get } from '@/storage/index.js';
 import gImg from '@/components/g-img/index.vue';
 import weOrder from './order.vue';
 import iconfontMixin from '../../mixins/iconfont.js';
-
 export default {
   mixins: [iconfontMixin],
   components: {

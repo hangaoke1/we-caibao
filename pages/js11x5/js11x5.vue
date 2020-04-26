@@ -1,5 +1,5 @@
 <template>
-  <view class="u-js">
+  <view class="u-js" @touchend.stop.prevent>
     <view class="u-title">
       <text class="f-30">{{current}}期投注截止还有</text>
       <g-countdown :time="info.remainTime" v-if="info.remainTime"></g-countdown>
@@ -93,7 +93,8 @@
         <text class="f-22 blue-6">{{ infoMap[type].intro }}</text>
       </view>
 
-      <view class="u-prize f-26 red-6">中奖：{{ infoMap[type].prize }}元</view>
+      <view class="u-prize f-26 red-6">单注奖金：{{ infoMap[type].prize }}元</view>
+      <view class="u-prize f-26 red-6">预测最高奖金：{{ prize }}元</view>
     </view>
 
     <view class="u-bottom">
@@ -120,6 +121,8 @@ import _ from 'lodash';
 import lottery from '@/api/lottery/index.js'
 import gCountdown from '@/components/g-countdown/index.vue';
 import { openUrl } from '@/util/index.js';
+import { get11x5Prize } from '@/lib/11x5_prize.js'
+
 function factorialize(num) {
   var result = 1;
   for (var i = 1; i <= num; i++) {
@@ -195,6 +198,59 @@ export default {
     };
   },
   computed: {
+    // 预测奖金
+    prize() {
+      const type = this.type
+      const choose = this.chooseList
+      // 任选1
+      if (type === 'onePoly') {
+        return get11x5Prize('1', choose)
+      }
+      // 任选2
+      if (type === 'twoPoly') {
+        return get11x5Prize('2', choose)
+      }
+      // 任选3
+      if (type === 'threePoly') {
+        return get11x5Prize('3', choose)
+      }
+      // 任选4
+      if (type === 'fourPoly') {
+        return get11x5Prize('4', choose)
+      }
+      //任选5
+      if (type === 'fivePoly') {
+        return get11x5Prize('5', choose)
+      }
+      // 任选6
+      if (type === 'sixPoly') {
+        return get11x5Prize('6', choose)
+      }
+      // 任选7
+      if (type === 'sevenPoly') {
+        return get11x5Prize('7', choose)
+      }
+      // 任选8
+      if (type === 'eightPoly') {
+        return get11x5Prize('8', choose)
+      }
+      // 前二直选
+      if (type === 'twoDirect') {
+        return 130
+      }
+      // 前三直选
+      if (type === 'threeDirect') {
+        return 1170
+      }
+      // 前二组选
+      if (type === 'twoGroupPoly') {
+        return 65
+      }
+      // 前三组选
+      if (type === 'threeGroupPoly') {
+        return 195
+      }
+    },
     // 当前期数
     current () {
       const issue = this.info.issue;
