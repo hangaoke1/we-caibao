@@ -52,6 +52,10 @@
     export default {
         name: 'image-cropper',
         props: {
+            waterText: {
+              type: String,
+              default: ''
+            },
             cropWidth: {
                 type: Number,
                 default: 200,
@@ -252,6 +256,14 @@
                         break;
                 }
                 ctx.restore()
+                
+                if(this.waterText) {
+                  ctx.font = "12px 微软雅黑";
+                  ctx.fillStyle = "rgba(252,255,255,0.8)";
+                  ctx.fillText(this.waterText, 10, 20); //选择位置 
+                }
+                 
+                
                 ctx.draw(false, () => {
                     uni.canvasToTempFilePath({
                         canvasId: 'myCanvas',

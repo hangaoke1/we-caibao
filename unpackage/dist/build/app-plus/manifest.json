@@ -5,10 +5,10 @@
     "iPad"
   ],
   "id": "__UNI__A9D6471",
-  "name": "米宝",
+  "name": "米宝Pro",
   "version": {
-    "name": "1.0.2",
-    "code": 106
+    "name": "1.0.0",
+    "code": 101
   },
   "description": "小巧灵活的免费图片裁剪工具",
   "launch_path": "__uniappview.html",

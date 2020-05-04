@@ -4,8 +4,7 @@
       <view class="u-title">图片裁剪工具</view>
       <button type="warn" class="u-upload" @tap="upload">上传</button>
       <button type="primary" class="u-save" @tap="save">保存</button>
-      <input v-model="waterText" class="u-water" type="text" placeholder="水印文本">
-      <image-cropper :waterText="waterText" :src="tempFilePath" @confirm="confirm" @cancel="cancel"></image-cropper>
+      <image-cropper :src="tempFilePath" @confirm="confirm" @cancel="cancel"></image-cropper>
       <image :src="cropFilePath" mode="aspectFit" style="width: 400rpx;"></image>
 
       <view class="u-version">Powered by Agatha@ (v{{version}})</view>
@@ -28,7 +27,6 @@
   export default {
     data() {
       return {
-        waterText: '',
         suggest: '',
         version: '',
         tempFilePath: '',
@@ -168,12 +166,5 @@
     text-align: center;
     font-size: 24rpx;
     color: #ccc;
-  }
-  
-  .u-water {
-    margin: 20rpx 0;
-    border: 1rpx solid #eee;
-    padding: 5rpx 10rpx;
-    font-size: 28rpx;
   }
 </style>
