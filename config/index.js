@@ -1,5 +1,5 @@
 export default {
-  name: 'Mibao',
-  nameZh: '米宝',
-  server: 'http://client.zcwy.vip'
+  name: 'HongFeng',
+  nameZh: '红丰',
+  server: 'http://client.vcuces.com'
 }

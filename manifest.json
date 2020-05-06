@@ -1,9 +1,9 @@
 {
-    "name" : "米宝",
+    "name" : "红丰",
     "appid" : "__UNI__A9D6471",
-    "description" : "小巧灵活的免费图片裁剪工具",
-    "versionName" : "4.0.6",
-    "versionCode" : 406,
+    "description" : "实用的工具助手",
+    "versionName" : "1.0.0",
+    "versionCode" : 100,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : "10000"
