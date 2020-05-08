@@ -128,7 +128,8 @@
                     }
                 }
             }
-        }
+        },
+        "compilerVersion" : 2
     },
     /* 快应用特有相关 */
     "quickapp" : {},
@@ -148,5 +149,10 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "h5" : {
+        "devServer" : {
+            "https" : true
+        }
     }
 }

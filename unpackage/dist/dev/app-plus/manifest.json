@@ -5,12 +5,12 @@
     "iPad"
   ],
   "id": "__UNI__A9D6471",
-  "name": "米宝",
+  "name": "米宝Max",
   "version": {
-    "name": "4.0.5",
-    "code": 405
+    "name": "1.0.0",
+    "code": 100
   },
-  "description": "小巧灵活的免费图片裁剪工具",
+  "description": "实用的工具助手",
   "launch_path": "__uniappview.html",
   "developer": {
     "name": "",
@@ -156,6 +156,7 @@
         }
       }
     },
+    "compilerVersion": 2,
     "allowsInlineMediaPlayback": true,
     "safearea": {
       "background": "#ffffff",
@@ -164,7 +165,7 @@
       }
     },
     "uni-app": {
-      "compilerVersion": "2.5.1",
+      "compilerVersion": "2.6.16",
       "control": "v8",
       "nvueCompiler": "uni-app",
       "renderer": "auto",
@@ -211,5 +212,6 @@
       ],
       "selected": 0
     }
-  }
+  },
+  "usingComponents": {}
 }
