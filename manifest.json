@@ -129,7 +129,9 @@
                     }
                 }
             }
-        }
+        },
+        "compilerVersion" : 2,
+        "nvueLaunchMode" : "fast"
     },
     /* 快应用特有相关 */
     "quickapp" : {},
