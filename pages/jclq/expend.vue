@@ -147,8 +147,8 @@
       </view>
     </view>
     <view class="u-bottom">
-      <view class="u-cancel" @tap="handleCancel"><text class="f-36">取消</text></view>
-      <view class="u-confirm red-6-bg" @tap="handleConfirm">
+      <view class="u-cancel" @click.stop="handleCancel"><text class="f-36">取消</text></view>
+      <view class="u-confirm red-6-bg" @click.stop="handleConfirm">
         <text class="f-36 white-1">确定</text>
       </view>
     </view>

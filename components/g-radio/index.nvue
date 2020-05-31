@@ -1,5 +1,5 @@
 <template>
-	<view class="u-radio" @tap="handleChange">
+	<view class="u-radio" @click.stop="handleChange">
 		<text class="iconfont red-6" v-if="value">&#xe62e;</text>
     <text class="iconfont grey-6" v-else>&#xe650;</text>
 	</view>

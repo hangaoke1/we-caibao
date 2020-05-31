@@ -5,11 +5,11 @@
     <view
       :class="[ani, animation ? 'ani' : '', !custom ? 'uni-custom' : '']"
       class="uni-popup__mask"
-      @click="close(true)" />
+      @click.stop="close(true)" />
     <view
       :class="[type, ani, animation ? 'ani' : '', !custom ? 'uni-custom' : '']"
       class="uni-popup__wrapper"
-      @click="close(true)">
+      @click.stop="close(true)">
       <view
         class="uni-popup__wrapper-box"
         @click.stop="clear">

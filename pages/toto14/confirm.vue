@@ -15,9 +15,9 @@
             <view style="flex: 1;text-align: left;">{{match.guestName}}</view>
           </view>
           <view class="u-choose-list f-30">
-            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(3)}" @tap="chooseChange(match, 3, index)">胜</view>
-            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(1)}" @tap="chooseChange(match, 1, index)">平</view>
-            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(0)}" @tap="chooseChange(match, 0, index)">负</view>
+            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(3)}" @click.stop="chooseChange(match, 3, index)">胜</view>
+            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(1)}" @click.stop="chooseChange(match, 1, index)">平</view>
+            <view class="u-choose-item" :class="{'z-active-choose': match.choose.includes(0)}" @click.stop="chooseChange(match, 0, index)">负</view>
           </view>
         </view>
       </view>
@@ -30,7 +30,7 @@
           v-for="bei in beiList"
           :key="bei"
           :class="{ 'z-active': bei == multiple }"
-          @tap="handleBei(bei)"
+          @click.stop="handleBei(bei)"
         >
           <text class="f-30" :class="{ 'white-1': bei == multiple }">{{ bei }}倍</text>
         </view>
@@ -38,7 +38,7 @@
       <view class="u-tou f-row">
         <view class="u-tou-left f-row">
           <view style="margin-right: 10rpx;"><text class="f-30">投</text></view>
-          <view class="u-tou-icon" @tap="multipleReduce"><text class="f-30">-</text></view>
+          <view class="u-tou-icon" @click.stop="multipleReduce"><text class="f-30">-</text></view>
           <input
             ref="xInput"
             class="u-input"
@@ -47,7 +47,7 @@
             v-model="multiple"
             @blur="handleBlur"
           />
-          <view class="u-tou-icon" @tap="multipleAdd"><text class="f-30">+</text></view>
+          <view class="u-tou-icon" @click.stop="multipleAdd"><text class="f-30">+</text></view>
           <view style="margin-left: 10rpx;margin-right: 10rpx;"><text class="f-30">倍</text></view>
           <view class="f-row" style="align-items: center;">
 <!--            <text class="f-36">共</text>
@@ -55,7 +55,7 @@
             <text class="f-36">元</text> -->
           </view>
         </view>
-        <view class="u-add-order" @tap="openBottomPopup">
+        <view class="u-add-order" @click.stop="openBottomPopup">
           <text class="f-30 white-1">下单</text>
         </view>
       </view>
@@ -76,7 +76,7 @@
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center"><text class="f-30">订单支付</text></view>
-          <view class="u-popup-icon" @tap="closePopup">
+          <view class="u-popup-icon" @click.stop="closePopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
@@ -102,7 +102,7 @@
           </view>
           <!-- <view class="u-form-item">
             <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
-            <view class="u-value" @tap="goChooseCoupon">
+            <view class="u-value" @click.stop="goChooseCoupon">
               <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
               <template v-else>
                 <text v-if="!chooseCouponId" class="f-36 red-6">
@@ -124,7 +124,7 @@
         <view class="u-tip-warn">
           <text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text>
         </view>
-        <view class="u-submit" @tap="handleSubmit"><text class="f-36 white-1">余额支付</text></view>
+        <view class="u-submit" @click.stop="handleSubmit"><text class="f-36 white-1">余额支付</text></view>
       </view>
     </uni-popup>
   </view>

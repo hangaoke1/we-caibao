@@ -11,7 +11,7 @@
          v-if="show"
          :height="_height"
          :hack="isNeedShow"
-         @tap="()=>{}"
+         @click.stop="()=>{}"
          :class="['wxc-popup', pos]"
          :style="padStyle">
       <slot></slot>

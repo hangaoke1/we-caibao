@@ -1,5 +1,5 @@
 <template>
-  <view class="u-order" @click="goDetail">
+  <view class="u-order" @click.stop="goDetail">
     <view class="u-title">
       <view class="lines-1">
         <text class="f-26">{{ item.sdescribe || ' ' }}</text>

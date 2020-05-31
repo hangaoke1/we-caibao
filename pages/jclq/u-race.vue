@@ -19,8 +19,8 @@
         <text class="f-24 yellow-7" style="margin-bottom: 10rpx;">
           {{ saleEndTime.slice(11, 16) }}截止
         </text>
-        <text class="f-20 yellow-8" @tap="goH5(match.h5Url)">赛事分析</text>
-        <text class="f-24 iconfont yellow-8" @tap="goH5(match.h5Url)">&#xe637;</text>
+        <text class="f-20 yellow-8" @click.stop="goH5(match.h5Url)">赛事分析</text>
+        <text class="f-24 iconfont yellow-8" @click.stop="goH5(match.h5Url)">&#xe637;</text>
       </view>
       <view class="u-right" v-if="match.sfPassStatus != 1">
         <view class="u-type">
@@ -136,7 +136,7 @@
           </g-tr>
         </g-table>
 
-        <view class="u-expend" :class="{ 'z-select': !!match.choose.length }" @tap="goExpend">
+        <view class="u-expend" :class="{ 'z-select': !!match.choose.length }" @click.stop="goExpend">
           <template v-if="!match.choose.length">
             <text class="f-26 yellow-9">展开</text>
             <text class="f-26 yellow-9">全部</text>
@@ -151,7 +151,7 @@
     </view>
     
     <view class="u-danguan red-6-bg" v-if="isDan"><text class="white-1 f-bold f-30">单</text></view>
-    <view class="u-delete" v-if="type == 1" @tap="handleDelete">
+    <view class="u-delete" v-if="type == 1" @click.stop="handleDelete">
       <text class="f-36 red-6 iconfont">&#xe726;</text>
     </view>
   </view>

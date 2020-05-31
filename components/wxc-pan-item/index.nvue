@@ -5,12 +5,12 @@
          @horizontalpan="dispatchPan"
          @appear="onItemAppear"
          @disappear="onItemDisAppear"
-         @tap="itemClicked">
+         @click.stop="itemClicked">
       <slot></slot>
     </div>
     <div v-else
          ref="wxc-pan-item"
-         @tap="itemClicked">
+         @click.stop="itemClicked">
       <slot></slot>
     </div>
   </div>

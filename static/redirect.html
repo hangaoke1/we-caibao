@@ -48,12 +48,12 @@
       if(url.indexOf('m.chart.icaile.com') > -1) {
         embed.setCssFile('_www/static/rmad11x5.css'); 
       }
-      embed.addEventListener('close', () => {
+      embed.addEventListener('close', function() {
         embed = null;
         ws.close()
       })
       embed.loadURL(url)
-      setTimeout(() => {
+      setTimeout(function() {
         ws.append(embed);
       }, 1000)
     }

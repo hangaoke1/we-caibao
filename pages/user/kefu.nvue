@@ -7,10 +7,10 @@
             <text class="f-36 f-bold">客服QQ:</text>
           </view>
           <view>
-            <text class="f-36" @tap="copy">1888888888</text>
+            <text class="f-36" @click.stop="copy">1888888888</text>
           </view>
         </view>
-        <text @tap="copy" class="iconfont u-more" style="font-size: 50rpx;color: #ccc;">&#xe676;</text>
+        <text @click.stop="copy" class="iconfont u-more" style="font-size: 50rpx;color: #ccc;">&#xe676;</text>
       </view>
     </view>
 	</view>

@@ -18,7 +18,7 @@
         <view class="u-form-item__content"><input v-model="checkPassword" class="f-36" type="text" password placeholder="请确认新密码" /></view>
       </view>
 
-      <button class="u-action" type="warn" @tap="doUpdate()">确认修改</button>
+      <button class="u-action" type="warn" @click.stop="doUpdate()">确认修改</button>
     </view>
   </view>
 </template>

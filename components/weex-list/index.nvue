@@ -23,7 +23,7 @@
      </view>
     </cell>
     <cell class="loading-init">
-      <text class="loading-text" @tap="customerLoad">{{loadingText[loading]}}</text>
+      <text class="loading-text" @click.stop="customerLoad">{{loadingText[loading]}}</text>
     </cell>
     <cell v-if="!isAndroid">
       <view :style="{height: placeHeight + 'px'}"></view>

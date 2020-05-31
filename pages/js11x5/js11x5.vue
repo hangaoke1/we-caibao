@@ -8,7 +8,7 @@
       <text class="f-30 red-6">{{remain}}期</text>
     </view>
 
-    <view class="u-panel" @tap="handleShowMore">
+    <view class="u-panel" @click.stop="handleShowMore">
       <view class="u-panel-left">
         <text class="f-30">{{info.upIssue}}期</text>
         <view class="u-ball-wrap"><view class="u-ball f-26 white-1" v-for="item in info.upDrawNumberArr" :key="item">{{item}}</view></view>
@@ -27,7 +27,7 @@
 
     <view class="u-type">
       <view class="u-choose-list">
-        <view :class="{ 'z-active': item == type }" class="u-choose-item f-28" v-for="item in typeList" :key="item" @tap="handleTypeChange(item)">{{ infoMap[item].name }}</view>
+        <view :class="{ 'z-active': item == type }" class="u-choose-item f-28" v-for="item in typeList" :key="item" @click.stop="handleTypeChange(item)">{{ infoMap[item].name }}</view>
       </view>
     </view>
 
@@ -37,30 +37,30 @@
 
       <!-- 任选 -->
       <view class="u-hao-list" v-if="isRenxuan">
-        <view class="u-hao-item" :class="{ 'z-active-ball': chooseList.includes(item) }" v-for="item in ballList" :key="item" @tap="handleBallClick(item)">{{ item }}</view>
+        <view class="u-hao-item" :class="{ 'z-active-ball': chooseList.includes(item) }" v-for="item in ballList" :key="item" @click.stop="handleBallClick(item)">{{ item }}</view>
       </view>
 
       <!-- 前二组选 -->
       <view class="u-hao-list" v-if="type === 'twoGroupPoly'">
-        <view class="u-hao-item" :class="{ 'z-active-ball': zuxuan2.includes(item) }" v-for="item in ballList" :key="item" @tap="handlezuxuan2(item)">{{ item }}</view>
+        <view class="u-hao-item" :class="{ 'z-active-ball': zuxuan2.includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezuxuan2(item)">{{ item }}</view>
       </view>
 
       <!-- 前三组选 -->
       <view class="u-hao-list" v-if="type === 'threeGroupPoly'">
-        <view class="u-hao-item" :class="{ 'z-active-ball': zuxuan3.includes(item) }" v-for="item in ballList" :key="item" @tap="handlezuxuan3(item)">{{ item }}</view>
+        <view class="u-hao-item" :class="{ 'z-active-ball': zuxuan3.includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezuxuan3(item)">{{ item }}</view>
       </view>
 
       <!-- 前二直选 -->
       <template v-if="type === 'twoDirect'">
         <view class="u-hao-list">
           <view class="f-34 grey-6" style="width: 100%;padding: 20rpx 0;">第1位</view>
-          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan2[0].includes(item) }" v-for="item in ballList" :key="item" @tap="handlezhixuan2(item, 0)">
+          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan2[0].includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezhixuan2(item, 0)">
             {{ item }}
           </view>
         </view>
         <view class="u-hao-list">
           <view class="f-34 grey-6" style="width: 100%;padding: 20rpx 0;">第2位</view>
-          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan2[1].includes(item) }" v-for="item in ballList" :key="item" @tap="handlezhixuan2(item, 1)">
+          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan2[1].includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezhixuan2(item, 1)">
             {{ item }}
           </view>
         </view>
@@ -70,19 +70,19 @@
       <template v-if="type === 'threeDirect'">
         <view class="u-hao-list">
           <view class="f-34 grey-6" style="width: 100%;padding: 20rpx 0;">第1位</view>
-          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[0].includes(item) }" v-for="item in ballList" :key="item" @tap="handlezhixuan3(item, 0)">
+          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[0].includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezhixuan3(item, 0)">
             {{ item }}
           </view>
         </view>
         <view class="u-hao-list">
           <view class="f-34 grey-6" style="width: 100%;padding: 20rpx 0;">第2位</view>
-          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[1].includes(item) }" v-for="item in ballList" :key="item" @tap="handlezhixuan3(item, 1)">
+          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[1].includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezhixuan3(item, 1)">
             {{ item }}
           </view>
         </view>
         <view class="u-hao-list">
           <view class="f-34 grey-6" style="width: 100%;padding: 20rpx 0;">第3位</view>
-          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[2].includes(item) }" v-for="item in ballList" :key="item" @tap="handlezhixuan3(item, 2)">
+          <view class="u-hao-item" :class="{ 'z-active-ball': zhixuan3[2].includes(item) }" v-for="item in ballList" :key="item" @click.stop="handlezhixuan3(item, 2)">
             {{ item }}
           </view>
         </view>
@@ -98,7 +98,7 @@
     </view>
 
     <view class="u-bottom">
-      <view class="u-bottom-left" @click="emptyAll"><text class="f-36 red-6">清空</text></view>
+      <view class="u-bottom-left" @click.stop="emptyAll"><text class="f-36 red-6">清空</text></view>
       <view class="u-bottom-center">
         <!-- <text class="f-22 red-6" v-if="!count">摇一摇 来一注</text> -->
         <text class="f-30 red-6" v-if="!count"></text>
@@ -109,10 +109,10 @@
           <text class="f-36">元</text>
         </template>
       </view>
-      <view class="u-bottom-right f-36" @click="handleConfirm">确定</view>
+      <view class="u-bottom-right f-36" @click.stop="handleConfirm">确定</view>
     </view>
     
-    <view class="u-float" @click="aiChoose">机选</view>
+    <view class="u-float" @click.stop="aiChoose">机选</view>
   </view>
 </template>
 

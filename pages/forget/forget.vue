@@ -10,7 +10,7 @@
         <text class="iconfont" style="font-size: 46rpx;color: #ccc;">&#xe719;</text>
         <input class="u-input" type="number" v-model="form.mobile" placeholder="请输入手机号" />
       </view>
-      <view class="u-action" @tap="doSubmit"><text class="u-action-text">确定</text></view>
+      <view class="u-action" @click.stop="doSubmit"><text class="u-action-text">确定</text></view>
     </view>
   </view>
 </template>

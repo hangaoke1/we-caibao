@@ -8,7 +8,7 @@
         <cell class="u-title">
           <text class="f-32 red-6">热搜推荐</text>
         </cell>
-        <cell class="u-item" v-for="item in hotSearchRecommendor" :key="item.userId" @tap="goDashen(item.userId)">
+        <cell class="u-item" v-for="item in hotSearchRecommendor" :key="item.userId" @click.stop="goDashen(item.userId)">
           <view class="u-item-content">
             <view class="u-user">
                <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -24,7 +24,7 @@
         <refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="refreshing ? 'show' : 'hide'">
           <loading-indicator class="indicator"></loading-indicator>
         </refresh>
-        <cell class="u-item" v-for="item in list" :key="item.userId"  @tap="goDashen(item.userId)">
+        <cell class="u-item" v-for="item in list" :key="item.userId"  @click.stop="goDashen(item.userId)">
           <view class="u-item-content">
             <view class="u-user">
                <g-img width="80" height="80" radius="80" :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>

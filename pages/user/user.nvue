@@ -6,14 +6,14 @@
     <cell>
       <view class="u-statusbar" :style="{ height: statusBarHeight + 'px' }"></view>
       <view class="u-header">
-        <view class="u-user" @tap="goConfig">
+        <view class="u-user" @click.stop="goConfig">
           <g-img width="80" height="80" radius="80" class="u-avatar" :src="userInfo.avatar" defaultSrc="/static/portrait.png"></g-img>
           <view class="u-name">
             <text class="u-name-text">{{ balanceInfo.userName }}</text>
           </view>
         </view>
         <view class="u-config">
-          <text class="iconfont u-peizhi" style="font-size: 50rpx;" @tap="goConfig">&#xe708;</text>
+          <text class="iconfont u-peizhi" style="font-size: 50rpx;" @click.stop="goConfig">&#xe708;</text>
         </view>
       </view>
       <view class="u-wealth">
@@ -26,15 +26,15 @@
       </view>
 
       <view class="u-action">
-        <view class="u-action-item" @tap="goPayment">
+        <view class="u-action-item" @click.stop="goPayment">
           <text class="iconfont f-44 gold-6">&#xe6ae;</text>
           <text class="u-action-item-text">充值</text>
         </view>
-        <view class="u-action-item" @tap="goConversion">
+        <view class="u-action-item" @click.stop="goConversion">
           <text class="iconfont f-44 red-6">&#xe6af;</text>
           <text class="u-action-item-text">转充</text>
         </view>
-        <view class="u-action-item" @tap="goWidthDraw">
+        <view class="u-action-item" @click.stop="goWidthDraw">
           <text class="iconfont f-44 green-6">&#xe6d9;</text>
           <text class="u-action-item-text">提现</text>
         </view>
@@ -42,7 +42,7 @@
       
       <view class="u-other"><text class="f-30 f-bold">其他服务</text></view>
       <view class="u-list">
-        <view class="u-list-item" v-for="(item, index) in tabList" :key="item" @tap="handleClick(item)">
+        <view class="u-list-item" v-for="(item, index) in tabList" :key="item" @click.stop="handleClick(item)">
           <view class="u-list-label">
             <text class="iconfont u-list-icon" style="font-size: 56rpx;" :style="{ color: map[item].color }">{{ map[item].icon }}</text>
             <view>

@@ -6,8 +6,8 @@
       <view class="u-type">
         <view class="f-30">方案是否公开</view>
         <view class="u-type-list">
-          <view :class="{'z-active': sopen == 1}" class="u-type-item f-26" @tap="sopen = 1">完全公开</view>
-          <view :class="{'z-active': sopen == 4}" class="u-type-item f-26" @tap="sopen = 4">完全保密</view>
+          <view :class="{'z-active': sopen == 1}" class="u-type-item f-26" @click.stop="sopen = 1">完全公开</view>
+          <view :class="{'z-active': sopen == 4}" class="u-type-item f-26" @click.stop="sopen = 4">完全保密</view>
         </view>
       </view>
       <view class="u-rate">
@@ -23,7 +23,7 @@
       <view class="f-30">方案宣言</view>
       <textarea class="u-textarea" v-model="sdescribe" />
     </view>
-    <view class="u-confirm white-1 red-6-bg f-32" @click="handleConfirm">确认</view>
+    <view class="u-confirm white-1 red-6-bg f-32" @click.stop="handleConfirm">确认</view>
 	</view>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <view class="u-coupon-item" @click="handleChoose">
+  <view class="u-coupon-item" @click.stop="handleChoose">
     <view class="u-top">
       <view class="u-left">
         <text class="red-6 f-40" :style="iStyle">¥</text>
@@ -20,7 +20,7 @@
       <view class="u-date">
         <text class="f-22 grey-6" :style="iStyle">有效期：{{ item.startTime }} 至 {{ item.endTime }}</text>
       </view>
-      <view @tap="goUse" class="u-action" v-if="item.enableFlag == 1 && type === 0">
+      <view @click.stop="goUse" class="u-action" v-if="item.enableFlag == 1 && type === 0">
         <text class="f-30 red-6" :style="iStyle">去使用</text>
       </view>
     </view>

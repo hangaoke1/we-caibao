@@ -36,7 +36,7 @@
       </view>
     </view> -->
     <view class="u-bottom">
-      <view class="u-empty" @tap="resetChoose"><text class="f-30 red-6">清空</text></view>
+      <view class="u-empty" @click.stop="resetChoose"><text class="f-30 red-6">清空</text></view>
       <view class="u-center">
         <view class="u-center-top">
           <text class="f-32">已选</text>
@@ -45,7 +45,7 @@
         </view>
         <view class="u-center-bottom"><text class="f-24 grey-6">(页面赔率仅供参考)</text></view>
       </view>
-      <view class="u-next" @click="goNext"><text class="f-30 white-1">下一步</text></view>
+      <view class="u-next" @click.stop="goNext"><text class="f-30 white-1">下一步</text></view>
     </view>
   </scroller>
 </template>

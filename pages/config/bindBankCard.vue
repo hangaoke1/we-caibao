@@ -24,7 +24,7 @@
         </view>
       </view>
       
-      <button class="u-action" type="warn" @tap="doBind">确认绑定</button>
+      <button class="u-action" type="warn" @click.stop="doBind">确认绑定</button>
     </view>
 	</view>
 </template>

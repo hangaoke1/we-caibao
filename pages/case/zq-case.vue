@@ -17,7 +17,7 @@
     <g-tr v-for="(match, index) in matches" :key="index">
       <g-td col="150" padding="0">
         <view class="u-td-wrap" style="flex-direction: column;">
-          <text class="f-30 iconfont" :class="[match.matchId ? 'red-6': 'grey-1']"  @tap="goH5(match)">&#xe609;</text>
+          <text class="f-30 iconfont" :class="[match.matchId ? 'red-6': 'grey-1']"  @click.stop="goH5(match)">&#xe609;</text>
           <text class="f-24">{{ fmtWeek(match.issue) }}{{ match.teamId }}</text>
           <text class="f-24">{{ match.matchTime.split(' ')[0].slice(-5) }}</text>
           <text class="f-24">{{ match.matchTime.split(' ')[1].slice(0, 5) }}</text>

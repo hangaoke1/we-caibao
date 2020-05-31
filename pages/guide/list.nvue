@@ -2,7 +2,7 @@
     <view class="guide">
         <swiper class="flex1" interval="3000" :show-indicators="false" :auto-play="autoPlay" @change="sliderChange" :infinite="false" :forbid-slide-animation="false">
             <swiper-item class="flex1" v-for="(img, index) in imageList" :key="index">
-                <view class="flex1" @click="launchAppIndex">
+                <view class="flex1" @click.stop="launchAppIndex">
                     <!-- #ifndef APP-PLUS -->
                     <image class="flex1" mode="aspectFill" :style="{ width: screenWidth+ 'px' }" :src="img.src" />
 
@@ -14,7 +14,7 @@
                 </view>
             </swiper-item>
         </swiper>
-        <view class="swiper-to-home" @click="launchApp"><text class="swiper-to-home-text">跳过</text></view>
+        <view class="swiper-to-home" @click.stop="launchApp"><text class="swiper-to-home-text">跳过</text></view>
     </view>
 </template>
 

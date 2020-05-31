@@ -2,7 +2,7 @@
   <!-- 跟单详情 -->
   <view class="u-case">
     <!-- 用户信息 -->
-    <view class="u-user" @tap="goUser">
+    <view class="u-user" @click.stop="goUser">
       <div class="u-avatar">
         <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
       </div>
@@ -44,7 +44,7 @@
         <view>
           <text class="f-30">{{ pass }}</text>
           <text class="f-26 grey-3" style="margin-left: 10rpx;">佣金 10%</text>
-          <text class="f-30 grey-3 iconfont" @tap="showTip">&#xe73e;</text>
+          <text class="f-30 grey-3 iconfont" @click.stop="showTip">&#xe73e;</text>
         </view>
         <text class="f-30 grey-6">订单编号: {{ info.schemeId }}</text>
       </view>
@@ -101,7 +101,7 @@
         :class="{ 'z-active-text': index === activeIndex }"
         v-for="(item, index) in ['方案详情', '跟单列表']"
         :key="item"
-        @tap="changeTab(index)"
+        @click.stop="changeTab(index)"
       >
         <text>{{ item }}</text>
         <text v-if="item === '方案详情'">({{ matchLen }})</text>
@@ -181,7 +181,7 @@
     </view>
 
     <template v-if="fromOrder">
-      <view class="u-goOrder" @tap="goOrder">订单详情</view>
+      <view class="u-goOrder" @click.stop="goOrder">订单详情</view>
     </template>
     <template v-if="!fromOrder && info.statusDesc == '出票成功'">
       <view class="u-bottom">
@@ -192,7 +192,7 @@
             v-for="bei in beiList"
             :key="bei"
             :class="{ 'z-active': bei == count }"
-            @tap="handleBei(bei)"
+            @click.stop="handleBei(bei)"
           >
             <text class="f-30" :class="{ 'white-1': bei == count }">{{ bei }}倍</text>
           </view>
@@ -200,7 +200,7 @@
         <view class="u-tou f-row">
           <view class="u-tou-left f-row">
             <view style="margin-right: 10rpx;"><text class="f-24">投</text></view>
-            <view class="u-tou-icon" @tap="countReduce"><text class="f-30">-</text></view>
+            <view class="u-tou-icon" @click.stop="countReduce"><text class="f-30">-</text></view>
             <input
               ref="xInput"
               class="u-input"
@@ -209,7 +209,7 @@
               v-model="count"
               @blur="handleBlur"
             />
-            <view class="u-tou-icon" @tap="countAdd"><text class="f-30">+</text></view>
+            <view class="u-tou-icon" @click.stop="countAdd"><text class="f-30">+</text></view>
             <view style="margin-left: 10rpx;margin-right: 10rpx;">
               <text class="f-24">倍</text>
             </view>
@@ -219,7 +219,7 @@
               <text class="f-24">元</text>
             </view>
           </view>
-          <view class="u-add-order" @tap="openBottomPopup">
+          <view class="u-add-order" @click.stop="openBottomPopup">
             <text class="f-30 white-1">下单</text>
           </view>
         </view>
@@ -231,7 +231,7 @@
           <view class="u-popup-header">
             <view class="u-popup-icon"></view>
             <view class="g-center"><text class="f-30">订单支付</text></view>
-            <view class="u-popup-icon" @tap="closePopup">
+            <view class="u-popup-icon" @click.stop="closePopup">
               <text class="iconfont f-30">&#xe734;</text>
             </view>
           </view>
@@ -265,7 +265,7 @@
           <view class="u-tip-warn">
             <text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text>
           </view>
-          <view class="u-submit" @tap="doCopy"><text class="f-36 white-1">余额支付</text></view>
+          <view class="u-submit" @click.stop="doCopy"><text class="f-36 white-1">余额支付</text></view>
         </view>
       </uni-popup>
     </template>

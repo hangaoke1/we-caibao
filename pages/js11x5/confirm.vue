@@ -1,13 +1,13 @@
 <template>
   <view>
     <view class="u-confirm">
-      <view class="u-continue f-30 red-6" @tap="goContinue">+继续添加</view>
+      <view class="u-continue f-30 red-6" @click.stop="goContinue">+继续添加</view>
       <view class="u-issue f-30">第{{ issue }}期</view>
       <view class="u-select" v-for="(choose, index) in chooseList" :key="index">
-        <view class="u-delete" @tap="handleDelete(index)">
+        <view class="u-delete" @click.stop="handleDelete(index)">
           <text class="f-36 red-6 iconfont">&#xe726;</text>
         </view>
-        <view class="u-copy f-30 red-6" @tap="handleCopy(choose)">机选一注</view>
+        <view class="u-copy f-30 red-6" @click.stop="handleCopy(choose)">机选一注</view>
         <view class="u-title">
           <view class="f-30">{{ choose.typeName }}</view>
         </view>
@@ -35,16 +35,16 @@
     </view>
     <view class="u-bottom">
       <view class="u-bei">
-        <view class="u-bei-item" v-for="bei in beiList" :key="bei" :class="{ 'z-active': bei == multiple }" @tap="handleBei(bei)">
+        <view class="u-bei-item" v-for="bei in beiList" :key="bei" :class="{ 'z-active': bei == multiple }" @click.stop="handleBei(bei)">
           <text class="f-30" :class="{ 'white-1': bei == multiple }">{{ bei }}倍</text>
         </view>
       </view>
       <view class="u-tou f-row">
         <view class="u-tou-left f-row">
           <view style="margin-right: 10rpx;"><text class="f-30">投</text></view>
-          <view class="u-tou-icon" @tap="multipleReduce"><text class="f-30">-</text></view>
+          <view class="u-tou-icon" @click.stop="multipleReduce"><text class="f-30">-</text></view>
           <input ref="xInput" class="u-input" :cursor-spacing="30" type="number" v-model="multiple" @blur="handleBlur" />
-          <view class="u-tou-icon" @tap="multipleAdd"><text class="f-30">+</text></view>
+          <view class="u-tou-icon" @click.stop="multipleAdd"><text class="f-30">+</text></view>
           <view style="margin-left: 10rpx;margin-right: 10rpx;"><text class="f-30">倍</text></view>
           <view class="f-row" style="align-items: center;">
             <text class="f-36">共</text>
@@ -52,7 +52,7 @@
             <text class="f-36">元</text>
           </view>
         </view>
-        <view class="u-add-order" @tap="openBottomPopup">
+        <view class="u-add-order" @click.stop="openBottomPopup">
           <text class="f-30 white-1">下单</text>
         </view>
       </view>
@@ -64,7 +64,7 @@
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center"><text class="f-30">订单支付</text></view>
-          <view class="u-popup-icon" @tap="closePopup">
+          <view class="u-popup-icon" @click.stop="closePopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
@@ -90,7 +90,7 @@
           </view>
           <!-- <view class="u-form-item">
             <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
-            <view class="u-value" @tap="goChooseCoupon">
+            <view class="u-value" @click.stop="goChooseCoupon">
               <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
               <template v-else>
                 <text v-if="!chooseCouponId" class="f-36 red-6">
@@ -112,7 +112,7 @@
         <view class="u-tip-warn">
           <text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text>
         </view>
-        <view class="u-submit" @tap="handleSubmit"><text class="f-36 white-1">余额支付</text></view>
+        <view class="u-submit" @click.stop="handleSubmit"><text class="f-36 white-1">余额支付</text></view>
       </view>
     </uni-popup>
   </view>

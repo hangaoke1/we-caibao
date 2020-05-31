@@ -1,6 +1,6 @@
 <template>
   <view class="u-withdraw">
-    <view class="u-title" v-if="userInfo.bankAccount" @click="type = 2">
+    <view class="u-title" v-if="userInfo.bankAccount" @click.stop="type = 2">
       <image class="u-icon" src="/static/pay4.png"></image>
       <view style="flex: 1;">
         <view class="f-36">银行卡</view>
@@ -12,7 +12,7 @@
       </view>
     </view>
     
-    <view class="u-title" v-if="!userInfo.bankAccount" @click="goBindBank">
+    <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
       <image class="u-icon" src="/static/pay4.png"></image>
       <view style="flex: 1;">
         <view class="f-36">银行卡</view>
@@ -22,7 +22,7 @@
       <view class="f-32 blue-6">立即绑定</view>
     </view>
     
-    <view class="u-title" v-if="userInfo.aliPay" @click="type = 1" v-show="!disableAlipay">
+    <view class="u-title" v-if="userInfo.aliPay" @click.stop="type = 1" v-show="!disableAlipay">
       <image class="u-icon" src="/static/pay2.png"></image>
       <view style="flex: 1;">
         <view class="f-36">支付宝</view>
@@ -38,12 +38,12 @@
       <view class="u-mid">
         <view class="u-unit">¥</view>
         <input class="u-input" type="digit" v-model="money" />
-        <text v-show="money" class="iconfont u-close" @click="money = ''">&#xe726;</text>
+        <text v-show="money" class="iconfont u-close" @click.stop="money = ''">&#xe726;</text>
       </view>
       <view class="u-bottom">
         <view class="f-26 red-6" v-if="showWarn">金额已超可提现余额</view>
         <view class="f-26 grey-6" v-else>可用余额 {{ (userInfo.money || 0).toFixed(2) }}元</view>
-        <view class="f-26 blue-6" @click="getAll">全部提现</view>
+        <view class="f-26 blue-6" @click.stop="getAll">全部提现</view>
       </view>
     </view>
     
@@ -54,7 +54,7 @@
       <view>4. 单次提现金额需大于50元</view>
     </view>
 
-    <button class="u-action f-30" type="warn" @click="doSubmit">确认提现</button>
+    <button class="u-action f-30" type="warn" @click.stop="doSubmit">确认提现</button>
   </view>
 </template>
 

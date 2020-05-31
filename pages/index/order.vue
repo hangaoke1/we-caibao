@@ -1,7 +1,7 @@
 <template>
   <view class="u-order">
     <view class="u-header">
-      <view class="u-user" @tap="goDashen">
+      <view class="u-user" @click.stop="goDashen">
         <div class="u-avatar">
           <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
         </div>
@@ -12,7 +12,7 @@
         <g-img width="35" height="35" src="/static/icon_hot_topic.png" v-for="item in hotCount" :key="item"></g-img>
       </view>
     </view>
-    <view class="u-content" @click="goOrder">
+    <view class="u-content" @click.stop="goOrder">
       <view class="u-table">
         <view class="u-tr">
           <view class="u-td f-30 grey-5">截止时间</view>
@@ -35,9 +35,9 @@
     </view>
     <view class="u-bottom">
       <view class="u-count">
-        <view class="u-count-item" :class="{'u-active': item === count}" v-for="item in list" :key="item" @click="selectCount(item)">{{item}}倍</view>
+        <view class="u-count-item" :class="{'u-active': item === count}" v-for="item in list" :key="item" @click.stop="selectCount(item)">{{item}}倍</view>
       </view>
-      <view class="u-buy" @click="goOrder">立即下单</view>
+      <view class="u-buy" @click.stop="goOrder">立即下单</view>
     </view>
   </view>
 </template>
