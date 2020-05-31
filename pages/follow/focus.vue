@@ -3,7 +3,7 @@
   <view class="u-focus">
     <view class="u-empty" v-if="!list.length"><view class="f-36 grey-6">当前暂无关注大神，请选择心仪的大神关注吧～</view></view>
     <view class="u-list" v-if="list.length">
-      <view class="u-item" v-for="item in list" :key="item.userId" @tap="goDashen(item.userId)">
+      <view class="u-item" v-for="item in list" :key="item.userId" @click.stop="goDashen(item.userId)">
         <view class="u-header">
           <!-- <image class="u-avatar" :src="item.avatar"></image> -->
           <div class="u-avatar">

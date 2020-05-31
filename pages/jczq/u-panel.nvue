@@ -1,6 +1,6 @@
 <template>
   <view class="u-panel">
-    <view class="u-title" @tap="show = !show">
+    <view class="u-title" @click.stop="show = !show">
       <slot name="title">
         <text class="f-30 grey-6">{{ title }}</text>
       </slot>

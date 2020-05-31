@@ -1,7 +1,7 @@
 <template>
   <view class="u-order">
     <view class="u-header">
-      <view class="u-user" @tap="goDashen">
+      <view class="u-user" @click.stop="goDashen">
         <div class="u-avatar">
           <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
         </div>

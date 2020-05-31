@@ -2,7 +2,7 @@
   <!-- 任选九 -->
   <list class="u-10040">
     <cell v-for="(item, index) in list" :key="index">
-      <view class="u-item" @tap="goDetail(item)">
+      <view class="u-item" @click.stop="goDetail(item)">
         <view class="u-title">
           <text class="f-30 grey-6">{{item.issue}}期</text>
           <text class="f-30 grey-6">{{item.drawTime}}</text>

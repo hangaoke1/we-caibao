@@ -68,7 +68,7 @@
       <g-tr v-for="item in showInfo.schemeContent[0].matches" :key="item.id">
         <g-td padding="0" col="150">
           <view class="u-td-wrap">
-            <text class="f-30 iconfont" :class="[item.matchId ? 'red-6': 'grey-1']" @tap="goH5(item)">&#xe609;</text>
+            <text class="f-30 iconfont" :class="[item.matchId ? 'red-6': 'grey-1']" @click.stop="goH5(item)">&#xe609;</text>
             <text class="f-24">{{ fmtWeek(item.issue) }}{{ item.teamId }}</text>
             <text class="f-24">{{ item.matchTime.split(' ')[0].slice(-5) }}</text>
             <text class="f-24">{{ item.matchTime.split(' ')[1] }}</text>

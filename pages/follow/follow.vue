@@ -99,7 +99,7 @@
 
     <!-- tab选项 -->
     <view class="u-tab">
-      <view class="u-tab-item" :class="{ 'z-active': index === activeIndex }" v-for="(item, index) in ['热门跟单', '人气跟单']" :key="item" @tap="changeTab(index)">
+      <view class="u-tab-item" :class="{ 'z-active': index === activeIndex }" v-for="(item, index) in ['热门跟单', '人气跟单']" :key="item" @click.stop="changeTab(index)">
         <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
       </view>
       <view class="u-tab-line" :style="lineStyle"></view>
@@ -107,7 +107,7 @@
 
     <!-- 列表 -->
     <view v-for="(item, index) in dataList" :key="index">
-      <view v-show="activeIndex === index" v-for="subItem in item.list" :key="subItem.schemeId" @tap="goOrder(subItem.schemeId)"><follow-item :info="subItem"></follow-item></view>
+      <view v-show="activeIndex === index" v-for="subItem in item.list" :key="subItem.schemeId" @click.stop="goOrder(subItem.schemeId)"><follow-item :info="subItem"></follow-item></view>
     </view>
 
     <!-- 加载提示~ -->

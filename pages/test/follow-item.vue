@@ -1,7 +1,7 @@
 <template>
   <view class="u-follow-item">
     <view class="u-top">
-      <view class="u-user" @tap="goDashen">
+      <view class="u-user" @click.stop="goDashen">
         <image class="u-avatar" :src="info.avatar" alt="" />
         <view class="lines-1">
           <text class="f-30">{{ info.userName }}</text>

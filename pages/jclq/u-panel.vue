@@ -1,6 +1,6 @@
 <template>
   <view class="u-panel">
-    <view class="u-title" @tap="handleClick">
+    <view class="u-title" @click.stop="handleClick">
       <slot name="title"></slot>
       <text
         class="iconfont u-arrow"

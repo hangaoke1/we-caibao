@@ -11,8 +11,8 @@
         </view>
       </view>
       
-      <button v-if="!hasBind" class="u-action" type="warn" @tap="doBinding()">确认绑定</button>
-      <button v-else class="u-action" type="warn" @tap="doBinding()">确认修改</button>
+      <button v-if="!hasBind" class="u-action" type="warn" @click.stop="doBinding()">确认绑定</button>
+      <button v-else class="u-action" type="warn" @click.stop="doBinding()">确认修改</button>
     </view>
 	</view>
 </template>

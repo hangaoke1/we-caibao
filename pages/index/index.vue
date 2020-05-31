@@ -20,8 +20,8 @@
 
     <!-- 开奖/直播 -->
     <view class="u-res">
-      <g-img width="444" height="160" src="/static/home/ai.png" @tap.native="goAi"></g-img>
-      <g-img width="250" height="160" src="/static/home/bifen.png" @tap.native="goLottery"></g-img>
+      <g-img width="444" height="160" src="/static/home/ai.png" @click.native="goAi"></g-img>
+      <g-img width="250" height="160" src="/static/home/bifen.png" @click.native="goLottery"></g-img>
     </view>
 
     <!-- 公告 -->
@@ -34,7 +34,7 @@
         :circular="true"
         interval="2000"
       >
-        <swiper-item v-for="item in hotInfo.headlines" :key="item.content" @tap="goGendan(item)">
+        <swiper-item v-for="item in hotInfo.headlines" :key="item.content" @click.stop="goGendan(item)">
           <view class="u-notice-list-item">
             <text class="u-notice-list-item-text">{{ item.username }}: 发布了</text>
             <text class="u-notice-list-item-text" style="color: #f5222d;">
@@ -48,7 +48,7 @@
 
     <!-- 彩票入口 -->
     <view class="u-cp">
-      <view class="u-cp-item" v-for="cp in cpList" :key="cp.lotteryId" @tap="handleCpClick(cp)">
+      <view class="u-cp-item" v-for="cp in cpList" :key="cp.lotteryId" @click.stop="handleCpClick(cp)">
         <image class="u-cp-icon" :src="iconMap[cp.lotteryId]"></image>
         <view class="u-cp-info">
           <view>
@@ -62,7 +62,7 @@
     </view>
     
     <view class="u-out-wrap" v-if="hotOrder">
-      <view class="u-title" @tap="goFollow">
+      <view class="u-title" @click.stop="goFollow">
         <view><text class="f-36 grey-6 f-bold">跟热门 稳收米</text></view>
         <view class="u-more">
           <text class="f-36 grey-6">更多</text>
@@ -74,7 +74,7 @@
       </view>
     </view>
     <view class="u-out-wrap" v-if="PopularOrder">
-      <view class="u-title" @tap="goFollow">
+      <view class="u-title" @click.stop="goFollow">
         <view><text class="f-36 grey-6 f-bold">跟大神 易中奖</text></view>
         <view class="u-more">
           <text class="f-36 grey-6">更多</text>
@@ -87,9 +87,9 @@
     </view>
 
     <view class="u-dialog" v-if="show">
-      <view class="u-mask" @tap="hideDialog()"></view>
+      <view class="u-mask" @click.stop="hideDialog()"></view>
       <image
-        @tap="goOrder"
+        @click.stop="goOrder"
         class="u-content"
         src="/static/zhongjiang.jpeg"
         style="width: 500rpx;height: 507rpx;"

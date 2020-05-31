@@ -6,7 +6,7 @@
         class="page-index__tab"
         v-for="(tab, index) in ['电影', '漫画', '小说']"
         :key="tab"
-        @tap="activeIndex = index">
+        @click.stop="activeIndex = index">
         <text :class="{ 'tab--active': activeIndex === index}">{{tab}}</text>
       </view>
     </view>

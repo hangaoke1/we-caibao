@@ -5,9 +5,9 @@
       <view class="u-money">
         <view class="f-30" style="flex: 1;text-align: right;">计划购买</view>
         <view class="u-count" style="border: none;flex: 0 0 auto;;">
-          <view class="u-icon f-30" @tap="moneyReduce">-</view>
+          <view class="u-icon f-30" @click.stop="moneyReduce">-</view>
           <input class="u-count-input f-30" type="number" :value="money" @change="handleInputChange" @blur="handleMoneyBlur"/>
-          <view class="u-icon f-30" @tap="moneyAdd">+</view>
+          <view class="u-icon f-30" @click.stop="moneyAdd">+</view>
         </view>
         <view class="f-30" style="flex: 1;text-align: left;">元</view>
       </view>
@@ -17,7 +17,7 @@
           :class="{ 'z-active': index === type }"
           v-for="(item, index) in ['平均优化', '博热优化', '博冷优化']"
           :key="item"
-          @tap="handleTypeChange(index)"
+          @click.stop="handleTypeChange(index)"
         >
           {{ item }}
         </view>
@@ -32,7 +32,7 @@
 
    <view class="u-compose" v-for="group in groups" :key="group.id">
       <view class="u-content">
-        <view class="u-group" @tap="showDetail(group)">
+        <view class="u-group" @click.stop="showDetail(group)">
           <view class="f-22" v-for="(match, index) in group.compose" :key="index" v-if="index < 2">
             {{ match.hostName.slice(0, 5) }}|{{ key2name[match.chooseItem] }}|{{
               match[match.chooseItem].toFixed(2)
@@ -45,9 +45,9 @@
           </view>
         </view>
         <view class="u-count">
-          <view class="u-icon f-30" @tap="countReduce(group)">-</view>
+          <view class="u-icon f-30" @click.stop="countReduce(group)">-</view>
           <input class="u-count-input f-30" type="number" v-model="group.count" @blur="handleCountBlur(group)" />
-          <view class="u-icon f-30" @tap="countAdd(group)">+</view>
+          <view class="u-icon f-30" @click.stop="countAdd(group)">+</view>
         </view>
         <view class="u-prize red-6 f-24">{{getPrize(group)}}元</view>
       </view>
@@ -90,7 +90,7 @@
           <text>元</text>
         </view>
       </view>
-      <view class="u-bottom-right" @tap="goNext">确定</view>
+      <view class="u-bottom-right" @click.stop="goNext">确定</view>
     </view>
     
     <!-- 弹窗内容 -->
@@ -99,7 +99,7 @@
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center"><text class="f-30">订单支付</text></view>
-          <view class="u-popup-icon" @tap="closePopup">
+          <view class="u-popup-icon" @click.stop="closePopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
@@ -125,7 +125,7 @@
           </view>
           <!-- <view class="u-form-item">
             <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
-            <view class="u-value" @tap="goChooseCoupon">
+            <view class="u-value" @click.stop="goChooseCoupon">
               <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
               <template v-else>
                 <text v-if="!chooseCouponId" class="f-36 red-6">
@@ -147,7 +147,7 @@
         <view class="u-tip-warn">
           <text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text>
         </view>
-        <view class="u-submit" @tap="doSubmit"><text class="f-36 white-1">余额支付</text></view>
+        <view class="u-submit" @click.stop="doSubmit"><text class="f-36 white-1">余额支付</text></view>
       </view>
     </uni-popup>
   </view>

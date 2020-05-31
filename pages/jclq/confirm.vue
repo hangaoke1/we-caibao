@@ -9,13 +9,13 @@
 
     <view style="height: 100rpx;"></view>
 
-    <view class="u-continue" @tap="handleContinue">
+    <view class="u-continue" @click.stop="handleContinue">
       <text class="f-36 grey-6">继续添加比赛</text>
     </view>
 
     <view class="u-bottom">
       <view class="u-pass">
-        <view class="u-pass-left" @tap="showWaySelect">
+        <view class="u-pass-left" @click.stop="showWaySelect">
           <text v-if="showWas.length === 0" class="f-30" style="width: 375rpx;text-align: center;">
             过关方式
           </text>
@@ -25,7 +25,7 @@
         </view>
         <view class="u-pass-right">
           <view style="margin-right: 10rpx;"><text class="f-24">投</text></view>
-          <view class="u-tou-icon" @tap.stop="countReduce"><text class="f-30">-</text></view>
+          <view class="u-tou-icon" @click.stop="countReduce"><text class="f-30">-</text></view>
           <input
             ref="xInput"
             class="u-input"
@@ -34,7 +34,7 @@
             v-model="count"
             @blur="handleBlur"
           />
-          <view class="u-tou-icon" @tap.stop="countAdd"><text class="f-30">+</text></view>
+          <view class="u-tou-icon" @click.stop="countAdd"><text class="f-30">+</text></view>
           <view style="margin-left: 10rpx;margin-right: 10rpx;"><text class="f-24">倍</text></view>
         </view>
       </view>
@@ -70,7 +70,7 @@
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center"><text class="f-30">过关方式</text></view>
-          <view class="u-popup-icon" @tap="closePopup">
+          <view class="u-popup-icon" @click.stop="closePopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
@@ -95,7 +95,7 @@
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center"><text class="f-30">订单支付</text></view>
-          <view class="u-popup-icon" @tap="closeOrderPopup">
+          <view class="u-popup-icon" @click.stop="closeOrderPopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
@@ -121,7 +121,7 @@
           </view>
           <!-- <view class="u-form-item">
             <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
-            <view class="u-value" @tap="goChooseCoupon">
+            <view class="u-value" @click.stop="goChooseCoupon">
               <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
               <template v-else>
                 <text v-if="!chooseCouponId" class="f-36 red-6">
@@ -143,7 +143,7 @@
         <view class="u-tip-warn">
           <text class="f-28 red-6">购彩提示：赔率与奖金以实际出票为准</text>
         </view>
-        <view class="u-submit" @tap="doSubmit"><text class="f-36 white-1">余额支付</text></view>
+        <view class="u-submit" @click.stop="doSubmit"><text class="f-36 white-1">余额支付</text></view>
       </view>
     </uni-popup>
   </view>

@@ -15,16 +15,16 @@
         <input class="u-input" type="password" v-model="form.password" placeholder="请输入密码" />
       </view>
       
-      <view class="u-forget" @tap="goForget">
+      <view class="u-forget" @click.stop="goForget">
         <text class="f-30 grey-5">忘记密码</text>
       </view>
 
       <view class="u-action">
-        <view class="u-login" @tap="handleLogin"><text class="u-login-text">登录</text></view>
+        <view class="u-login" @click.stop="handleLogin"><text class="u-login-text">登录</text></view>
       </view>
 
       <view class="u-action">
-        <view class="u-register" @tap="goRegister"><text class="u-register-text">注册</text></view>
+        <view class="u-register" @click.stop="goRegister"><text class="u-register-text">注册</text></view>
       </view>
     </view>
   </view>

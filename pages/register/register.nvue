@@ -26,11 +26,11 @@
         <text class="iconfont" style="font-size: 32rpx;color: #ccc;">&#xe775;</text>
         <input class="u-input" type="number" v-model="form.validateCodeCheck" placeholder="请输入验证码" />
         <view class="u-verify-btn">
-          <text class="u-verify-btn-text" @tap="getVerify" v-if="!countdown">发送验证码</text>
+          <text class="u-verify-btn-text" @click.stop="getVerify" v-if="!countdown">发送验证码</text>
           <text class="u-verify-btn-text" v-else>{{ count }}s</text>
         </view>
       </view> -->
-      <view class="u-action" @tap="hanldeRegister"><text class="u-action-text">立即注册</text></view>
+      <view class="u-action" @click.stop="hanldeRegister"><text class="u-action-text">立即注册</text></view>
       <view class="u-tip">
         <text class="u-tip-text">*注册即代表您同意</text>
         <text class="u-tip-text u-agreement">《{{name}}用户协议》</text>

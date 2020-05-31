@@ -25,16 +25,16 @@
             <view style="flex: 1;text-align: left;">{{match.guestName}}</view>
           </view>
           <view class="u-choose-list f-30">
-            <view class="u-choose-item" :class="{'z-active': match.choose.includes(3)}" @tap="chooseChange(match, 3, index)">胜</view>
-            <view class="u-choose-item" :class="{'z-active': match.choose.includes(1)}" @tap="chooseChange(match, 1, index)">平</view>
-            <view class="u-choose-item" :class="{'z-active': match.choose.includes(0)}" @tap="chooseChange(match, 0, index)">负</view>
+            <view class="u-choose-item" :class="{'z-active': match.choose.includes(3)}" @click.stop="chooseChange(match, 3, index)">胜</view>
+            <view class="u-choose-item" :class="{'z-active': match.choose.includes(1)}" @click.stop="chooseChange(match, 1, index)">平</view>
+            <view class="u-choose-item" :class="{'z-active': match.choose.includes(0)}" @click.stop="chooseChange(match, 0, index)">负</view>
           </view>
         </view>
       </view>
     </view>
     
     <view class="u-bottom">
-      <view class="u-empty" @tap="resetChoose"><text class="f-30 red-6">清空</text></view>
+      <view class="u-empty" @click.stop="resetChoose"><text class="f-30 red-6">清空</text></view>
       <view class="u-center">
         <view class="u-center-top">
           <text class="f-32">已选</text>
@@ -43,7 +43,7 @@
         </view>
         <view class="u-center-bottom"><text class="f-24 grey-6">(页面赔率仅供参考)</text></view>
       </view>
-      <view class="u-next" @tap="goNext"><text class="f-30 white-1">下一步</text></view>
+      <view class="u-next" @click.stop="goNext"><text class="f-30 white-1">下一步</text></view>
     </view>
 	</view>
 </template>

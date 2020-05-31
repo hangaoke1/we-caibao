@@ -5,7 +5,7 @@
       <text style="font-size:60rpx;">¥</text>
       <textarea type="number" class="u-input" v-model="money" ref="xInput" />
       <view class="u-clear">
-        <text class="iconfont f-36" style="color: #ccc;" @tap="money = ''">&#xe726;</text>
+        <text class="iconfont f-36" style="color: #ccc;" @click.stop="money = ''">&#xe726;</text>
       </view>
     </view>
     <view v-if="info.moneyList" class="u-choose-list">
@@ -14,12 +14,12 @@
         v-for="item in info.moneyList || []"
         :key="item"
         :class="{ 'z-active': item == money }"
-        @tap="handleChoose(item)"
+        @click.stop="handleChoose(item)"
       >
         <text class="f-28" :class="{ 'z-active': item == money }">{{ item }}元</text>
       </view>
     </view>
-    <view class="u-action" @tap="handleConfirm"><text class="white-1">确认充值</text></view>
+    <view class="u-action" @click.stop="handleConfirm"><text class="white-1">确认充值</text></view>
     <wxc-dialog
       title=""
       :show="isShow"
@@ -39,8 +39,8 @@
       </view>
       <view slot="content" class="u-list">
         <view class="u-list-item" v-for="channel in channelList" :key="channel.id">
-          <view class="u-icon" @tap="goPay(channel)"><g-img width="60" height="60" src="/static/pay2.png"></g-img></view>
-          <view class="u-info" @tap="goPay(channel)">
+          <view class="u-icon" @click.stop="goPay(channel)"><g-img width="60" height="60" src="/static/pay2.png"></g-img></view>
+          <view class="u-info" @click.stop="goPay(channel)">
             <view>
               <text class="f-30">{{ channel.name }}</text>
             </view>

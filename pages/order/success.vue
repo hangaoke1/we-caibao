@@ -3,9 +3,9 @@
     <view class="u-icon-wrap"><text class="u-icon iconfont red-6">&#xe62e;</text></view>
     <view class="u-title f-32">购买成功</view>
     <view class="u-tip f-22 grey-6">可以在我的订单页面里时刻关注订单状态哦~</view>
-    <view class="u-action f-32 red-6" @tap="goHome">返回首页</view>
-    <view class="u-action f-32 white-1 red-6-bg" @tap="goPublish" v-if="['10058', '10059'].includes(lotteryId)">立即发单</view>
-    <view class="u-action f-32 white-1 red-6-bg" @tap="goOrder" v-else>查看订单</view>
+    <view class="u-action f-32 red-6" @click.stop="goHome">返回首页</view>
+    <view class="u-action f-32 white-1 red-6-bg" @click.stop="goPublish" v-if="['10058', '10059'].includes(lotteryId)">立即发单</view>
+    <view class="u-action f-32 white-1 red-6-bg" @click.stop="goOrder" v-else>查看订单</view>
 	</view>
 </template>
 

@@ -14,7 +14,7 @@
           v-for="item in info.moneyList"
           :key="item"
           :class="{ 'z-active': item == money }"
-          @tap="handleChoose(item)"
+          @click.stop="handleChoose(item)"
         >
           <text class="f-28" :class="{ 'z-active': item == money }">{{ item }}元</text>
         </view>
@@ -25,20 +25,20 @@
       </view>
     </view>
 
-    <button class="u-action f-30" type="warn" @tap="handleConfirm">确认充值</button>
+    <button class="u-action f-30" type="warn" @click.stop="handleConfirm">确认充值</button>
 
     <uni-popup ref="popup" type="center" :mask-click="true" custom>
       <view class="u-popup">
         <view class="u-popup-header">
           <view class="u-popup-icon"></view>
           <view class="g-center">选择充值方式</view>
-          <view class="u-popup-icon" @tap="closePopup">
+          <view class="u-popup-icon" @click.stop="closePopup">
             <text class="iconfont f-30">&#xe734;</text>
           </view>
         </view>
 
         <view class="u-popup-content">
-          <view class="u-cell" v-for="channel in channelList" :key="channel.id" @tap="goPay(channel)">
+          <view class="u-cell" v-for="channel in channelList" :key="channel.id" @click.stop="goPay(channel)">
             <image style="width: 60rpx;height: 60rpx;margin-right: 10rpx;" src="/static/pay2.png"></image>
             <view>
               <view class="f-30" style="margin-bottom: 10rpx;">{{ channel.name }}</view>

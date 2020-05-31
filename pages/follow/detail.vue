@@ -12,8 +12,8 @@
         </text>
         <text class="f-24 white-1 f-bold">粉丝: {{homeInfo.cared}}</text>
       </view>
-      <view class="u-focus f-22" v-if="homeInfo.beCared != 1" @tap="carePerson">+ 关注</view>
-      <view class="u-focused f-22" v-else @tap="cancelCarePerson">已关注</view>
+      <view class="u-focus f-22" v-if="homeInfo.beCared != 1" @click.stop="carePerson">+ 关注</view>
+      <view class="u-focused f-22" v-else @click.stop="cancelCarePerson">已关注</view>
     </view>
 
     <!-- 战绩信息 -->
@@ -53,7 +53,7 @@
         :class="{ 'z-active': index === activeIndex }"
         v-for="(item, index) in ['近期投注', '历史红单']"
         :key="item"
-        @tap="changeTab(index)"
+        @click.stop="changeTab(index)"
       >
         <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
       </view>

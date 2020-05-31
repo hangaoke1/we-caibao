@@ -9,16 +9,16 @@
         <slot name="content">
           <text class="content-subtext">{{ content }}</text>
         </slot>
-        <view class="no-prompt" v-if="showNoPrompt" @tap="noPromptClicked">
+        <view class="no-prompt" v-if="showNoPrompt" @click.stop="noPromptClicked">
           <image :src="noPromptIcon" class="no-prompt-icon"></image>
           <text class="no-prompt-text">{{ noPromptText }}</text>
         </view>
       </view>
       <view class="dialog-footer" v-if="showBottom">
-        <view class="footer-btn cancel" v-if="!single" @tap="secondaryClicked">
+        <view class="footer-btn cancel" v-if="!single" @click.stop="secondaryClicked">
           <text class="btn-text" :style="{ color: secondBtnColor }">{{ cancelText }}</text>
         </view>
-        <view class="footer-btn confirm" @tap="primaryClicked">
+        <view class="footer-btn confirm" @click.stop="primaryClicked">
           <text class="btn-text" :style="{ color: mainBtnColor }">{{ confirmText }}</text>
         </view>
       </view>

@@ -1,7 +1,7 @@
 <template>
   <view class="u-coupon">
     <view class="u-tab">
-      <view class="u-tab-item" v-for="(item, index) in ['可使用', '过期/用完']" :key="item" @tap="changeTab(index)">
+      <view class="u-tab-item" v-for="(item, index) in ['可使用', '过期/用完']" :key="item" @click.stop="changeTab(index)">
         <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
       </view>
       <view class="u-tab-line" :style="lineStyle"></view>

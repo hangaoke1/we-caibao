@@ -36,7 +36,7 @@
       </view>
     </view> -->
     <view class="u-bottom">
-      <view class="u-empty" @tap="resetChoose"><text class="f-30 red-6">清空</text></view>
+      <view class="u-empty" @click.stop="resetChoose"><text class="f-30 red-6">清空</text></view>
       <view class="u-center">
         <view class="u-center-top">
           <text class="f-32">已选</text>

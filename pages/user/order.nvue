@@ -5,7 +5,7 @@
         class="u-tab-item"
         v-for="(item, index) in ['全部', '个人订单', '我的发单', '我的跟单']"
         :key="item"
-        @tap="changeTab(index)"
+        @click.stop="changeTab(index)"
       >
         <text class="f-30" :class="{ 'z-active-text': index === activeIndex }">{{ item }}</text>
       </view>
@@ -25,7 +25,7 @@
           :active="tabIndex === activeIndex"
           @loadMore="loadMore(tabIndex, $event)"
         >
-          <view class="u-item" v-for="(item, index) in tabData.list" :key="item.schemeId" @tap="goDetail(item)">
+          <view class="u-item" v-for="(item, index) in tabData.list" :key="item.schemeId" @click.stop="goDetail(item)">
             <view class="u-top">
               <view class="u-top-left">
                 <text class="f-30">{{ item.lotteryName }}</text>
@@ -200,6 +200,7 @@ export default {
 
 .m-order {
   flex: 1;
+  background-color: #fff;
 }
 
 .u-header {

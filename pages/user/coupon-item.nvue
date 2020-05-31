@@ -20,7 +20,7 @@
       <view class="u-date">
         <text class="f-22 grey-6" :style="iStyle">有效期：{{ item.startTime }} 至 {{ item.endTime }}</text>
       </view>
-      <view @tap="goUse" class="u-action" v-if="item.enableFlag == 1 && type === 0">
+      <view @click.stop="goUse" class="u-action" v-if="item.enableFlag == 1 && type === 0">
         <text class="f-30 red-6" :style="iStyle">去使用</text>
       </view>
     </view>
