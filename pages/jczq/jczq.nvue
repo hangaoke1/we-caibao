@@ -51,132 +51,129 @@
 </template>
 
 <script>
-import _ from 'lodash';
-import { mapState, mapActions, mapMutations } from 'vuex';
-import lottery from '@/api/lottery/index.js';
-import wePanel from './u-panel.nvue';
-import uRace from './u-race.nvue';
-import proMixin from '@/mixins/pro.js';
-var modal = weex.requireModule('modal');
+import _0x2d8f05 from 'lodash';
+import {
+    mapState,
+    mapActions,
+    mapMutations
+} from 'vuex';
+import _0x4b81bb from '@/api/lottery/index.js';
+import _0x4d74cb from './u-panel.nvue';
+import _0x32719f from './u-race.nvue';
+import _0x2dc776 from '@/mixins/pro.js';
+var modal = weex['requireModule']('modal');
 export default {
-  mixins: [proMixin],
-  components: {
-    wePanel,
-    uRace
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    ...mapState({
-      info: state => state.jczq
-    }),
-    isEmpty() {
-      return this.info && _.get(this.info, 'data.length', 0) === 0;
+    'mixins': [_0x2dc776],
+    'components': {
+        'wePanel': _0x4d74cb,
+        'uRace': _0x32719f
     },
-    selectCount() {
-      let count = 0;
-      this.info &&
-        this.info.data.forEach(item => {
-          item.matches.forEach(match => {
-            if (match.choose.length) {
-              count += 1;
-            }
-          });
-        });
-      return count;
+    'data'() {
+        return {};
     },
-    selectRaces() {
-      let matches = [];
-      this.info &&
-        this.info.data.forEach(item => {
-          item.matches.forEach(match => {
-            if (match.choose.length) {
-              matches.push(match);
-            }
-          });
-        });
-      return matches;
-    }
-  },
-  methods: {
-    ...mapActions({
-      updateJczq: 'updateJczq'
-    }),
-    ...mapMutations(['updateJczqChooseById', 'emptyJczqChoose']),
-    needInitShow (index) {
-      if (index === 0) {
-        return true
-      } else {
-        return _.get(this.info, 'data[0].matches.length') < 10
-      }
-    },
-    checkRaces(match) {
-      // 只有 胜平负/让球胜平负 需要进行单关检测
-      const choose = match.choose;
-      const sfp = ['sheng', 'ping', 'fu']; // 胜平负
-      const rqSfp = ['rqSheng', 'rqPing', 'rqFu']; // 让球胜平负
-      const { spfSingleStatus, rqSpfSingleStatus } = match;
-      const sfpDan = spfSingleStatus === 0;
-      const rqSfpDan = rqSpfSingleStatus === 0;
-
-      // 如果存在胜平负，且胜平负单关关闭状态
-      if (_.intersection(choose, sfp).length && !sfpDan) {
-        return false;
-      }
-      // 如果存在让球胜平负，且让球胜平负单关关闭状态
-      if (_.intersection(choose, rqSfp).length && !rqSfpDan) {
-        return false;
-      }
-      return true;
-    },
-    // 进入投注确认页面
-    goNext() {
-      // 1. 场次检测
-      if (this.selectCount === 0) {
-        return uni.showToast({
-          title: '至少选择1场比赛',
-          icon: 'none'
-        });
-      }
-      // 2. 场次检测 非单关提示
-      if (this.selectCount === 1 && !this.checkRaces(this.selectRaces[0])) {
-        return uni.showToast({
-          title: '非单关至少选择2场比赛',
-          icon: 'none'
-        });
-      }
-      if (this.selectCount > 8) {
-        return uni.showToast({
-          title: '混合投注最多8场比赛',
-          icon: 'none'
-        }); 
-      }
-      // 3. 放行
-      this.navigateTo({
-        url: '/pages/jczq/confirm'
-      });
-    },
-    resetChoose() {
-      modal.confirm(
-        {
-          message: '是否清空选择?',
-          okTitle: '确定',
-          cancelTitle: '取消'
+    'computed': {
+        ...mapState({ 'info': _0x3e4c21 => _0x3e4c21['jczq'] }),
+        'isEmpty'() {
+            return this['info'] && _0x2d8f05['get'](this['info'], 'data.length', 0x0) === 0x0;
         },
-        value => {
-          if (value === '确定') {
-            this.emptyJczqChoose();
-          } else {
-          }
+        'selectCount'() {
+            let count = 0x0;
+            this['info'] && this['info']['data']['forEach'](_0x3e3156 => {
+                _0x3e3156['matches']['forEach'](_0x1e9e81 => {
+                    if (_0x1e9e81['choose']['length']) {
+                        count += 0x1;
+                    }
+                });
+            });
+            return count;
+        },
+        'selectRaces'() {
+            let matches = [];
+            this['info'] && this['info']['data']['forEach'](_0x151bd2 => {
+                _0x151bd2['matches']['forEach'](_0x558098 => {
+                    if (_0x558098['choose']['length']) {
+                        matches['push'](_0x558098);
+                    }
+                });
+            });
+            return matches;
         }
-      );
+    },
+    'methods': {
+        ...mapActions({ 'updateJczq': 'updateJczq' }),
+        ...mapMutations([
+            'updateJczqChooseById',
+            'emptyJczqChoose'
+        ]),
+        'needInitShow'(_0xd7aec1) {
+            if (_0xd7aec1 === 0x0) {
+                return !![];
+            } else {
+                return _0x2d8f05['get'](this['info'], 'data[0].matches.length') < 0xa;
+            }
+        },
+        'checkRaces'(_0x230f38) {
+            const choose = _0x230f38['choose'];
+            const sfp = [
+                'sheng',
+                'ping',
+                'fu'
+            ];
+            const rqSfp = [
+                'rqSheng',
+                'rqPing',
+                'rqFu'
+            ];
+            const {spfSingleStatus, rqSpfSingleStatus} = _0x230f38;
+            const sfpDan = spfSingleStatus === 0x0;
+            const rqSfpDan = rqSpfSingleStatus === 0x0;
+            if (_0x2d8f05['intersection'](choose, sfp)['length'] && !sfpDan) {
+                return ![];
+            }
+            if (_0x2d8f05['intersection'](choose, rqSfp)['length'] && !rqSfpDan) {
+                return ![];
+            }
+            return !![];
+        },
+        'goNext'() {
+            if (this['selectCount'] === 0x0) {
+                return uni['showToast']({
+                    'title': '至少选择1场比赛',
+                    'icon': 'none'
+                });
+            }
+            if (this['selectCount'] === 0x1 && !this['checkRaces'](this['selectRaces'][0x0])) {
+                return uni['showToast']({
+                    'title': '非单关至少选择2场比赛',
+                    'icon': 'none'
+                });
+            }
+            if (this['selectCount'] > 0x8) {
+                return uni['showToast']({
+                    'title': '混合投注最多8场比赛',
+                    'icon': 'none'
+                });
+            }
+            this['navigateTo']({ 'url': '/pages/jczq/confirm' });
+        },
+        'resetChoose'() {
+            modal['confirm']({
+                'message': '是否清空选择?',
+                'okTitle': '确定',
+                'cancelTitle': '取消'
+            }, _0x4ce2f1 => {
+                if (_0x4ce2f1 === '确定') {
+                    this['emptyJczqChoose']();
+                } else {
+                }
+            });
+        }
+    },
+    'onReady'() {
+        this['updateJczq']();
+    },
+    'mounted'() {
     }
-  },
-  onReady() {
-    this.updateJczq();
-  },
-  mounted() {}
 };
 </script>
 

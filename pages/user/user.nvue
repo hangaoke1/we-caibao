@@ -57,188 +57,174 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import statusbarMixin from '@/mixins/statusbar.js';
-import iconfontMixin from '@/mixins/iconfont.js';
-import proMixin from '@/mixins/pro.js';
-import gImg from '@/components/g-img/index.nvue';
+import {
+    mapState,
+    mapActions
+} from 'vuex';
+import _0x3aa924 from '@/mixins/statusbar.js';
+import _0x3f722b from '@/mixins/iconfont.js';
+import _0x514469 from '@/mixins/pro.js';
+import _0xc44bf5 from '@/components/g-img/index.nvue';
 import { openUrl } from '@/util/index.js';
-import checkUpdate from '@/lib/checkUpdate.js';
-// 1
+import _0x10c2d4 from '@/lib/checkUpdate.js';
 export default {
-  components: {
-    gImg
-  },
-  mixins: [statusbarMixin, iconfontMixin, proMixin],
-  computed: {
-    ...mapState({
-      test: state => state.test,
-      balanceInfo: state => state.balanceInfo,
-      userInfo: state => state.userInfo
-    })
-  },
-  data() {
-    return {
-      refreshing: false,
-      tabList: ['我的订单', '资金明细', '帮助中心', '版本更新'],
-      map: {
-        我的订单: {
-          icon: '\ue647',
-          color: '#f5222d',
-          tip: '查看全部订单'
+    'components': { 'gImg': _0xc44bf5 },
+    'mixins': [
+        _0x3aa924,
+        _0x3f722b,
+        _0x514469
+    ],
+    'computed': {
+        ...mapState({
+            'test': _0x336606 => _0x336606['test'],
+            'balanceInfo': _0x591658 => _0x591658['balanceInfo'],
+            'userInfo': _0x3d95f9 => _0x3d95f9['userInfo']
+        })
+    },
+    'data'() {
+        return {
+            'refreshing': ![],
+            'tabList': [
+                '我的订单',
+                '资金明细',
+                '帮助中心',
+                '版本更新'
+            ],
+            'map': {
+                '我的订单': {
+                    'icon': '',
+                    'color': '#f5222d',
+                    'tip': '查看全部订单'
+                },
+                '资金明细': {
+                    'icon': '',
+                    'color': '#faad14',
+                    'tip': '查看资金流向'
+                },
+                '我的卡券': {
+                    'icon': '',
+                    'color': '#eb2f96'
+                },
+                '帮助中心': {
+                    'icon': '',
+                    'color': '#1890ff',
+                    'tip': '查看常见问题'
+                },
+                '版本更新': {
+                    'icon': '',
+                    'color': '#2f54eb',
+                    'tip': '获取最新版本'
+                }
+            }
+        };
+    },
+    'mounted'() {
+        this['init']();
+    },
+    'onShow'() {
+        this['init']();
+    },
+    'methods': {
+        ...mapActions({
+            'updateBalanceInfo': 'updateBalanceInfo',
+            'updateUserInfo': 'updateUserInfo'
+        }),
+        'goConversion'() {
+            const vm = this;
+            if (this['userInfo']['bindingIdentify'] != '1') {
+                return uni['showModal']({
+                    'title': '提示',
+                    'content': '请先完成实名认证',
+                    'success': function (_0x5b1233) {
+                        if (_0x5b1233['confirm']) {
+                            vm['navigateTo']({ 'url': '/pages/config/bindidcard' });
+                        } else if (_0x5b1233['cancel']) {
+                            console['log']('用户点击取消');
+                        }
+                    }
+                });
+            }
+            vm['navigateTo']({ 'url': '/pages/conversion/conversion' });
         },
-        资金明细: {
-          icon: '\ue756',
-          color: '#faad14',
-          tip: '查看资金流向'
+        'goWidthDraw'() {
+            const vm = this;
+            if (this['userInfo']['bindingIdentify'] != '1') {
+                return uni['showModal']({
+                    'title': '提示',
+                    'content': '请先完成实名认证',
+                    'success': function (_0xe7534d) {
+                        if (_0xe7534d['confirm']) {
+                            vm['navigateTo']({ 'url': '/pages/config/bindidcard' });
+                        } else if (_0xe7534d['cancel']) {
+                            console['log']('用户点击取消');
+                        }
+                    }
+                });
+            }
+            if (!this['userInfo']['aliPay'] && !this['userInfo']['bankAccount']) {
+                return uni['showModal']({
+                    'title': '温馨提示',
+                    'content': '请先绑定支付宝或银行卡',
+                    'cancelText': '绑银行卡',
+                    'confirmText': '绑支付宝',
+                    'success': function (_0x2eaf71) {
+                        if (_0x2eaf71['confirm']) {
+                            vm['navigateTo']({ 'url': '/pages/config/bindalipay' });
+                        } else if (_0x2eaf71['cancel']) {
+                            vm['navigateTo']({ 'url': '/pages/config/bindBankCard' });
+                        }
+                    }
+                });
+            }
+            vm['navigateTo']({ 'url': '/pages/withdraw/withdraw' });
         },
-        我的卡券: {
-          icon: '\ue776',
-          color: '#eb2f96',
+        'init'() {
+            this['updateBalanceInfo']();
+            this['updateUserInfo']();
         },
-        帮助中心: {
-          icon: '\ue73e',
-          color: '#1890ff',
-          tip: '查看常见问题'
+        'goPayment'() {
+            this['navigateTo']({ 'url': '/pages/user/payment' });
         },
-        版本更新: {
-          icon: '\ue708',
-          color: '#2f54eb',
-          tip: '获取最新版本'
+        'handleClick'(_0x16caed) {
+            if (_0x16caed === '帮助中心') {
+                openUrl({
+                    'url': '/hybrid/html/help/help.html#/help_center',
+                    'title': '帮助中心',
+                    'showAction': ![]
+                });
+            }
+            if (_0x16caed === '我的订单') {
+                this['navigateTo']({ 'url': '/pages/user/order' });
+            }
+            if (_0x16caed === '资金明细') {
+                this['navigateTo']({ 'url': '/pages/user/capital' });
+            }
+            if (_0x16caed === '我的卡券') {
+                this['navigateTo']({ 'url': '/pages/user/coupon' });
+            }
+            if (_0x16caed === '版本更新') {
+                _0x10c2d4(!![]);
+            }
+        },
+        'goKefu'() {
+            this['navigateTo']({ 'url': '/pages/user/kefu' });
+        },
+        'goConfig'() {
+            this['navigateTo']({ 'url': '/pages/config/config' });
+        },
+        'onpullingdown'() {
+        },
+        async 'onrefresh'() {
+            this['refreshing'] = !![];
+            try {
+                await this['updateUserInfo']();
+                await this['updateBalanceInfo']();
+                this['refreshing'] = ![];
+            } catch (_0x44b289) {
+                this['refreshing'] = ![];
+            }
         }
-      }
-    };
-  },
-  mounted() {
-    this.init();
-  },
-  onShow() {
-    this.init();
-  },
-  methods: {
-    ...mapActions({
-      updateBalanceInfo: 'updateBalanceInfo',
-      updateUserInfo: 'updateUserInfo'
-    }),
-    goConversion () {
-      const vm = this;
-      if (this.userInfo.bindingIdentify != '1') {
-        return uni.showModal({
-          title: '提示',
-          content: '请先完成实名认证',
-          success: function(res) {
-            if (res.confirm) {
-              vm.navigateTo({
-                url: '/pages/config/bindidcard'
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消');
-            }
-          }
-        });
-      }
-      vm.navigateTo({
-        url: '/pages/conversion/conversion'
-      })
-    },
-    goWidthDraw() {
-      const vm = this;
-      if (this.userInfo.bindingIdentify != '1') {
-        return uni.showModal({
-          title: '提示',
-          content: '请先完成实名认证',
-          success: function(res) {
-            if (res.confirm) {
-              vm.navigateTo({
-                url: '/pages/config/bindidcard'
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消');
-            }
-          }
-        });
-      }
-      if (!this.userInfo.aliPay && !this.userInfo.bankAccount) {
-        return uni.showModal({
-          title: '温馨提示',
-          content: '请先绑定支付宝或银行卡',
-          cancelText: '绑银行卡',
-          confirmText: '绑支付宝',
-          success: function(res) {
-            if (res.confirm) {
-              vm.navigateTo({
-                url: '/pages/config/bindalipay'
-              })
-            } else if (res.cancel) {
-              vm.navigateTo({
-                url: '/pages/config/bindBankCard'
-              })
-            }
-          }
-        });
-      }
-      vm.navigateTo({
-        url: '/pages/withdraw/withdraw'
-      })
-    },
-    init() {
-      this.updateBalanceInfo();
-      this.updateUserInfo();
-    },
-    goPayment() {
-      this.navigateTo({
-        url: '/pages/user/payment'
-      });
-    },
-    handleClick(tab) {
-      if (tab === '帮助中心') {
-        openUrl({
-          url: '/hybrid/html/help/help.html#/help_center',
-          title: '帮助中心',
-          showAction: false
-        });
-      }
-      if (tab === '我的订单') {
-        this.navigateTo({
-          url: '/pages/user/order'
-        });
-      }
-      if (tab === '资金明细') {
-        this.navigateTo({
-          url: '/pages/user/capital'
-        });
-      }
-      if (tab === '我的卡券') {
-        this.navigateTo({
-          url: '/pages/user/coupon'
-        });
-      }
-      if (tab === '版本更新') {
-        checkUpdate(true)
-      }
-    },
-    goKefu() {
-      this.navigateTo({
-        url: '/pages/user/kefu'
-      });
-    },
-    goConfig() {
-      this.navigateTo({
-        url: '/pages/config/config'
-      });
-    },
-    onpullingdown() {},
-    async onrefresh() {
-      this.refreshing = true;
-      try {
-        await this.updateUserInfo();
-        await this.updateBalanceInfo();
-        this.refreshing = false;
-      } catch (err) {
-        this.refreshing = false;
-      }
     }
-  }
 };
 </script>
 
