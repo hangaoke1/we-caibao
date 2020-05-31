@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="u-confirm" @touchend.stop.prevent>
+    <view class="u-confirm">
       <view class="u-continue f-30 red-6" @tap="goContinue">+继续添加</view>
       <view class="u-issue f-30">第{{ issue }}期</view>
       <view class="u-select" v-for="(choose, index) in chooseList" :key="index">
@@ -470,7 +470,7 @@
             url: `/pages/order/success?schemeId=${res.schemeId}&single=${single}&lotteryId=10108`
           });
         } catch (err) {
-          uni.hideLoading();
+          // uni.hideLoading();
           this.loading = false
           console.log(err);
         }

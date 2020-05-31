@@ -129,7 +129,7 @@
                 }
             }
         },
-        "compilerVersion" : 2
+        "compilerVersion" : 3
     },
     /* 快应用特有相关 */
     "quickapp" : {},

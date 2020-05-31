@@ -1,5 +1,5 @@
 <template>
-  <view class="u-js" @touchend.stop.prevent>
+  <view class="u-js">
     <view class="u-title">
       <text class="f-30">{{current}}期投注截止还有</text>
       <g-countdown :time="info.remainTime" v-if="info.remainTime"></g-countdown>

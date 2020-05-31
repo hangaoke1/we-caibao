@@ -3,7 +3,6 @@
   <view class="u-case">
     <!-- 用户信息 -->
     <view class="u-user" @tap="goUser">
-      <!-- <image class="u-avatar" :src="info.avatar"></image> -->
       <div class="u-avatar">
         <g-img :src="info.avatar" defaultSrc="/static/portrait.png"></g-img>
       </div>
@@ -87,12 +86,12 @@
         </g-tr>
       </g-table>
     </view>
-    
+
     <view style="padding: 20rpx 43rpx;margin-top: 30rpx;background-color: #fff;">
       <text class="f-28">跟单金额：</text>
-      <text class="f-28 red-6" style="margin-right: 30rpx;">{{info.followMoney}}元</text>
+      <text class="f-28 red-6" style="margin-right: 30rpx;">{{ info.followMoney }}元</text>
       <text class="f-28">佣金收入：</text>
-      <text class="f-28 red-6">{{commission}}元</text>
+      <text class="f-28 red-6">{{ commission }}元</text>
     </view>
 
     <!-- tab选项 -->
@@ -105,8 +104,8 @@
         @tap="changeTab(index)"
       >
         <text>{{ item }}</text>
-        <text v-if="item === '方案详情'">({{matchLen}})</text>
-        <text v-else>({{followCount}})</text>
+        <text v-if="item === '方案详情'">({{ matchLen }})</text>
+        <text v-else>({{ followCount }})</text>
       </view>
       <view class="u-tab-line" :style="lineStyle"></view>
     </view>
@@ -118,11 +117,15 @@
         <view class="u-tip-2" v-if="info.statusDesc === '未中奖' && info.lotteryId == 10058">
           <view class="f-24 red-6">竞彩篮球存在高频率的变盘情况，导致一场比赛可能有多个赛果。</view>
         </view>
-        
-        <view class="u-tip-2" style="margin-bottom: 10rpx;" v-if="info.statusDesc === '未中奖' && info.lotteryId == 10058">
+
+        <view
+          class="u-tip-2"
+          style="margin-bottom: 10rpx;"
+          v-if="info.statusDesc === '未中奖' && info.lotteryId == 10058"
+        >
           <view class="f-24 red-6">如有疑问，请核对方案中的比赛。</view>
         </view>
-        
+
         <view v-if="info.open">
           <zq-case :matches="matches" v-if="info.lotteryId == 10059"></zq-case>
           <lq-case :matches="matches" v-if="info.lotteryId == 10058"></lq-case>
@@ -252,20 +255,6 @@
                 <text class="f-36 grey-6">{{ info.initiateTime }}</text>
               </view>
             </view>
-            <!-- <view class="u-form-item">
-              <view class="u-label"><text class="f-36">彩金券抵扣</text></view>
-              <view class="u-value" @tap="goChooseCoupon">
-                <text class="f-36 grey-6" v-if="coupons.length === 0">无可用彩金券</text>
-                <template v-else>
-                  <text v-if="!chooseCouponId" class="f-36 red-6">
-                    {{ coupons.length }}张可用彩金券
-                  </text>
-                  <text v-else class="f-36 red-6">-{{ chooseCoupon.value }}</text>
-                  <text class="f-36 iconfont grey-6">&#xe60d;</text>
-                </template>
-              </view>
-            </view> -->
-
             <view class="u-form-item">
               <view class="u-label"><text class="f-36">扣款后账户余额</text></view>
               <view class="u-value">
@@ -321,7 +310,7 @@ export default {
         buyAmount: '',
         singleMultipleMoney: '',
         followMoney: 0,
-        subCommission: 0,
+        subCommission: 0
       },
       copyList: [],
       followCount: 0,
@@ -367,9 +356,9 @@ export default {
     pass() {
       return _.get(this.info, 'schemeContent[0].pass');
     },
-    matchLen () {
+    matchLen() {
       const matches = _.get(this.info, 'schemeContent[0].matches', []);
-      return matches.length
+      return matches.length;
     },
     // 比赛场次
     matches() {
@@ -386,8 +375,8 @@ export default {
         transform: translate3d(${this.activeIndex * 375}rpx, 0, 0);
         `;
     },
-    commission () {
-      return this.info.subCommission ? this.info.subCommission.toFixed(2) : '0.00'
+    commission() {
+      return this.info.subCommission ? this.info.subCommission.toFixed(2) : '0.00';
     }
   },
   methods: {
@@ -396,19 +385,19 @@ export default {
       updateBalanceInfo: 'updateBalanceInfo',
       updateCoupons: 'updateCoupons'
     }),
-    showTip () {
+    showTip() {
       uni.showModal({
-          title: '佣金提示',
-          content: '彩店收取2%服务费，发单人收取8%佣金',
-          showCancel: false,
-          success: function (res) {}
+        title: '佣金提示',
+        content: '彩店收取2%服务费，发单人收取8%佣金',
+        showCancel: false,
+        success: function(res) {}
       });
     },
     // 前往用户主页
-    goUser () {
+    goUser() {
       uni.navigateTo({
         url: '/pages/follow/detail?id=' + this.info.publisherUserId
-      })
+      });
     },
     // 查看订单详情
     goOrder() {
@@ -502,11 +491,11 @@ export default {
           fetchSize: 5
         })
         .then(res => {
-          console.log('copyList', res)
+          console.log('copyList', res);
           res.list.forEach(item => {
-            const price = (item.price * 0.1).toFixed(2)
-            item.commission = price === 'NaN' ? '----' : price
-          })
+            const price = (item.price * 0.1).toFixed(2);
+            item.commission = price === 'NaN' ? '----' : price;
+          });
           this.copyList = res.list;
           this.followCount = res.count || 0;
         })
@@ -549,7 +538,7 @@ export default {
     this.fromOrder = options.fromOrder;
     this.statusDesc = options.statusDesc;
     this.schemeId = options.schemeId;
-    this.count = options.count || 10
+    this.count = options.count || 10;
   },
 
   onReady() {
@@ -859,5 +848,4 @@ export default {
     .g-center();
   }
 }
-
 </style>

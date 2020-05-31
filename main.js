@@ -28,7 +28,7 @@ if (uni.getSystemInfoSync().platform == "android") {
   });
 }
 // #endif
-
+Vue.prototype.$store = store;
 const app = new Vue({
   ...App,
   store

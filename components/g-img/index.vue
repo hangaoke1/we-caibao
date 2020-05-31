@@ -1,7 +1,19 @@
 <template>
   <div class="g-img" :style="imgStyle">
-    <image class="g-img__real" ref="img" :mode="mode" :src="url" :data-url="url" :lazy-load="true" @error="handleError" @load="handleLoad"></image>
-    <view class="g-img__preload" :style="{ backgroundColor: defaultColor }" :class="loaded ? 'loaded' : ''"></view>
+    <image
+      class="g-img__real"
+      ref="img"
+      :mode="mode"
+      :src="url"
+      :lazy-load="true"
+      @error="handleError"
+      @load="handleLoad"
+    ></image>
+    <view
+      class="g-img__preload"
+      :style="{ backgroundColor: defaultColor }"
+      :class="loaded ? 'loaded' : ''"
+    ></view>
   </div>
 </template>
 
@@ -38,22 +50,18 @@ export default {
   },
   computed: {
     imgStyle() {
-      if (!this.width) { return ''}
-      return `width: ${this.width}rpx;height: ${this.height}rpx;border-radius: ${this.radius}rpx;`
+      if (!this.width) {
+        return '';
+      }
+      return `width: ${this.width}rpx;height: ${this.height}rpx;border-radius: ${this.radius}rpx;`;
     }
   },
   watch: {
     src: {
       handler(v) {
-        // #ifdef H5
-        this.url = v;
-        // #endif
-
-        // #ifndef H5
         init(v, res => {
           this.url = res;
         });
-        // #endif
       },
       immediate: true
     }
@@ -89,7 +97,6 @@ export default {
 .g-img__preload {
   background-color: #eee;
   position: absolute;
-  // z-index: 0;
   top: 0;
   left: 0;
   height: 100%;

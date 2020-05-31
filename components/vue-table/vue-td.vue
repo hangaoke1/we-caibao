@@ -32,7 +32,7 @@ export default {
 <style scoped>
 .vue-td {
   box-sizing: border-box;
-  height: 100%;
+  /* height: 100%; */
   border-top: 1rpx #f0f0f0 solid;
   border-left: 1rpx #f0f0f0 solid;
 }
