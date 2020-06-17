@@ -1,5 +1,6 @@
 export default {
   name: '',
   nameZh: '',
-  server: ''
+  server: '',
+  appid: 'wid04087891'
 }
