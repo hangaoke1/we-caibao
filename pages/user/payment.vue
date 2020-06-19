@@ -11,8 +11,8 @@
       <view v-if="info.moneyList" class="u-choose-list">
         <view
           class="u-choose-item"
-          v-for="item in info.moneyList"
-          :key="item"
+          v-for="(item, index) in info.moneyList"
+          :key="index"
           :class="{ 'z-active': item == money }"
           @click.stop="handleChoose(item)"
         >

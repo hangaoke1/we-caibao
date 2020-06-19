@@ -43,6 +43,7 @@ export default {
   methods: {
     getUrl () {
       return '/static/redirect.html?url=' + encodeURIComponent('https://live.m.500.com/home/zq/jczq/cur?render=local')
+      // return 'https://live.m.500.com/home/zq/jczq/cur?render=local'
     },
     reload () {
       wv.reload(true)
