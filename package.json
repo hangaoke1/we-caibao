@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "uview-ui": "^1.3.61",
     "@dcloudio/uni-ui": "^1.1.3",
     "dayjs": "^1.8.18",
     "js-md5": "^0.7.3",
