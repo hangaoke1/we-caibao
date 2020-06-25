@@ -17,7 +17,7 @@
 
 <div class="tool">
 	<a class="fanhui"><img src="./static/fanhui.png" width="30"></a>
-	<div class="title">米店预测系统</div>
+	<div class="title">赛事预测系统</div>
 	<a class="video"></a>
 </div>
 
@@ -84,7 +84,7 @@ $(window).scroll(function(){
 
 //请求数据
 $.ajax({
-	url:"http://client.zcwy.vip/user/ai_app.htm",
+	url:"http://client.4ccc.net/user/ai_app.htm",
 	type:"post",
 	data:{},
 	dataType:"json",
@@ -134,7 +134,7 @@ function tpl(data,obj){
 
 		var res="";
 
-		var w=parseInt(e.cell.probability)+5;
+		var w=parseInt(e.cell.probability);
 
 		if(w>=30){
 			c="r4";
@@ -155,7 +155,7 @@ function tpl(data,obj){
 		if(w>=100){
 			w=100;
 		}
-
+    
 		if(e.result){
 			res=e.result==e.cell.predict_result?'zj':'wzj';
 		}
