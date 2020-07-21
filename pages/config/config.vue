@@ -42,7 +42,7 @@
           <text class="f-36 iconfont u-arrow" v-if="userInfo.mobileBinded != 1">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-form-item" @click="goBindingAlipay">
+      <view class="u-form-item" @click.stop="goBindingAlipay">
         <view class="u-form-item__label f-36">支付宝</view>
         <view class="u-form-item__content">
           <text class="f-36 grey-6" v-if="userInfo.aliPay">{{userInfo.aliPay}}</text>
@@ -50,7 +50,7 @@
           <text class="f-36 iconfont u-arrow" v-if="!userInfo.aliPay">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-form-item" @click="goBindingBankAccount">
+      <view class="u-form-item" @click.stop="goBindingBankAccount">
         <view class="u-form-item__label f-36">银行卡号</view>
         <view class="u-form-item__content">
           <text class="f-36 grey-6" v-if="userInfo.bankAccount">{{showBankAccount}}</text>

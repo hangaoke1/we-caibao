@@ -169,7 +169,6 @@
       "path": "pages/follow/search",
       "style": {
         "app-plus": {
-          // "softinputMode": "adjustPan",
           "titleNView": {
             "titleColor": "#000",
             "backgroundColor": "#fff",
@@ -423,6 +422,27 @@
       "path": "pages/forget/forget",
       "style": {
         "navigationBarTitleText": "忘记密码",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/notice/notice",
+      "style": {
+        "navigationBarTitleText": "公告",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/daletou/daletou",
+      "style": {
+        "navigationBarTitleText": "超级大乐透",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    }, {
+      "path": "pages/daletou/confirm",
+      "style": {
+        "navigationBarTitleText": "投注单",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }

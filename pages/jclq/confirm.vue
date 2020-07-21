@@ -60,7 +60,7 @@
           </view>
         </view>
         <view class="u-action-right">
-          <view class="u-next" @click="goNext"><text class="f-24 white-1">下一步</text></view>
+          <view class="u-next" @click.stop="goNext"><text class="f-24 white-1">下一步</text></view>
         </view>
       </view>
     </view>
@@ -80,7 +80,7 @@
             v-for="item in selectArr"
             :key="item"
             :class="{ 'z-active': ways.includes(item) }"
-            @click="handleWayChange(item)"
+            @click.stop="handleWayChange(item)"
           >
             <text class="u-way-text f-34" :class="{ 'z-active-text': ways.includes(item) }">
               {{ genName(item) }}

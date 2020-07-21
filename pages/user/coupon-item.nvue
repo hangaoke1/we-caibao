@@ -1,5 +1,5 @@
 <template>
-  <view class="u-coupon-item" @click="handleChoose">
+  <view class="u-coupon-item" @click.stop="handleChoose">
     <view class="u-top">
       <view class="u-left">
         <text class="red-6 f-40" :style="iStyle">¥</text>

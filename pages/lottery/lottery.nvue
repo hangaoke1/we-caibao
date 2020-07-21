@@ -1,7 +1,7 @@
 <template>
 	<view class="u-openlottery">
 		<view class="u-list">
-      <view class="u-item" v-for="item in drawList" :key="item.lotteryId" @click="goMore(item.lotteryId)">
+      <view class="u-item" v-for="item in drawList" :key="item.lotteryId" @click.stop="goMore(item.lotteryId)">
         <view class="u-left">
           <view class="u-top">
             <text class="f-36" style="width: 200rpx;">{{lotteryMap[item.lotteryId]}}</text>

@@ -13,7 +13,8 @@
         <text class="f-30">{{info.upIssue}}期</text>
         <view class="u-ball-wrap"><view class="u-ball f-26 white-1" v-for="item in info.upDrawNumberArr" :key="item">{{item}}</view></view>
       </view>
-      <text class="u-arrow f-30 iconfont grey-6">&#xe60d;</text>
+      <text class="iconfont font-s-20 text-gray" v-show="!show">&#xe637;</text>
+      <text class="iconfont font-s-20 text-gray" v-show="show">&#xe638;</text>
     </view>
 
     <view v-show="show">
@@ -98,7 +99,7 @@
     </view>
 
     <view class="u-bottom">
-      <view class="u-bottom-left" @click="emptyAll"><text class="f-36 red-6">清空</text></view>
+      <view class="u-bottom-left" @click.stop="emptyAll"><text class="f-36 red-6">清空</text></view>
       <view class="u-bottom-center">
         <!-- <text class="f-22 red-6" v-if="!count">摇一摇 来一注</text> -->
         <text class="f-30 red-6" v-if="!count"></text>
@@ -109,10 +110,10 @@
           <text class="f-36">元</text>
         </template>
       </view>
-      <view class="u-bottom-right f-36" @click="handleConfirm">确定</view>
+      <view class="u-bottom-right f-36" @click.stop="handleConfirm">确定</view>
     </view>
     
-    <view class="u-float" @click="aiChoose">机选</view>
+    <view class="u-float" @click.stop="aiChoose">机选</view>
   </view>
 </template>
 
@@ -713,11 +714,6 @@ export default {
 }
 .u-panel-left {
   display: flex;
-}
-
-.u-arrow {
-  transform: rotate(90deg);
-  transition: all 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
 }
 .u-ball-wrap {
   display: flex;

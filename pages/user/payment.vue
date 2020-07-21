@@ -5,7 +5,7 @@
       <view class="u-mid">
         <view class="u-unit">¥</view>
         <input class="u-input" type="digit" v-model="money" />
-        <text v-show="money" class="iconfont u-close" @click="money = ''">&#xe726;</text>
+        <text v-show="money" class="iconfont u-close" @click.stop="money = ''">&#xe726;</text>
       </view>
 
       <view v-if="info.moneyList" class="u-choose-list">

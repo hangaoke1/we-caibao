@@ -16,8 +16,9 @@
     <view class="u-bottom">
       <view class="u-pass">
         <view class="u-pass-left" @click.stop="showWaySelect">
-          <text v-if="showWas.length === 0 && !mixWay" class="f-30" style="width: 375rpx;text-align: center;">过关方式</text>
-          <text v-else class="f-30 lines-1" style="width: 375rpx;text-align: center;">{{ mixWay ? genName(mixWay): getWays(showWas) }}</text>
+          <text v-if="showWas.length === 0 && !mixWay" class="f-30" style="text-align: center;">过关方式</text>
+          <text v-else class="f-30 lines-1" style="text-align: center;">{{ mixWay ? genName(mixWay): getWays(showWas) }}</text>
+          <text class="iconfont grey-6" style="margin-left: 10rpx;font-size:20rpx;">&#xe637;</text>
         </view>
         <view class="u-pass-right f-row">
           <view style="margin-right: 10rpx;"><text class="f-24">投</text></view>
@@ -45,7 +46,7 @@
           </view>
         </view>
         <view class="u-action-right">
-          <view class="u-next" @click="goNext"><text class="f-24 white-1">下一步</text></view>
+          <view class="u-next" @click.stop="goNext"><text class="f-24 white-1">下一步</text></view>
         </view>
       </view>
     </view>
@@ -62,7 +63,7 @@
             <text class="f-30">标准过关</text>
           </view>
           <view class="u-way-list">
-            <view class="u-way-item" v-for="item in selectArr" :key="item" :class="{ 'z-active': ways.includes(item) }" @click="handleWayChange(item)">
+            <view class="u-way-item" v-for="item in selectArr" :key="item" :class="{ 'z-active': ways.includes(item) }" @click.stop="handleWayChange(item)">
               <text class="u-way-text f-34" :class="{ 'z-active-text': ways.includes(item) }">{{ genName(item) }}</text>
             </view>
           </view>
@@ -71,7 +72,7 @@
               <text class="f-30">混合过关</text>
             </view>
             <view class="u-way-list">
-              <view class="u-way-item" v-for="item in mixWayArr" :key="item" :class="{ 'z-active': mixWay === item }" @click="handleMixWayChange(item)">
+              <view class="u-way-item" v-for="item in mixWayArr" :key="item" :class="{ 'z-active': mixWay === item }" @click.stop="handleMixWayChange(item)">
                 <text class="u-way-text f-34" :class="{ 'z-active-text': mixWay === item }">{{ genName(item) }}</text>
               </view>
             </view>

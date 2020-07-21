@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.url = this.src;
+    this.url = this.src || this.defaultSrc;
   },
   methods: {
     handleLoad() {

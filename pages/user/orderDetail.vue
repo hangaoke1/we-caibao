@@ -32,7 +32,7 @@
 
     <view class="u-status-wrap"><u-status :status="statusDesc"></u-status></view>
 
-    <view v-if="info.lotteryId == 10026">超级大乐透</view>
+    <view v-if="info.lotteryId == 10026"><u-daletou :info="info"></u-daletou></view>
     <view v-if="info.lotteryId == 10039"><u-toto14 :info="info"></u-toto14></view>
     <view v-if="info.lotteryId == 10040"><u-toto9 :info="info"></u-toto9></view>
     <view v-if="info.lotteryId == 10058"><u-lq :info="info"></u-lq></view>
@@ -49,6 +49,7 @@ import uLq from './components/u-lq.vue';
 import uJs11x5 from './components/u-js11x5.vue';
 import uToto14 from './components/u-toto14.vue';
 import uToto9 from './components/u-toto9.vue';
+import uDaletou from './components/u-daletou.vue';
 export default {
   components: {
     uStatus,
@@ -56,7 +57,8 @@ export default {
     uLq,
     uJs11x5,
     uToto14,
-    uToto9
+    uToto9,
+    uDaletou
   },
   data() {
     return {
@@ -86,7 +88,7 @@ export default {
         schemeId
       })
       .then(res => {
-        console.log('orderDetail', res);
+        console.log('>>> orderDetail', res);
         this.info = res;
       });
   }

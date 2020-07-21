@@ -76,7 +76,7 @@
     <!-- 加载提示 -->
     <view class="u-tip">
       <text class="f-30 grey-6" v-if="dataList[activeIndex].finished">没有更多了</text>
-      <text class="f-30 grey-6" v-else-if="!dataList[activeIndex].loading" @click="onloading()">
+      <text class="f-30 grey-6" v-else-if="!dataList[activeIndex].loading" @click.stop="onloading()">
         点击或上拉加载更多
       </text>
       <text class="f-30 grey-6" v-else>加载中...</text>

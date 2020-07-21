@@ -1,20 +1,8 @@
 <template>
   <view class="u-index">
-    <swiper
-      class="u-banner"
-      :indicator-dots="true"
-      :circular="true"
-      :autoplay="autoplay"
-      interval="3000"
-    >
+    <swiper class="u-banner" :indicator-dots="true" :circular="true" :autoplay="autoplay" interval="3000">
       <swiper-item v-for="item in hotInfo.appBanners" :key="item.id">
-        <g-img
-          width="750"
-          height="400"
-          :src="item.bigImg || '/static/banner_default.png'"
-          @click.native="handleBanner(item)"
-          defaultSrc="/static/banner_default.png"
-        ></g-img>
+        <g-img width="750" height="400" :src="item.bigImg || '/static/banner_default.png'" @click.native="handleBanner(item)" defaultSrc="/static/banner_default.png"></g-img>
       </swiper-item>
     </swiper>
 
@@ -27,19 +15,11 @@
     <!-- 公告 -->
     <view class="u-notice">
       <text class="iconfont gold-6 f-36">&#xe6f2;</text>
-      <swiper
-        class="u-notice-list"
-        :vertical="true"
-        :autoplay="false"
-        :circular="true"
-        interval="2000"
-      >
-        <swiper-item v-for="item in hotInfo.headlines" :key="item.content" @click.stop="goGendan(item)">
+      <swiper class="u-notice-list" :vertical="true" :autoplay="false" :circular="true" interval="2000">
+        <swiper-item v-for="(item, index) in hotInfo.headlines" :key="index" @click.stop="goGendan(item)">
           <view class="u-notice-list-item">
             <text class="u-notice-list-item-text">{{ item.username }}: 发布了</text>
-            <text class="u-notice-list-item-text" style="color: #f5222d;">
-              {{ genNoticeMoney(item) }}
-            </text>
+            <text class="u-notice-list-item-text" style="color: #f5222d;">{{ genNoticeMoney(item) }}</text>
             <text class="u-notice-list-item-text">的方案</text>
           </view>
         </swiper-item>
@@ -60,7 +40,7 @@
         </view>
       </view>
     </view>
-    
+
     <view class="u-out-wrap" v-if="hotOrder">
       <view class="u-title" @click.stop="goFollow">
         <view><text class="f-36 grey-6 f-bold">跟热门 稳收米</text></view>
@@ -69,9 +49,7 @@
           <text class="iconfont grey-6 f-36">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-wrap">
-        <we-order :info="hotOrder"></we-order>
-      </view>
+      <view class="u-wrap"><we-order :info="hotOrder"></we-order></view>
     </view>
     <view class="u-out-wrap" v-if="PopularOrder">
       <view class="u-title" @click.stop="goFollow">
@@ -81,19 +59,12 @@
           <text class="iconfont grey-6 f-36">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-wrap">
-        <we-order :info="PopularOrder"></we-order>
-      </view>
+      <view class="u-wrap"><we-order :info="PopularOrder"></we-order></view>
     </view>
 
     <view class="u-dialog" v-if="show">
       <view class="u-mask" @click.stop="hideDialog()"></view>
-      <image
-        @click.stop="goOrder"
-        class="u-content"
-        src="/static/zhongjiang.jpeg"
-        style="width: 500rpx;height: 507rpx;"
-      ></image>
+      <image @click.stop="goOrder" class="u-content" src="/static/zhongjiang.jpeg" style="width: 500rpx;height: 507rpx;"></image>
     </view>
   </view>
 </template>
@@ -143,8 +114,8 @@ export default {
   },
   methods: {
     ...mapMutations(['emptyJczq', 'emptyJclq']),
-    goAi () {
-      openUrl({url: '/static/ai/index.html', showTitle: false })
+    goAi() {
+      openUrl({ url: '/static/ai/index.html', showTitle: false });
     },
     goOrder() {
       this.hideDialog();
@@ -200,7 +171,22 @@ export default {
     // 轮播图点击
     handleBanner(item) {
       if (item.h5Url) {
-        openUrl({url: item.h5Url});
+        if(item.h5Url.startsWith('http://')) {
+          openUrl({ url: item.h5Url });
+        } else {
+          // TODO: 判断是否有文章内容
+          uni.setStorageSync(
+            'notice_detail',
+            JSON.stringify({
+              title: item.newstitle,
+              content: item.h5Url,
+              time: item.dateTime
+            })
+          );
+          uni.navigateTo({
+            url: '/pages/notice/notice'
+          });
+        }
       }
     },
     // 比赛开奖
@@ -216,7 +202,6 @@ export default {
           listType: 1
         })
         .then(res => {
-          // console.log('hotInfo', res)
           this.hotInfo = res;
           if (this.hotInfo.winningFlag) {
             uni.$emit('winLottery');
@@ -226,12 +211,20 @@ export default {
     },
     //点击彩票入口
     handleCpClick(cp) {
+      // 大乐透
+      if (cp.lotteryId == 10026) {
+        return uni.navigateTo({
+          url: '/pages/daletou/daletou'
+        });
+      }
+      
       if (cp.isStop == 1) {
         return uni.showToast({
           title: '暂未开售',
           icon: 'none'
         });
       }
+      
 
       // 篮球
       if (cp.lotteryId == 10058) {

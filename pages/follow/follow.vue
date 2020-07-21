@@ -4,9 +4,9 @@
       <image class="u-navbar-bg" src="/static/bg_god_list_win_toolbar.png"></image>
     </view>
     <view class="u-rank">
-      <view class="u-focus white-1 f-32 f-bold" @click="goMyFocus">关注</view>
+      <view class="u-focus white-1 f-32 f-bold" @click.stop="goMyFocus">关注</view>
       <image class="u-rank-bg" src="/static/bg_god_list_win_head.png"></image>
-      <view class="u-one" v-if="hotRecommendor[0]" @click="goDashen(hotRecommendor[0].userId)">
+      <view class="u-one" v-if="hotRecommendor[0]" @click.stop="goDashen(hotRecommendor[0].userId)">
         <image src="/static/icon_crown_1.png" class="u-rank-icon"></image>
         <div class="u-avatar" style="margin-bottom: 2rpx;">
           <g-img :src="hotRecommendor[0].avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -18,7 +18,7 @@
           <text class="f-26" style="color: #9b5111;">{{hotRecommendor[0].continueRedCount}}连红</text>
         </view>
       </view>
-      <view class="u-two" v-if="hotRecommendor[1]" @click="goDashen(hotRecommendor[1].userId)">
+      <view class="u-two" v-if="hotRecommendor[1]" @click.stop="goDashen(hotRecommendor[1].userId)">
         <image src="/static/icon_crown_2.png" class="u-rank-icon"></image>
         <div class="u-avatar" style="margin-bottom: 2rpx;">
           <g-img :src="hotRecommendor[1].avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -30,7 +30,7 @@
           <text class="f-26" style="color: #9b5111;">{{hotRecommendor[1].continueRedCount}}连红</text>
         </view>
       </view>
-      <view class="u-three" v-if="hotRecommendor[2]" @click="goDashen(hotRecommendor[2].userId)">
+      <view class="u-three" v-if="hotRecommendor[2]" @click.stop="goDashen(hotRecommendor[2].userId)">
         <image src="/static/icon_crown_3.png" class="u-rank-icon"></image>
         <div class="u-avatar" style="margin-bottom: 2rpx;">
           <g-img :src="hotRecommendor[2].avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -51,7 +51,7 @@
 
     <!-- 大神列表 -->
     <view class="u-dashen-list">
-      <view class="u-dashen-item" v-for="item in hotRecommendor" :key="item.userId" @click="goDashen(item.userId)">
+      <view class="u-dashen-item" v-for="item in hotRecommendor" :key="item.userId" @click.stop="goDashen(item.userId)">
         <view>
           <div class="u-avatar">
             <g-img :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -78,7 +78,7 @@
     
     <!-- 关注列表 -->
     <view class="u-dashen-list">
-      <view class="u-dashen-item" v-for="item in focusList" :key="item.userId" @click="goDashen(item.userId)">
+      <view class="u-dashen-item" v-for="item in focusList" :key="item.userId" @click.stop="goDashen(item.userId)">
         <view>
           <div class="u-avatar">
             <g-img :src="item.avatar" defaultSrc="/static/portrait.png"></g-img>
@@ -113,7 +113,7 @@
     <!-- 加载提示~ -->
     <view class="u-tip">
       <text class="f-30 grey-6" v-if="dataList[activeIndex].finished">没有更多了</text>
-      <text class="f-30 grey-6" v-else-if="!dataList[activeIndex].loading" @click="onloading()">点击或上拉加载更多</text>
+      <text class="f-30 grey-6" v-else-if="!dataList[activeIndex].loading" @click.stop="onloading()">点击或上拉加载更多</text>
       <text class="f-30 grey-6" v-else>加载中...</text>
     </view>
   </view>

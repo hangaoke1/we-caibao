@@ -6,12 +6,12 @@
       <view class="u-mid">
         <view class="u-unit">¥</view>
         <input class="u-input" type="digit" v-model="money" />
-        <text v-show="money" class="iconfont u-close" @click="money = ''">&#xe726;</text>
+        <text v-show="money" class="iconfont u-close" @click.stop="money = ''">&#xe726;</text>
       </view>
       <view class="u-bottom">
         <view class="f-26 red-6" v-if="showWarn">金额已超可转充余额</view>
         <view class="f-26 grey-6" v-else>可用余额 {{ (userInfo.money || 0).toFixed(2) }}元</view>
-        <view class="f-26 blue-6" @click="getAll">全部转充</view>
+        <view class="f-26 blue-6" @click.stop="getAll">全部转充</view>
       </view>
     </view>
     
@@ -21,7 +21,7 @@
       <view>3. 转充金额大于50元享受以上优惠</view>
     </view>
 
-    <button class="u-action f-30" type="warn" @click="doSubmit">确认转充</button>
+    <button class="u-action f-30" type="warn" @click.stop="doSubmit">确认转充</button>
   </view>
 </template>
 
