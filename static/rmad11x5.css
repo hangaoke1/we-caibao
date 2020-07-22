@@ -1,16 +1,26 @@
-#important-notice, #bottom_box_allPage {
+#important-notice,
+#bottom_box_allPage {
   display: none;
 }
 
-.fixed_setting, .fixed_enjoy, .contact_info, .footer {
+.fixed_setting,
+.fixed_enjoy,
+.contact_info,
+.footer {
   display: none;
 }
 
 .myColor10 p {
-  background-color: #f5222d!important;
- }
- 
- .blue p {
-  background-color: #f5222d!important;
- }
- 
+  background-color: #f5222d !important;
+}
+
+.myColor8 p {
+  background-color: #f5222d !important;
+}
+.myColor10.blue p {
+  background-color: #f5222d !important;
+}
+
+.myColor8.blue p {
+  background-color: #f5222d !important;
+}

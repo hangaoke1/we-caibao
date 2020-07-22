@@ -1,6 +1,9 @@
 <template>
   <view class="u-daletou">
-    <view class="text-center font-s-3 py-2" v-if="info.issue">第{{ info.issue }}期</view>
+    <view class="text-center font-s-3 py-2" v-if="info.issue">
+      <text class="mr-2">第{{ info.issue }}期</text>
+      <text class="text-gray">截止时间{{info.sellEndTime}}</text>
+    </view> 
     <view class="text-center font-s-3 py-2" v-else>当前没有销售奖期</view>
     <view class="bg-hui" v-if="info.issue">
       <view class="flex align-center" @click="show = !show">
@@ -43,6 +46,7 @@
 
 <script>
 import _ from 'lodash';
+import { openUrl } from '@/util/index.js';
 import lottery from '@/api/lottery/index.js';
 import OpenItem from './OpenItem.vue';
 import { getFlagArrs } from '@/lib/common.js';
@@ -69,6 +73,12 @@ export default {
     uni.setStorageSync('daletou__additional', '');
     this.getCurrent();
     this.getHistory();
+  },
+  onNavigationBarButtonTap() {
+    openUrl({
+      url: 'https://chart.lottery.gov.cn/chart_tc2/chart.shtml?LotID=23529&ChartID=0&_StatType=1&MinIssue=&MaxIssue=&IssueTop=30&ChartType=0&param=0&tab=0',
+      needRedirect: true
+    })
   },
   computed: {
     count () {

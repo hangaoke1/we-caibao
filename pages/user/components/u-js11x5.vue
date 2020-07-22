@@ -1,6 +1,6 @@
 <template>
   <!-- 山东11选5 注意改成多选时候需要调整！！！ -->
-  <view class="u-js">
+  <view class="u-js animated fadeIn faster">
     <view class="u-section">
       <view class="u-title">
         <view class="f-30 u-mark">我的号码</view>

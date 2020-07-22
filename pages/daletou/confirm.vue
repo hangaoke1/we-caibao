@@ -28,7 +28,7 @@
           <input ref="xInput" class="u-input" :cursor-spacing="30" type="number" v-model="multiple" @blur="handleBlur" />
           <view class="u-tou-icon" @click.stop="multipleAdd">+</view>
           <view class="mx-1 font-s-3">倍</view>
-          <view class="flex align-center font-s-24">
+          <view class="flex align-center font-s-3">
             <text>共</text>
             <text class="text-red">{{ count }}</text>
             <text class="mr-1">注</text>
@@ -36,7 +36,7 @@
             <text>元</text>
           </view>
         </view>
-        <view class="u-action bg-red text-bai font-s-3 flex-1" @click.stop="openPopup">下单</view>
+        <view class="u-action bg-red text-bai font-s-3 flex-0" @click.stop="openPopup">下单</view>
       </view>
     </view>
 
@@ -118,6 +118,12 @@ export default {
     // 提交订单
     async handleSubmit() {
       try {
+        if (this.count === 0) {
+          return uni.showToast({
+            title: '至少选择1注',
+            icon: 'none'
+          })
+        }
         if (this.loading) {
           return;
         }
@@ -201,6 +207,12 @@ export default {
     },
     // 打开确认订单弹窗
     openPopup() {
+      if (this.count === 0) {
+        return uni.showToast({
+          title: '至少选择1注',
+          icon: 'none'
+        })
+      }
       this.orderTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
       this.$refs.popup.open();
     },
@@ -277,6 +289,7 @@ export default {
   border: 1rpx solid #ccc;
 }
 .u-input {
+  box-sizing: border-box;
   text-align: center;
   padding: 0 10rpx;
   font-size: 28rpx;

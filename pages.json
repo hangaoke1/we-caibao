@@ -437,7 +437,14 @@
       "style": {
         "navigationBarTitleText": "超级大乐透",
         "navigationBarBackgroundColor": "#D42F2C",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "titleNView": {
+          "buttons": [{
+            "text": "走势图",
+            "width": "80px",
+            "fontSize": "16px"
+          }]
+        }
       }
     }, {
       "path": "pages/daletou/confirm",

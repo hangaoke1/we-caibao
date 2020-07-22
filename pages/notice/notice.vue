@@ -47,7 +47,7 @@ export default {
   }
   &__title {
     text-align: center;
-    font-size: 50rpx;
+    font-size: 40rpx;
     font-weight: bold;
   }
   &__time {
@@ -57,7 +57,7 @@ export default {
     margin-bottom: 30rpx;
   }
   &__content {
-    font-size: 40rpx;
+    font-size: 36rpx;
     color: #fff;
   }
 }

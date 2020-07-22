@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="animated fadeIn faster">
     <view class="bg-bai p-2 mt-2">
       <view class="u-title">期数</view>
       <view class="font-s-3 text-gray">第{{ info.schemeDetail[0].issue }}期</view>

@@ -70,7 +70,8 @@
             /* SDK配置 */
             "sdkConfigs" : {
                 "push" : {},
-                "payment" : {}
+                "payment" : {},
+                "ad" : {}
             },
             "icons" : {
                 "android" : {
