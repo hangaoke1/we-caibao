@@ -157,7 +157,7 @@ export default {
         });
       } catch (e) {
         console.log('大乐透下单异常', e);
-        uni.hideLoading();
+        // uni.hideLoading();
         this.loading = false;
       }
     },

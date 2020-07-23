@@ -381,7 +381,7 @@ export default {
         });
       } catch (err) {
         //TODO handle the exception
-        uni.hideLoading();
+        // uni.hideLoading();
         console.error(err);
       }
     },

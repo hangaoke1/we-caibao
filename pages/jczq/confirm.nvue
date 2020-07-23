@@ -392,7 +392,6 @@ export default {
           url: `/pages/order/success?schemeId=${res.schemeId}&single=${single}&lotteryId=10059`
         });
       } catch (err) {
-        uni.hideLoading();
         console.error(err);
       }
     },
