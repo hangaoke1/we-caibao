@@ -1,9 +1,9 @@
 {
-    "name" : "米宝Max",
+    "name" : "彩云",
     "appid" : "__UNI__A9D6471",
     "description" : "实用的工具助手",
-    "versionName" : "4.0.7",
-    "versionCode" : 407,
+    "versionName" : "1.0.1",
+    "versionCode" : 101,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : "10000"
