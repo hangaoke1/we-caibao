@@ -13,3 +13,7 @@
 .refresh-box {
   bottom: 2.1rem!important;
 }
+
+.app500-download {
+  display: none;
+}
