@@ -6,5 +6,5 @@ const api = {
   upload
 }
 export default {
-  queryVersion: param => api.get('/version/wid04087891', param)
+  queryVersion: param => api.get('/version/wid10000', param)
 };
