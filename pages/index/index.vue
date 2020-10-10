@@ -1,7 +1,6 @@
 <template>
   <view class="content">
     <u-notice-bar mode="horizontal" :volume-icon="false" :list="list"></u-notice-bar>
-    <view class="u-title">彩云cloud</view>
     <u-button type="success"  class="u-upload" @tap="upload" :ripple="true">上传</u-button>
     <u-button type="primary"  class="u-save" @tap="save" :ripple="true">保存</u-button>
     <u-cell-group style="width: 500rpx;"><u-field v-model="waterText" label="水印文本" placeholder="请填写水印文本"></u-field></u-cell-group>
