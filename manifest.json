@@ -130,7 +130,7 @@
                 }
             }
         },
-        "compilerVersion" : 2,
+        "compilerVersion" : 3,
         "nvueLaunchMode" : "fast"
     },
     /* 快应用特有相关 */
