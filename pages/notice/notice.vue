@@ -1,38 +1,37 @@
 <template>
   <view class="u-noticeDetail">
-    <view class="u-noticeDetail__title">{{ info.title }}</view>
-    <view class="u-noticeDetail__time">{{ info.time | fmtDate }}</view>
-    <jyf-parser :html="info.content" ref="article"></jyf-parser>
+    <view class="u-noticeDetail__title mt-2">{{ info.title }}</view>
+    <view class="u-noticeDetail__time mt-1">
+      <u-tag class="mr-1"  size="mini" text="官方" type="primary" />
+      <text>{{ info.time | fmtDate }}</text>
+    </view>
+    <u-parse :html="info.content"></u-parse>
   </view>
 </template>
 
 <script>
-import _ from 'lodash';
-import dayjs from 'dayjs';
-import jyfParser from '@/components/jyf-parser/jyf-parser';
+import _ from "lodash";
+import dayjs from "dayjs";
 export default {
-  components: {
-    jyfParser
-  },
   filters: {
     fmtDate(date) {
       if (!date) {
-        return '';
+        return "";
       }
-      return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
-    }
+      return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
+    },
   },
   data() {
     return {
-      info: ''
+      info: "",
     };
   },
   created() {
     try {
-      this.info = JSON.parse(uni.getStorageSync('notice_detail'));
+      this.info = JSON.parse(uni.getStorageSync("notice_detail"));
     } catch (err) {}
   },
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -47,11 +46,11 @@ export default {
   }
   &__title {
     text-align: center;
-    font-size: 40rpx;
+    font-size: 36rpx;
     font-weight: bold;
   }
   &__time {
-    font-size: 26rpx;
+    font-size: 24rpx;
     color: #ccc;
     text-align: center;
     margin-bottom: 30rpx;

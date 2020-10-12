@@ -1,32 +1,30 @@
 <template>
   <view class="u-withdraw">
     <view class="u-title" v-if="userInfo.bankAccount" @click.stop="type = 2">
-      <image class="u-icon" src="/static/pay4.png"></image>
+      <image class="u-icon" src="/static/pay4.png" />
       <view style="flex: 1;">
-        <view class="f-36">银行卡</view>
-        <view class=""></view>
-        <view class="f-32 grey-6">账号：{{ userInfo.bankAccount }} {{userInfo.name}}</view>
+        <view class="font-s-32">银行卡</view>
+        <view class="mt-1 font-s-28 text-hui">账号：{{ userInfo.bankAccount }} {{userInfo.name}}</view>
       </view>
       <view class="u-choose" :class="{'z-active': type === 2}">
         <view class="u-choose-in"></view>
       </view>
     </view>
-    
+
     <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
-      <image class="u-icon" src="/static/pay4.png"></image>
+      <image class="u-icon" src="/static/pay4.png" />
       <view style="flex: 1;">
-        <view class="f-36">银行卡</view>
-        <view class=""></view>
-        <view class="f-32 grey-6">极速提现</view>
+        <view class="font-s-32">银行卡</view>
+        <view class="font-s-32 text-hui">极速提现</view>
       </view>
-      <view class="f-32 blue-6">立即绑定</view>
+      <view class="font-s-32 blue-6">立即绑定</view>
     </view>
-    
+
     <view class="u-title" v-if="userInfo.aliPay" @click.stop="type = 1" v-show="!disableAlipay">
-      <image class="u-icon" src="/static/pay2.png"></image>
+      <image class="u-icon" src="/static/pay2.png" />
       <view style="flex: 1;">
-        <view class="f-36">支付宝</view>
-        <view class="f-32 grey-6">账号：{{ userInfo.aliPay }}</view>
+        <view class="font-s-32">支付宝</view>
+        <view class="mt-1 font-s-28 text-hui">账号：{{ userInfo.aliPay }}</view>
       </view>
       <view class="u-choose" :class="{'z-active': type === 1}">
         <view class="u-choose-in"></view>
@@ -34,7 +32,7 @@
     </view>
 
     <view class="u-content">
-      <view class="u-top f-30 grey-6">提现金额</view>
+      <view class="u-top f-30 text-hui">提现金额</view>
       <view class="u-mid">
         <view class="u-unit">¥</view>
         <input class="u-input" type="digit" v-model="money" />
@@ -42,11 +40,11 @@
       </view>
       <view class="u-bottom">
         <view class="f-26 red-6" v-if="showWarn">金额已超可提现余额</view>
-        <view class="f-26 grey-6" v-else>可用余额 {{ (userInfo.money || 0).toFixed(2) }}元</view>
+        <view class="f-26 text-hui" v-else>可用余额 {{ (userInfo.money || 0).toFixed(2) }}元</view>
         <view class="f-26 blue-6" @click.stop="getAll">全部提现</view>
       </view>
     </view>
-    
+
     <view class="u-tip f-22">
       <view>1. 每个账号每日只能提现3次</view>
       <view>2. 为防止套现，充值金额不可提现</view>
@@ -54,19 +52,19 @@
       <view>4. 单次提现金额需大于50元</view>
     </view>
 
-    <button class="u-action f-30" type="warn" @click.stop="doSubmit">确认提现</button>
+    <button class="u-action" type="warn" @click.stop="doSubmit">确认提现</button>
   </view>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import _ from 'lodash';
-import user from '@/api/user/index.js';
+import { mapState, mapActions } from "vuex";
+import _ from "lodash";
+import user from "@/api/user/index.js";
 export default {
   data() {
     return {
-      money: '',
-      type: '', // 1: 支付宝 2: 银行 
+      money: "",
+      type: "", // 1: 支付宝 2: 银行
     };
   },
   onShow() {
@@ -76,123 +74,122 @@ export default {
   watch: {
     userInfo: {
       immediate: true,
-      handler (v) {
+      handler(v) {
         if (v.bankAccount) {
-          this.type = 2
+          this.type = 2;
         } else {
-          this.type = 1
+          this.type = 1;
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     ...mapState({
-      userInfo: state => state.userInfo,
-      balanceInfo: state => state.balanceInfo
+      userInfo: (state) => state.userInfo,
+      balanceInfo: (state) => state.balanceInfo,
     }),
-    disableAlipay () {
-      return !!this.userInfo.disableAlipay
+    disableAlipay() {
+      return !!this.userInfo.disableAlipay;
     },
     showWarn() {
       const money = this.money || 0;
-      const remain = _.get(this.userInfo, 'money', 0);
+      const remain = _.get(this.userInfo, "money", 0);
       return money > remain;
-    }
+    },
   },
   methods: {
     ...mapActions({
-      updateUserInfo: 'updateUserInfo',
-      updateBalanceInfo: 'updateBalanceInfo'
+      updateUserInfo: "updateUserInfo",
+      updateBalanceInfo: "updateBalanceInfo",
     }),
-    goBindBank () {
+    goBindBank() {
       uni.navigateTo({
-        url: '/pages/config/bindBankCard'
-      })
+        url: "/pages/config/bindBankCard",
+      });
     },
     getAll() {
-      this.money = parseInt(_.get(this.userInfo, 'money', 0));
+      this.money = parseInt(_.get(this.userInfo, "money", 0));
     },
     doSubmit() {
       if (this.type === 1 && this.disableAlipay) {
         return uni.showModal({
-          title: '温馨提示',
-          content: '请绑定银行卡进行提现',
-          confirmText: '前往绑定',
+          title: "温馨提示",
+          content: "请绑定银行卡进行提现",
+          confirmText: "前往绑定",
           showCancel: false,
           success: function (res) {
             uni.navigateTo({
-              url: '/pages/config/bindBankCard'
-            })
-          }
-      });
+              url: "/pages/config/bindBankCard",
+            });
+          },
+        });
       }
       if (this.showWarn) {
         return;
       }
       if (!this.type) {
         return uni.showToast({
-          title: '请选择提现方式',
-          icon: 'none'
-        })
+          title: "请选择提现方式",
+          icon: "none",
+        });
       }
       if (!this.money) {
         return uni.showToast({
-          title: '请输入提现金额',
-          icon: 'none'
-        })
+          title: "请输入提现金额",
+          icon: "none",
+        });
       }
-      
+
       if (this.type === 1) {
         user
           .withdrawAlipay({
             money: this.money,
-            withdrawType: 0 // 支付宝
+            withdrawType: 0, // 支付宝
           })
-          .then(res => {
+          .then((res) => {
             uni.showToast({
-              title: '提现成功',
-              icon: 'success'
+              title: "提现成功",
+              icon: "success",
             });
-            this.money = '';
+            this.money = "";
             this.updateBalanceInfo();
             this.updateUserInfo();
             setTimeout(() => {
               uni.switchTab({
-                url: '/pages/user/user'
+                url: "/pages/user/user",
               });
             }, 1000);
           })
-          .catch(err => {});
+          .catch((err) => {});
       } else {
         user
           .withdraw({
             money: this.money,
-            withdrawType: 1 // 银行卡
+            withdrawType: 1, // 银行卡
           })
-          .then(res => {
+          .then((res) => {
             uni.showToast({
-              title: '提现成功',
-              icon: 'success'
+              title: "提现成功",
+              icon: "success",
             });
-            this.money = '';
+            this.money = "";
             this.updateBalanceInfo();
             this.updateUserInfo();
             setTimeout(() => {
               uni.switchTab({
-                url: '/pages/user/user'
+                url: "/pages/user/user",
               });
             }, 1000);
           })
-          .catch(err => {});
+          .catch((err) => {});
       }
-      
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
 
 .u-withdraw {
   min-height: 100vh;
@@ -262,7 +259,7 @@ export default {
   width: 600rpx;
   margin: 0 auto;
   margin-top: 60rpx;
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 
 .u-choose {
@@ -273,14 +270,16 @@ export default {
   border: 1rpx solid #ccc;
   background: #fff;
   display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50rpx;
-  .g-center();
 }
 .u-choose-in {
-    width: 30rpx;
-    height: 30rpx;
-    background: #ccc;
-    border-radius: 30rpx;
+  box-sizing: border-box;
+  width: 30rpx;
+  height: 30rpx;
+  background: #ccc;
+  border-radius: 30rpx;
 }
 .z-active {
   border: 1rpx solid @red-6;
@@ -288,5 +287,4 @@ export default {
     background: @red-6;
   }
 }
-
 </style>

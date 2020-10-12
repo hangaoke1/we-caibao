@@ -313,6 +313,14 @@
 	color: #9299a0;
 }
 
+.text-hui {
+	color: #666;
+}
+
+.text-hui2 {
+	color: #999;
+}
+
 .text-jin {
 	color: #d89614;
 }
@@ -526,6 +534,10 @@
 }
 
 .font-s-3 {
+	font-size: 30rpx;
+}
+
+.font-s-32 {
 	font-size: 30rpx;
 }
 

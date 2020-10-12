@@ -1,8 +1,20 @@
 <template>
   <view class="u-index">
-    <swiper class="u-banner" :indicator-dots="true" :circular="true" :autoplay="autoplay" interval="3000">
+    <swiper
+      class="u-banner"
+      :indicator-dots="true"
+      :circular="true"
+      :autoplay="autoplay"
+      interval="3000"
+    >
       <swiper-item v-for="item in hotInfo.appBanners" :key="item.id">
-        <g-img width="750" height="400" :src="item.bigImg || '/static/banner_default.png'" @click.native="handleBanner(item)" defaultSrc="/static/banner_default.png"></g-img>
+        <g-img
+          width="750"
+          height="400"
+          :src="item.bigImg || '/static/banner_default.png'"
+          @click.native="handleBanner(item)"
+          defaultSrc="/static/banner_default.png"
+        ></g-img>
       </swiper-item>
     </swiper>
 
@@ -15,8 +27,18 @@
     <!-- 公告 -->
     <view class="u-notice">
       <text class="iconfont gold-6 f-36">&#xe6f2;</text>
-      <swiper class="u-notice-list" :vertical="true" :autoplay="false" :circular="true" interval="2000">
-        <swiper-item v-for="(item, index) in hotInfo.headlines" :key="index" @click.stop="goGendan(item)">
+      <swiper
+        class="u-notice-list"
+        :vertical="true"
+        :autoplay="false"
+        :circular="true"
+        interval="2000"
+      >
+        <swiper-item
+          v-for="(item, index) in hotInfo.headlines"
+          :key="index"
+          @click.stop="goGendan(item)"
+        >
           <view class="u-notice-list-item">
             <text class="u-notice-list-item-text">{{ item.username }}: 发布了</text>
             <text class="u-notice-list-item-text" style="color: #f5222d;">{{ genNoticeMoney(item) }}</text>
@@ -27,15 +49,18 @@
     </view>
 
     <!-- 彩票入口 -->
-    <view class="u-cp">
-      <view class="u-cp-item" v-for="cp in cpList" :key="cp.lotteryId" @click.stop="handleCpClick(cp)">
-        <image class="u-cp-icon" :src="iconMap[cp.lotteryId]"></image>
+    <view class="u-cp text-center">
+      <view
+        class="u-cp-item flex flex-column align-center mb-2"
+        v-for="cp in cpList"
+        :key="cp.lotteryId"
+        @click.stop="handleCpClick(cp)"
+      >
+        <u-image width="100rpx" height="100rpx" :src="iconMap[cp.lotteryId]"></u-image>
         <view class="u-cp-info">
-          <view>
-            <text class="u-cp-name">{{ cpMap[cp.lotteryId] }}</text>
-          </view>
-          <view>
-            <text class="u-cp-tip">{{ cp.message }}</text>
+          <view class="u-cp-name mt-1">{{ cpMap[cp.lotteryId] }}</view>
+          <view class="u-cp-tip mt-1">
+            <u-tag :text="cp.message" size="mini" type="warning" shape="circle" />
           </view>
         </view>
       </view>
@@ -43,84 +68,99 @@
 
     <view class="u-out-wrap" v-if="hotOrder">
       <view class="u-title" @click.stop="goFollow">
-        <view><text class="f-36 grey-6 f-bold">跟热门 稳收米</text></view>
+        <view>
+          <text class="f-36 grey-6 f-bold">跟热门 稳收米</text>
+        </view>
         <view class="u-more">
           <text class="f-36 grey-6">更多</text>
           <text class="iconfont grey-6 f-36">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-wrap"><we-order :info="hotOrder"></we-order></view>
+      <view class="u-wrap">
+        <we-order :info="hotOrder"></we-order>
+      </view>
     </view>
     <view class="u-out-wrap" v-if="PopularOrder">
       <view class="u-title" @click.stop="goFollow">
-        <view><text class="f-36 grey-6 f-bold">跟大神 易中奖</text></view>
+        <view>
+          <text class="f-36 grey-6 f-bold">跟大神 易中奖</text>
+        </view>
         <view class="u-more">
           <text class="f-36 grey-6">更多</text>
           <text class="iconfont grey-6 f-36">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-wrap"><we-order :info="PopularOrder"></we-order></view>
+      <view class="u-wrap">
+        <we-order :info="PopularOrder"></we-order>
+      </view>
     </view>
 
     <view class="u-dialog" v-if="show">
       <view class="u-mask" @click.stop="hideDialog()"></view>
-      <image @click.stop="goOrder" class="u-content" src="/static/zhongjiang.jpeg" style="width: 500rpx;height: 507rpx;"></image>
+      <image
+        @click.stop="goOrder"
+        class="u-content"
+        src="/static/zhongjiang.jpeg"
+        style="width: 500rpx;height: 507rpx;"
+      />
     </view>
   </view>
 </template>
 
 <script>
-import _ from 'lodash';
-import { mapState, mapActions, mapMutations } from 'vuex';
-import lottery from '@/api/lottery/index.js';
-import { openUrl } from '@/util/index.js';
-import { map as cpMap } from '@/lib/lottery.js';
-import { get } from '@/storage/index.js';
-import gImg from '@/components/g-img/index.vue';
-import weOrder from './order.vue';
-import iconfontMixin from '../../mixins/iconfont.js';
+import _ from "lodash";
+import { mapState, mapActions, mapMutations } from "vuex";
+import lottery from "@/api/lottery/index.js";
+import { openUrl } from "@/util/index.js";
+import { map as cpMap } from "@/lib/lottery.js";
+import { get } from "@/storage/index.js";
+import gImg from "@/components/g-img/index.vue";
+import weOrder from "./order.vue";
+import iconfontMixin from "../../mixins/iconfont.js";
 export default {
   mixins: [iconfontMixin],
   components: {
     gImg,
-    weOrder
+    weOrder,
   },
   data() {
     return {
       autoplay: false,
       show: false,
-      hotOrder: '',
-      PopularOrder: '',
-      hotInfo: '',
+      hotOrder: "",
+      PopularOrder: "",
+      hotInfo: "",
       iconMap: {
-        10026: '/static/home/daletou_icon@3x.png',
-        10039: '/static/home/shengfucai_icon@3x.png',
-        10040: '/static/home/renxuan9_icon@3x.png',
-        10058: '/static/home/lanqiu_icon@3x.png',
-        10059: '/static/home/zuqiu_icon@3x.png',
-        10108: '/static/home/11xuan5_icon@3x.png'
+        10026: "/static/home/daletou_icon@3x.png",
+        10039: "/static/home/shengfucai_icon@3x.png",
+        10040: "/static/home/renxuan9_icon@3x.png",
+        10058: "/static/home/lanqiu_icon@3x.png",
+        10059: "/static/home/zuqiu_icon@3x.png",
+        10108: "/static/home/11xuan5_icon@3x.png",
       },
-      cpMap
+      cpMap,
     };
   },
   computed: {
     cpList() {
       if (this.hotInfo) {
-        return _.get(this, 'hotInfo.list', []).filter(item => !!this.cpMap[item.lotteryId]);
+        return _.get(this, "hotInfo.list", []).filter(
+          (item) => !!this.cpMap[item.lotteryId]
+        );
       } else {
         return [];
       }
-    }
+    },
   },
   methods: {
-    ...mapMutations(['emptyJczq', 'emptyJclq']),
+    ...mapMutations(["emptyJczq", "emptyJclq"]),
     goAi() {
-      openUrl({ url: '/static/ai/index.html', showTitle: false });
+      openUrl({ url: "/static/ai/index.html", showTitle: false });
     },
     goOrder() {
       this.hideDialog();
       uni.navigateTo({
-        url: '/pages/user/order'
+        url: "/pages/user/order",
       });
     },
     openDialog() {
@@ -131,7 +171,7 @@ export default {
     },
     goFollow() {
       uni.switchTab({
-        url: '/pages/follow/follow'
+        url: "/pages/follow/follow",
       });
     },
     // 获取热门单/人气单
@@ -140,51 +180,51 @@ export default {
         .getCopyListNew({
           fetchSize: 1,
           firstRow: 0,
-          type: 7
+          type: 7,
         })
-        .then(res => {
-          const list = _.get(res, 'schemeList', []);
+        .then((res) => {
+          const list = _.get(res, "schemeList", []);
           this.hotOrder = list[0];
         });
       lottery
         .getCopyListNew({
           fetchSize: 1,
           firstRow: 0,
-          type: 8
+          type: 8,
         })
-        .then(res => {
-          const list = _.get(res, 'schemeList', []);
+        .then((res) => {
+          const list = _.get(res, "schemeList", []);
           this.PopularOrder = list[0];
         });
     },
     // 前往跟单页面
     goGendan(item) {
       uni.navigateTo({
-        url: '/pages/follow/detail?id=' + item.userId
+        url: "/pages/follow/detail?id=" + item.userId,
       });
     },
     // 生成公告内容
     genNoticeMoney(item) {
       // 1000.0元
-      return item.money.split('.')[0] + '元';
+      return item.money.split(".")[0] + "元";
     },
     // 轮播图点击
     handleBanner(item) {
       if (item.h5Url) {
-        if(item.h5Url.startsWith('http://')) {
+        if (item.h5Url.startsWith("http://")) {
           openUrl({ url: item.h5Url });
         } else {
           // TODO: 判断是否有文章内容
           uni.setStorageSync(
-            'notice_detail',
+            "notice_detail",
             JSON.stringify({
               title: item.newstitle,
               content: item.h5Url,
-              time: item.dateTime
+              time: item.dateTime,
             })
           );
           uni.navigateTo({
-            url: '/pages/notice/notice'
+            url: "/pages/notice/notice",
           });
         }
       }
@@ -192,19 +232,19 @@ export default {
     // 比赛开奖
     goLottery() {
       uni.navigateTo({
-        url: '/pages/lottery/lottery'
+        url: "/pages/lottery/lottery",
       });
     },
     // 获取热门列表
     getList() {
       return lottery
         .lotteryListHot({
-          listType: 1
+          listType: 1,
         })
-        .then(res => {
+        .then((res) => {
           this.hotInfo = res;
           if (this.hotInfo.winningFlag) {
-            uni.$emit('winLottery');
+            uni.$emit("winLottery");
             this.openDialog();
           }
         });
@@ -214,23 +254,22 @@ export default {
       // 大乐透
       if (cp.lotteryId == 10026) {
         return uni.navigateTo({
-          url: '/pages/daletou/daletou'
+          url: "/pages/daletou/daletou",
         });
       }
-      
+
       if (cp.isStop == 1) {
         return uni.showToast({
-          title: '暂未开售',
-          icon: 'none'
+          title: "暂未开售",
+          icon: "none",
         });
       }
-      
 
       // 篮球
       if (cp.lotteryId == 10058) {
         this.emptyJclq();
         return uni.navigateTo({
-          url: '/pages/jclq/jclq'
+          url: "/pages/jclq/jclq",
         });
       }
 
@@ -238,45 +277,45 @@ export default {
       if (cp.lotteryId == 10059) {
         this.emptyJczq();
         return uni.navigateTo({
-          url: '/pages/jczq/jczq'
+          url: "/pages/jczq/jczq",
         });
       }
 
       // 11选5
       if (cp.lotteryId == 10108) {
         return uni.navigateTo({
-          url: '/pages/js11x5/js11x5'
+          url: "/pages/js11x5/js11x5",
         });
       }
 
       // 胜负彩
       if (cp.lotteryId === 10039) {
         return uni.navigateTo({
-          url: '/pages/toto14/toto14'
+          url: "/pages/toto14/toto14",
         });
       }
 
       // 任选九
       if (cp.lotteryId === 10040) {
         return uni.navigateTo({
-          url: '/pages/toto9/toto9'
+          url: "/pages/toto9/toto9",
         });
       }
 
       uni.showToast({
-        title: '暂未开放',
-        icon: 'none'
+        title: "暂未开放",
+        icon: "none",
       });
     },
     // 前往比分直播
     goBifen() {
       return uni.switchTab({
-        url: '/pages/bifen/bifen'
+        url: "/pages/bifen/bifen",
       });
-    }
+    },
   },
   onShow() {
-    console.log(get('SESSION'));
+    console.log(get("SESSION"));
     this.getList();
     this.getHotOrder();
     this.autoplay = true;
@@ -292,12 +331,17 @@ export default {
     } catch (e) {
       uni.stopPullDownRefresh();
     }
-  }
+  },
 };
 </script>
 
 <style lang="less" scoped>
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
+.u-index {
+  min-height: 100vh;
+  background: #fff;
+}
+
 .u-banner {
   width: 750rpx;
   height: 400rpx;
@@ -349,34 +393,19 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-top: 40rpx;
-  border-bottom: 1rpx solid #f0f0f0;
 }
 .u-cp-item {
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  width: 375rpx;
+  width: 33.3%;
   height: 200rpx;
-  border: 1rpx solid #f0f0f0;
-  border-right: none;
-  border-bottom: none;
 }
-.u-cp-icon {
-  margin: 0 10rpx 0 50rpx;
-  flex: 0 0 auto;
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 100rpx;
-}
-.u-cp-info {
-  margin-left: 10rpx;
-}
+
 .u-cp-name {
-  font-size: 30rpx;
+  font-size: 26rpx;
   color: #333333;
 }
 .u-cp-tip {
-  font-size: 22rpx;
+  font-size: 20rpx;
   color: #999999;
 }
 

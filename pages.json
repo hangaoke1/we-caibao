@@ -29,9 +29,8 @@
         "navigationBarTextStyle": "white"
       }
     },
-
     {
-      "path": "pages/register/register",
+      "path": "pages/login/register",
       "style": {
         "app-plus": {
           "titleNView": false,
@@ -42,9 +41,11 @@
     {
       "path": "pages/login/login",
       "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
         "app-plus": {
           "titleNView": false,
-          "softinputNavBar": "none"
+          "animationType": "slide-in-bottom"
         }
       }
     },
@@ -52,17 +53,32 @@
       "path": "pages/user/user",
       "style": {
         "app-plus": {
-          "titleNView": false
+          "bounce": "none",
+          "titleNView": {
+            "type": "transparent",
+            "buttons": [
+              {
+                "fontSrc": "/static/yticon.ttf",
+                "text": "\ue60f",
+                "fontSize": "24",
+                "color": "#303133",
+                "width": "46px",
+                "background": "rgba(0,0,0,0)"
+              }
+            ]
+          }
         }
       }
-    }, {
+    },
+    {
       "path": "pages/jczq/jczq",
       "style": {
         "navigationBarTitleText": "混合投注",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/jczq/confirm",
       "style": {
         "navigationBarTitleText": "投注确认",
@@ -71,24 +87,28 @@
         "app-plus": {
           "softinputNavBar": "auto",
           "titleNView": {
-            "buttons": [{
-              // "fontSrc": "/static/iconfont.ttf",
-              // "text": "\ue600"
-              "text": "奖金优化",
-              "width": "80px",
-              "fontSize": "16px"
-            }]
+            "buttons": [
+              {
+                // "fontSrc": "/static/iconfont.ttf",
+                // "text": "\ue600"
+                "text": "奖金优化",
+                "width": "80px",
+                "fontSize": "16px"
+              }
+            ]
           }
         }
       }
-    }, {
+    },
+    {
       "path": "pages/jczq/expend",
       "style": {
         "app-plus": {
           "titleNView": false
         }
       }
-    }, {
+    },
+    {
       "path": "pages/jczq/perf",
       "style": {
         "navigationBarTitleText": "奖金优化",
@@ -98,21 +118,24 @@
           "softinputNavBar": "auto"
         }
       }
-    }, {
+    },
+    {
       "path": "pages/jclq/jclq",
       "style": {
         "navigationBarTitleText": "混合投注",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/jclq/expend",
       "style": {
         "app-plus": {
           "titleNView": false
         }
       }
-    }, {
+    },
+    {
       "path": "pages/jclq/confirm",
       "style": {
         "navigationBarTitleText": "投注确认",
@@ -122,35 +145,40 @@
           "softinputNavBar": "auto"
         }
       }
-    }, {
+    },
+    {
       "path": "pages/user/order",
       "style": {
         "navigationBarTitleText": "我的订单",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/user/coupon",
       "style": {
         "navigationBarTitleText": "我的卡券",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/user/couponChoose",
       "style": {
         "navigationBarTitleText": "选择优惠券",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/user/capital",
       "style": {
         "navigationBarTitleText": "资金明细",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/follow/follow",
       "style": {
         "navigationBarTitleText": "跟单大厅",
@@ -165,7 +193,8 @@
           "titleNView": false
         }
       }
-    }, {
+    },
+    {
       "path": "pages/follow/search",
       "style": {
         "app-plus": {
@@ -173,12 +202,14 @@
             "titleColor": "#000",
             "backgroundColor": "#fff",
             "titleSize": "40px",
-            "buttons": [{
-              "type": "close",
-              "width": "auto",
-              "fontSize": "28px",
-              "color": "#000"
-            }],
+            "buttons": [
+              {
+                "type": "close",
+                "width": "auto",
+                "fontSize": "28px",
+                "color": "#000"
+              }
+            ],
             "searchInput": {
               "backgroundColor": "#F1F1F1",
               "borderRadius": "6px",
@@ -189,42 +220,48 @@
           }
         }
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/lottery",
       "style": {
         "navigationBarTitleText": "开奖中心",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10108",
       "style": {
         "navigationBarTitleText": "往期开奖",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10026",
       "style": {
         "navigationBarTitleText": "往期开奖",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10039",
       "style": {
         "navigationBarTitleText": "往期开奖",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10040",
       "style": {
         "navigationBarTitleText": "往期开奖",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10058",
       "style": {
         "navigationBarTitleText": "篮球往期开奖",
@@ -232,15 +269,18 @@
         "navigationBarTextStyle": "white",
         "app-plus": {
           "titleNView": {
-            "buttons": [{
-              "fontSrc": "/static/iconfont.ttf",
-              "text": "\ue72a"
-              // "type": "menu"
-            }]
+            "buttons": [
+              {
+                "fontSrc": "/static/iconfont.ttf",
+                "text": "\ue72a"
+                // "type": "menu"
+              }
+            ]
           }
         }
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/10059",
       "style": {
         "navigationBarTitleText": "足球往期开奖",
@@ -248,27 +288,24 @@
         "navigationBarTextStyle": "white",
         "app-plus": {
           "titleNView": {
-            "buttons": [{
-              "fontSrc": "/static/iconfont.ttf",
-              "text": "\ue72a"
-              // "type": "menu"
-            }]
+            "buttons": [
+              {
+                "fontSrc": "/static/iconfont.ttf",
+                "text": "\ue72a"
+                // "type": "menu"
+              }
+            ]
           }
         }
       }
-    }, {
+    },
+    {
       "path": "pages/lottery/zqDetail",
       "style": {
         "navigationBarTitleText": ""
       }
-    }, {
-      "path": "pages/user/kefu",
-      "style": {
-        "navigationBarTitleText": "客服中心",
-        "navigationBarBackgroundColor": "#D42F2C",
-        "navigationBarTextStyle": "white"
-      }
-    }, {
+    },
+    {
       "path": "pages/user/orderDetail",
       "style": {
         "navigationBarTitleText": "订单详情",
@@ -281,7 +318,8 @@
       "style": {
         "navigationBarTitleText": "测试"
       }
-    }, {
+    },
+    {
       "path": "pages/bifen/bifen",
       "style": {
         "navigationBarTitleText": "比分",
@@ -291,7 +329,8 @@
           "titleNView": false
         }
       }
-    }, {
+    },
+    {
       "path": "pages/user/payment",
       "style": {
         "navigationBarTitleText": "充值",
@@ -306,147 +345,168 @@
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/js11x5/js11x5",
       "style": {
         "navigationBarTitleText": "山东11选5",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white",
         "titleNView": {
-          "buttons": [{
-            "text": "走势图",
-            "width": "80px",
-            "fontSize": "16px"
-          }]
+          "buttons": [
+            {
+              "text": "走势图",
+              "width": "80px",
+              "fontSize": "16px"
+            }
+          ]
         }
       }
-    }, {
+    },
+    {
       "path": "pages/js11x5/confirm",
       "style": {
         "navigationBarTitleText": "投注确认",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/order/success",
       "style": {
         "navigationBarTitleText": "下单成功",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/order/publish",
       "style": {
         "navigationBarTitleText": "发单",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/config/config",
       "style": {
-        "navigationBarTitleText": "配置中心",
-        "navigationBarBackgroundColor": "#D42F2C",
-        "navigationBarTextStyle": "white"
+        "navigationBarTitleText": "配置中心"
       }
-    }, {
+    },
+    {
       "path": "pages/config/bindalipay",
       "style": {
         "navigationBarTitleText": "绑定支付宝",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/config/bindidcard",
       "style": {
         "navigationBarTitleText": "实名认证",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/config/bindBankCard",
       "style": {
         "navigationBarTitleText": "绑定银行卡",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/config/password",
       "style": {
         "navigationBarTitleText": "修改密码",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/withdraw/withdraw",
       "style": {
         "navigationBarTitleText": "提现",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/toto14/toto14",
       "style": {
         "navigationBarTitleText": "胜负彩",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/toto14/confirm",
       "style": {
         "navigationBarTitleText": "确认投注",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/toto9/toto9",
       "style": {
         "navigationBarTitleText": "任选九",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/toto9/confirm",
       "style": {
         "navigationBarTitleText": "确认投注",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/conversion/conversion",
       "style": {
         "navigationBarTitleText": "转充",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/forget/forget",
       "style": {
         "navigationBarTitleText": "忘记密码",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/notice/notice",
       "style": {
         "navigationBarTitleText": "公告",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
-    }, {
+    },
+    {
       "path": "pages/daletou/daletou",
       "style": {
         "navigationBarTitleText": "超级大乐透",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white",
         "titleNView": {
-          "buttons": [{
-            "text": "走势图",
-            "width": "80px",
-            "fontSize": "16px"
-          }]
+          "buttons": [
+            {
+              "text": "走势图",
+              "width": "80px",
+              "fontSize": "16px"
+            }
+          ]
         }
       }
-    }, {
+    },
+    {
       "path": "pages/daletou/confirm",
       "style": {
         "navigationBarTitleText": "投注单",
@@ -462,7 +522,8 @@
     "backgroundColor": "#ffffff",
     "fontSize": "12px",
     "iconWidth": "30px",
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/index/index",
         "iconPath": "static/tabbar/synormal@2x.png",
         "selectedIconPath": "static/tabbar/syclick@2x.png",
@@ -488,11 +549,14 @@
       }
     ]
   },
+  "easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
   "globalStyle": {
-    "navigationBarBackgroundColor": "#D42F2C",
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "",
-    "backgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#f8f8f8",
     "app-plus": {
       "scrollIndicator": "none"
     }

@@ -15,17 +15,25 @@
 
     <view class="u-bottom bg-bai">
       <view class="p-2 border-bottom-ccc flex align-center font-s-3">
-        <view @click="checked = !checked">
-          <checkbox :checked="checked" />
-          是否追加投注
+        <view>
+          <u-checkbox v-model="checked">是否追加投注</u-checkbox>
         </view>
       </view>
-      <view class="border-bottom-ccc mb-2 p-2"><g-bei v-model="multiple"></g-bei></view>
+      <view class="border-bottom-ccc mb-2 p-2">
+        <g-bei v-model="multiple"></g-bei>
+      </view>
       <view class="flex justify-between align-center mt-2 px-2">
         <view class="u-tou-left flex align-center">
           <view class="mr-1 font-s-3">投</view>
           <view class="u-tou-icon" @click.stop="multipleReduce">-</view>
-          <input ref="xInput" class="u-input" :cursor-spacing="30" type="number" v-model="multiple" @blur="handleBlur" />
+          <input
+            ref="xInput"
+            class="u-input"
+            :cursor-spacing="30"
+            type="number"
+            v-model="multiple"
+            @blur="handleBlur"
+          />
           <view class="u-tou-icon" @click.stop="multipleAdd">+</view>
           <view class="mx-1 font-s-3">倍</view>
           <view class="flex align-center font-s-3">
@@ -40,52 +48,63 @@
       </view>
     </view>
 
-    <confirm-popup ref="popup" :money="money" :moneyRemain="moneyRemain" :orderTime="orderTime" :balanceInfo="balanceInfo" @submit="handleSubmit"></confirm-popup>
+    <confirm-popup
+      ref="popup"
+      :money="money"
+      :moneyRemain="moneyRemain"
+      :orderTime="orderTime"
+      :balanceInfo="balanceInfo"
+      @submit="handleSubmit"
+    ></confirm-popup>
   </view>
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
-import dayjs from 'dayjs';
-import { getFlagArrs } from '@/lib/common.js';
-import { genFrontNums, genBackNums, getRandomArrayElements } from '@/lib/daletou.js';
-import lotteryApi from '@/api/lottery/index.js';
-import GBei from '@/components/GBei.vue';
-import SelectItem from './SelectItem.vue';
-import ConfirmPopup from './ConfirmPopup.vue';
+import { mapState, mapActions, mapMutations } from "vuex";
+import dayjs from "dayjs";
+import { getFlagArrs } from "@/lib/common.js";
+import {
+  genFrontNums,
+  genBackNums,
+  getRandomArrayElements,
+} from "@/lib/daletou.js";
+import lotteryApi from "@/api/lottery/index.js";
+import GBei from "@/components/GBei.vue";
+import SelectItem from "./SelectItem.vue";
+import ConfirmPopup from "./ConfirmPopup.vue";
 export default {
   components: {
     SelectItem,
     GBei,
-    ConfirmPopup
+    ConfirmPopup,
   },
   data() {
     return {
-      orderTime: '',
+      orderTime: "",
       checked: false,
       fontNums: genFrontNums(),
       backNums: genBackNums(),
-      issue: '',
-      issueId: '',
+      issue: "",
+      issueId: "",
       list: [],
-      multiple: 1
+      multiple: 1,
     };
   },
   computed: {
     ...mapState({
-      balanceInfo: state => state.balanceInfo
+      balanceInfo: (state) => state.balanceInfo,
     }),
     moneyRemain() {
       const remain = this.balanceInfo.balance - this.money;
       if (remain > 0) {
         return remain.toFixed(2);
       } else {
-        return '余额不足';
+        return "余额不足";
       }
     },
     count() {
       let count = 0;
-      this.list.forEach(l => {
+      this.list.forEach((l) => {
         const fLen = l.selectFont.length;
         const bLen = l.selectBack.length;
         if (fLen >= 5 && bLen >= 2) {
@@ -102,27 +121,27 @@ export default {
       } else {
         return this.count * 2;
       }
-    }
+    },
   },
   created() {
-    this.list = uni.getStorageSync('daletou_selected');
-    this.issueId = uni.getStorageSync('daletou__issueId');
-    this.issue = uni.getStorageSync('daletou__issue');
-    this.checked = !!uni.getStorageSync('daletou__additional');
+    this.list = uni.getStorageSync("daletou_selected");
+    this.issueId = uni.getStorageSync("daletou__issueId");
+    this.issue = uni.getStorageSync("daletou__issue");
+    this.checked = !!uni.getStorageSync("daletou__additional");
     this.updateBalanceInfo();
   },
   methods: {
     ...mapActions({
-      updateBalanceInfo: 'updateBalanceInfo'
+      updateBalanceInfo: "updateBalanceInfo",
     }),
     // 提交订单
     async handleSubmit() {
       try {
         if (this.count === 0) {
           return uni.showToast({
-            title: '至少选择1注',
-            icon: 'none'
-          })
+            title: "至少选择1注",
+            icon: "none",
+          });
         }
         if (this.loading) {
           return;
@@ -130,33 +149,33 @@ export default {
         this.loading = true;
         this.closePopup();
         uni.showLoading({
-          title: '订单生成中'
+          title: "订单生成中",
         });
         // 预下单
         const preParams = this.genBuyPreParams();
-        console.log('大乐透-预下单参数', preParams);
+        console.log("大乐透-预下单参数", preParams);
         const preRes = await lotteryApi.buyLotteryPre(preParams);
-        console.log('大乐透-预下单结果', preRes);
+        console.log("大乐透-预下单结果", preRes);
         // 下单
         const params = {
           app_schemeId: preRes.schemeId,
           buyMoney: this.money,
-          cId: '',
-          lotteryId: 10026
+          cId: "",
+          lotteryId: 10026,
         };
-        console.log('大乐透-下单参数', params);
+        console.log("大乐透-下单参数", params);
         const res = await lotteryApi.buyLottery(params);
-        console.log('大乐透-下单结果', res);
+        console.log("大乐透-下单结果", res);
         uni.hideLoading();
         uni.showToast({
-          title: '下单成功'
-        })
+          title: "下单成功",
+        });
         this.loading = false;
         uni.navigateTo({
-          url: `/pages/order/success?schemeId=${res.schemeId}&lotteryId=10026`
+          url: `/pages/order/success?schemeId=${res.schemeId}&lotteryId=10026`,
         });
       } catch (e) {
-        console.log('大乐透下单异常', e);
+        console.log("大乐透下单异常", e);
         // uni.hideLoading();
         this.loading = false;
       }
@@ -165,26 +184,27 @@ export default {
     genBuyPreParams() {
       const lottoSingle = [];
       const lottoPoly = [];
-      const skList = this.list.forEach(item => {
+      const skList = this.list.forEach((item) => {
         const fLen = item.selectFont.length;
         const bLen = item.selectBack.length;
         if (fLen === 5 && bLen === 2) {
-          const numStr = [...item.selectFont, ...item.selectBack].join(' ');
-           lottoSingle.push(numStr);
+          const numStr = [...item.selectFont, ...item.selectBack].join(" ");
+          lottoSingle.push(numStr);
         } else {
-          const numStr = item.selectFont.join(' ') + '#' + item.selectBack.join(' ');
+          const numStr =
+            item.selectFont.join(" ") + "#" + item.selectBack.join(" ");
           lottoPoly.push(numStr);
         }
-      })
-      let schemeNumber = '';
+      });
+      let schemeNumber = "";
       if (lottoSingle.length) {
-        schemeNumber += 'lottoSingle=' + lottoSingle.join(',');
+        schemeNumber += "lottoSingle=" + lottoSingle.join(",");
       }
       if (lottoPoly.length) {
         if (schemeNumber) {
-          schemeNumber += ';lottoPoly=' + lottoPoly.join(',');
+          schemeNumber += ";lottoPoly=" + lottoPoly.join(",");
         } else {
-          schemeNumber += 'lottoPoly=' + lottoPoly.join(',');
+          schemeNumber += "lottoPoly=" + lottoPoly.join(",");
         }
       }
       const params = {
@@ -192,7 +212,7 @@ export default {
         additional: this.checked ? 1 : 0,
         burstIntoStop: 0,
         buyType: 1,
-        cId: '',
+        cId: "",
         issueCount: 1,
         issueId: this.issueId,
         lotteryId: 10026,
@@ -201,7 +221,7 @@ export default {
         buyAmount: this.money,
         schemeAmount: this.money,
         schemeNumber: schemeNumber,
-        schemeNumberUnit: this.count
+        schemeNumberUnit: this.count,
       };
       return params;
     },
@@ -209,11 +229,11 @@ export default {
     openPopup() {
       if (this.count === 0) {
         return uni.showToast({
-          title: '至少选择1注',
-          icon: 'none'
-        })
+          title: "至少选择1注",
+          icon: "none",
+        });
       }
-      this.orderTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      this.orderTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
       this.$refs.popup.open();
     },
     closePopup() {
@@ -230,7 +250,7 @@ export default {
     handleBlur() {},
     handleDelete(index) {
       this.list.splice(index, 1);
-      uni.setStorageSync('daletou_selected', this.list);
+      uni.setStorageSync("daletou_selected", this.list);
     },
     doAiChoose() {
       let selectFont = getRandomArrayElements(this.fontNums, 5);
@@ -239,20 +259,20 @@ export default {
       selectBack = selectBack.sort((a, b) => Number(a) - Number(b));
       this.list.unshift({
         selectFont,
-        selectBack
+        selectBack,
       });
-      uni.setStorageSync('daletou_selected', this.list);
+      uni.setStorageSync("daletou_selected", this.list);
     },
     doContinue() {
-      uni.setStorageSync('daletou__additional', this.checked ? 'yes' : '');
+      uni.setStorageSync("daletou__additional", this.checked ? "yes" : "");
       uni.navigateBack();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
 .u-confirm {
   box-sizing: border-box;
   min-height: 100vh;

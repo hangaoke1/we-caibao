@@ -9,7 +9,7 @@
         </view>
         <view class="u-list">
           <view class="u-list-item" v-for="match in item.matches" :key="match.id">
-            <u-race :match="match" :type="0"></u-race>
+            <f-race :match="match" :type="0"></f-race>
           </view>
         </view>
       </we-panel>
@@ -55,24 +55,26 @@ import _ from 'lodash';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import lottery from '@/api/lottery/index.js';
 import wePanel from './u-panel.nvue';
-import uRace from './u-race.nvue';
+import fRace from './u-race.nvue';
 import proMixin from '@/mixins/pro.js';
 var modal = weex.requireModule('modal');
 export default {
   mixins: [proMixin],
   components: {
     wePanel,
-    uRace
+    fRace
   },
   data() {
-    return {};
+    return {
+      finished: false
+    };
   },
   computed: {
     ...mapState({
       info: state => state.jczq
     }),
     isEmpty() {
-      return this.info && _.get(this.info, 'data.length', 0) === 0;
+      return this.info && _.get(this.info, 'data.length', 0) === 0 && this.finished;
     },
     selectCount() {
       let count = 0;
@@ -174,7 +176,16 @@ export default {
     }
   },
   onReady() {
-    this.updateJczq();
+    uni.showLoading({
+      title: '比赛加载中'
+    })
+
+    this.updateJczq().then(() => {
+      this.finished = true
+      setTimeout(() => {
+        uni.hideLoading()
+      }, 500)
+    });
   },
   mounted() {}
 };

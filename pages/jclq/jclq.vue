@@ -25,19 +25,6 @@
         <text class="f-30 white-1">加载中</text>
       </view>
     </view>
-    
-<!--    <view class="u-sk" v-if="!info">
-      <view class="u-sk-header">
-        <text class="iconfont u-arrow" style="font-size: 40rpx;color: #ccc;">&#xe60d;</text>
-      </view>
-      <view class="u-sk-race" v-for="item in 5" :key="item">
-        <view class="u-sk-top"></view>
-        <view class="u-sk-bottom">
-          <view class="u-sk-left"></view>
-          <view class="u-sk-right"></view>
-        </view>
-      </view>
-    </view> -->
 
     <view class="u-bottom">
       <view class="u-empty" @click.stop="resetChoose"><text class="f-30 red-6">清空</text></view>
@@ -64,14 +51,16 @@ export default {
     wePanel,
     weRace
   },
-  data: () => ({}),
+  data: () => ({
+    finished: false
+  }),
   computed: {
     ...mapState({
       info: state => state.jclq
     }),
     isEmpty() {
       if (!this.info) { return false }
-      return _.get(this.info, 'dataList.length', 0) === 0
+      return _.get(this.info, 'dataList.length', 0) === 0 && this.finished
     },
     selectCount() {
       let count = 0;
@@ -196,7 +185,15 @@ export default {
     }
   },
   created() {
-    this.updateJclq();
+    uni.showLoading({
+      title: '比赛加载中'
+    })
+    this.updateJclq().then(() => {
+      this.finished = true
+      setTimeout(() => {
+        uni.hideLoading()
+      }, 500)
+    });
   }
 };
 </script>

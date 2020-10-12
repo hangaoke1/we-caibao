@@ -1,101 +1,109 @@
 <template>
   <!-- 绑定身份证 -->
-	<view class="u-bindidcard">
+  <view class="u-bindidcard">
     <view class="u-tip f-22">请务必保证信息真实有效，方便奖金提现，如有问题请联系店主！</view>
-    
-		<view class="u-form">
+
+    <view class="u-form">
       <view class="u-form-item">
-        <view class="u-form-item__label f-36">真实姓名</view>
+        <view class="u-form-item__label font-s-32">真实姓名</view>
         <view class="u-form-item__content">
-          <input class="f-36" type="text" placeholder="请输入真实姓名" v-model.trim="name">
+          <input class="font-s-32" type="text" placeholder="请输入真实姓名" v-model.trim="name" />
         </view>
       </view>
       <view class="u-form-item">
-        <view class="u-form-item__label f-36">身份证号</view>
+        <view class="u-form-item__label font-s-32">身份证号</view>
         <view class="u-form-item__content">
-          <input class="f-36" type="idcard" placeholder="15或18位,提交后不可修改" v-model.trim="identityNumber">
+          <input
+            class="font-s-32"
+            type="idcard"
+            placeholder="15或18位,提交后不可修改"
+            v-model.trim="identityNumber"
+          />
         </view>
       </view>
-      
+
       <view class="u-form-item">
-        <view class="u-form-item__label f-36">银行卡</view>
+        <view class="u-form-item__label font-s-32">银行卡</view>
         <view class="u-form-item__content">
-          <input class="f-36" type="idcard" placeholder="请输入银行卡号" v-model.trim="bankAccount">
+          <input class="font-s-32" type="idcard" placeholder="请输入银行卡号" v-model.trim="bankAccount" />
         </view>
       </view>
-      
+
       <button class="u-action" type="warn" @click.stop="doBind">确认绑定</button>
     </view>
-	</view>
+  </view>
 </template>
 
 <script>
-  import user from '@/api/user/index.js'
-  import { mapState, mapActions } from 'vuex';
-	export default {
-		data() {
-			return {
-        bankAccount: '', // 银行卡
-				identityNumber: '', // 身份证号
-        name: '' // 真名
-			};
-		},
-    methods: {
-      ...mapActions({
-        updateUserInfo: 'updateUserInfo',
-        updateBalanceInfo: 'updateBalanceInfo'
-      }),
-      doBind() {
-        if (!this.name) {
-          return uni.showToast({
-            title: '请输入姓名',
-            icon: 'none'
-          })
-        }
-        if (!this.identityNumber) {
-          return uni.showToast({
-            title: '请输入身份证号',
-            icon: 'none'
-          })
-        }
-        if (!this.bankAccount) {
-          return uni.showToast({
-            title: '请输银行卡号',
-            icon: 'none'
-          })
-        }
-        uni.showLoading({
-          title: '绑定中'
-        })
-        user.bindBankCard({
+import user from "@/api/user/index.js";
+import { mapState, mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      bankAccount: "", // 银行卡
+      identityNumber: "", // 身份证号
+      name: "", // 真名
+    };
+  },
+  methods: {
+    ...mapActions({
+      updateUserInfo: "updateUserInfo",
+      updateBalanceInfo: "updateBalanceInfo",
+    }),
+    doBind() {
+      if (!this.name) {
+        return uni.showToast({
+          title: "请输入姓名",
+          icon: "none",
+        });
+      }
+      if (!this.identityNumber) {
+        return uni.showToast({
+          title: "请输入身份证号",
+          icon: "none",
+        });
+      }
+      if (!this.bankAccount) {
+        return uni.showToast({
+          title: "请输银行卡号",
+          icon: "none",
+        });
+      }
+      uni.showLoading({
+        title: "绑定中",
+      });
+      user
+        .bindBankCard({
           name: this.name,
           identityNumber: this.identityNumber,
-          bankAccount: this.bankAccount
-        }).then(res => {
-          uni.hideLoading()
+          bankAccount: this.bankAccount,
+        })
+        .then((res) => {
+          uni.hideLoading();
           uni.showToast({
-            title: '绑定成功',
-            icon: 'success'
-          })
+            title: "绑定成功",
+            icon: "success",
+          });
           this.updateUserInfo();
           setTimeout(() => {
-            uni.navigateBack()
-          }, 1000)
-        }).catch(err => {
-          uni.hideLoading()
-          console.log(err)
-          uni.showToast({
-            title: '绑定失败',
-            icon: 'none'
-          })
+            uni.navigateBack();
+          }, 1000);
         })
-      }
-    }
-	}
+        .catch((err) => {
+          uni.hideLoading();
+          console.log(err);
+          uni.showToast({
+            title: "绑定失败",
+            icon: "none",
+          });
+        });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
 
 .u-bindidcard {
   background: #f0f0f0;
@@ -130,6 +138,6 @@
   width: 600rpx;
   margin: 0 auto;
   margin-top: 60rpx;
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 </style>

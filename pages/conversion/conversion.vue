@@ -1,6 +1,5 @@
 <template>
   <view class="u-withdraw">
-
     <view class="u-content">
       <view class="u-top f-30 grey-6">转充金额</view>
       <view class="u-mid">
@@ -14,8 +13,8 @@
         <view class="f-26 blue-6" @click.stop="getAll">全部转充</view>
       </view>
     </view>
-    
-   <view class="u-tip f-22">
+
+    <view class="u-tip f-22">
       <view>1. 与充值活动同享，比如充值送5%，那么转充则送6%</view>
       <view>2. 无充值活动时，赠送1%彩金</view>
       <view>3. 转充金额大于50元享受以上优惠</view>
@@ -26,13 +25,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import _ from 'lodash';
-import user from '@/api/user/index.js';
+import { mapState, mapActions } from "vuex";
+import _ from "lodash";
+import user from "@/api/user/index.js";
 export default {
   data() {
     return {
-      money: ''
+      money: "",
     };
   },
   created() {
@@ -41,22 +40,22 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.userInfo,
-      balanceInfo: state => state.balanceInfo
+      userInfo: (state) => state.userInfo,
+      balanceInfo: (state) => state.balanceInfo,
     }),
     showWarn() {
       const money = this.money || 0;
-      const remain = _.get(this.userInfo, 'money', 0);
+      const remain = _.get(this.userInfo, "money", 0);
       return money > remain;
-    }
+    },
   },
   methods: {
     ...mapActions({
-      updateUserInfo: 'updateUserInfo',
-      updateBalanceInfo: 'updateBalanceInfo'
+      updateUserInfo: "updateUserInfo",
+      updateBalanceInfo: "updateBalanceInfo",
     }),
     getAll() {
-      this.money = parseInt(_.get(this.userInfo, 'money', 0));
+      this.money = parseInt(_.get(this.userInfo, "money", 0));
     },
     doSubmit() {
       if (this.showWarn) {
@@ -64,30 +63,30 @@ export default {
       }
       user
         .transferRecharge({
-          money: this.money
+          money: this.money,
         })
-        .then(res => {
+        .then((res) => {
           uni.showToast({
-            title: '转充成功',
-            icon: 'success'
+            title: "转充成功",
+            icon: "success",
           });
-          this.money = '';
+          this.money = "";
           this.updateBalanceInfo();
           this.updateUserInfo();
           setTimeout(() => {
             uni.switchTab({
-              url: '/pages/user/user'
+              url: "/pages/user/user",
             });
           }, 1000);
         })
-        .catch(err => {});
-    }
-  }
+        .catch((err) => {});
+    },
+  },
 };
 </script>
 
 <style lang="less">
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
 
 .u-withdraw {
   min-height: 100vh;
@@ -154,6 +153,6 @@ export default {
   width: 600rpx;
   margin: 0 auto;
   margin-top: 60rpx;
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 </style>

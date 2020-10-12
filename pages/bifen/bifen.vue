@@ -6,7 +6,7 @@ var wv;
 import { openUrl } from '@/util/index.js';
 export default {
   mounted() {
-    console.log('>>> 加载比分webview');
+    console.log('>>> 加载比分webview <<<');
     const info = uni.getSystemInfoSync();
     const gifRatio = 658 / 494;
     const width = info.screenWidth;
@@ -34,9 +34,6 @@ export default {
     currentWebview.append(wv);
 
     if (uni.getSystemInfoSync().platform == 'android') {
-      // setTimeout(() => {
-      //   wv.setStyle({ top: uni.getSystemInfoSync().statusBarHeight, bottom: 20 });
-      // }, 1000);
        wv.setStyle({ top: uni.getSystemInfoSync().statusBarHeight });
     }
 
@@ -76,5 +73,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less"></style>

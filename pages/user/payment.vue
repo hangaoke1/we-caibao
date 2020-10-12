@@ -63,7 +63,7 @@ export default {
     return {
       money: '',
       info: {
-        moneyList: [0, 0, 0, 0, 0, 0]
+        moneyList: [188, 288, 388, 688, 888, 988]
       },
       channelList: [],
       loading: false

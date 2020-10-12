@@ -4,6 +4,9 @@ let isStartTask = false; //是否开启下载任务
 import md5 from 'js-md5';
 
 const init = (url, cb) => {
+  // #ifdef H5
+  return cb(url)
+  // #endif
   if (!/^http/.test(url)) {
     return cb(url)
   }

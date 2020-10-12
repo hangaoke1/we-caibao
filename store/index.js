@@ -1,18 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import _ from 'lodash'
+import _, { union } from 'lodash'
 import user from '@/api/user'
 import lottery from '@/api/lottery'
-
-import lqmock from '@/mock/lq';
-import toto14mock from '@/mock/toto14'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    // 测试
-    test: '测试',
     // 用户信息
     userInfo: {},
     // 财产信息
@@ -233,7 +228,6 @@ const store = new Vuex.Store({
             match.choose = [];
           })
         })
-        // console.log('篮球', res)
         commit('updateJclq', res)
       })
     },

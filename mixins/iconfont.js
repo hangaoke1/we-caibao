@@ -3,6 +3,7 @@ const url = 'data:font/truetype;charset=utf-8;base64,AAEAAAANAIAAAwBQRkZUTYoBN80
 let hasSet = false
 
 export default {
+  // weex图标
   beforeCreate () {
     // #ifdef APP-PLUS
     if (!hasSet) {

@@ -76,8 +76,8 @@ export default {
   },
   onNavigationBarButtonTap() {
     openUrl({
-      url: 'https://chart.lottery.gov.cn/chart_tc2/chart.shtml?LotID=23529&ChartID=0&_StatType=1&MinIssue=&MaxIssue=&IssueTop=30&ChartType=0&param=0&tab=0',
-      needRedirect: true
+      url: 'https://h5.jiangduoduo.com/chart?lotteryId=1000',
+      needRedirect: false
     })
   },
   computed: {

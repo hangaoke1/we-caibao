@@ -30,35 +30,35 @@
       </view>
     </view>
 
-    <view class="u-status-wrap"><u-status :status="statusDesc"></u-status></view>
+    <view class="u-status-wrap"><f-status :status="statusDesc"></f-status></view>
 
-    <view v-if="info.lotteryId == 10026"><u-daletou :info="info"></u-daletou></view>
-    <view v-if="info.lotteryId == 10039"><u-toto14 :info="info"></u-toto14></view>
-    <view v-if="info.lotteryId == 10040"><u-toto9 :info="info"></u-toto9></view>
-    <view v-if="info.lotteryId == 10058"><u-lq :info="info"></u-lq></view>
-    <view v-if="info.lotteryId == 10059"><u-zq :info="info"></u-zq></view>
-    <view v-if="info.lotteryId == 10108"><u-js11x5 :info="info"></u-js11x5></view>
+    <view v-if="info.lotteryId == 10026"><f-daletou :info="info"></f-daletou></view>
+    <view v-if="info.lotteryId == 10039"><f-toto14 :info="info"></f-toto14></view>
+    <view v-if="info.lotteryId == 10040"><f-toto9 :info="info"></f-toto9></view>
+    <view v-if="info.lotteryId == 10058"><f-lq :info="info"></f-lq></view>
+    <view v-if="info.lotteryId == 10059"><f-zq :info="info"></f-zq></view>
+    <view v-if="info.lotteryId == 10108"><f-js11x5 :info="info"></f-js11x5></view>
   </view>
 </template>
 
 <script>
 import lottery from '@/api/lottery/index.js';
-import uStatus from './components/u-status.vue';
-import uZq from './components/u-zq.vue';
-import uLq from './components/u-lq.vue';
-import uJs11x5 from './components/u-js11x5.vue';
-import uToto14 from './components/u-toto14.vue';
-import uToto9 from './components/u-toto9.vue';
-import uDaletou from './components/u-daletou.vue';
+import fStatus from './components/f-status.vue';
+import fZq from './components/f-zq.vue';
+import fLq from './components/f-lq.vue';
+import fJs11x5 from './components/f-js11x5.vue';
+import fToto14 from './components/f-toto14.vue';
+import fToto9 from './components/f-toto9.vue';
+import fDaletou from './components/f-daletou.vue';
 export default {
   components: {
-    uStatus,
-    uZq,
-    uLq,
-    uJs11x5,
-    uToto14,
-    uToto9,
-    uDaletou
+    fStatus,
+    fZq,
+    fLq,
+    fJs11x5,
+    fToto14,
+    fToto9,
+    fDaletou
   },
   data() {
     return {
@@ -88,7 +88,6 @@ export default {
         schemeId
       })
       .then(res => {
-        console.log('>>> orderDetail', res);
         this.info = res;
       });
   }

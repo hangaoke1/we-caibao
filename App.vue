@@ -34,10 +34,18 @@ export default {
 };
 </script>
 
+<style lang="less">
+@import '~@/styles/iconfont.less';
+</style>
+
 <style>
 /* #ifndef APP-NVUE */
 /*每个页面公共css */
 @import '/styles/base.css';
 @import '/styles/animate.min.css';
 /* #endif */
+</style>
+
+<style lang='scss'>
+	@import "uview-ui/index.scss";
 </style>

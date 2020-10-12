@@ -6,12 +6,12 @@
         class="iconfont u-arrow"
         :class="{ 'z-active': !show }"
         style="font-size: 40rpx;color: #ccc;"
-      >
-        &#xe60d;
-      </text>
+      >&#xe60d;</text>
     </view>
 
-    <view class="u-panel" v-show="show"><slot></slot></view>
+    <view class="u-panel" v-show="show">
+      <slot></slot>
+    </view>
   </view>
 </template>
 
@@ -19,20 +19,19 @@
 export default {
   data() {
     return {
-      show: true
+      show: true,
     };
   },
   methods: {
     handleClick() {
       this.show = !this.show;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-@import '~@/styles/common_vue.less';
-.u-panel {}
+@import "~@/styles/common_vue.less";
 .u-title {
   display: flex;
   justify-content: space-between;

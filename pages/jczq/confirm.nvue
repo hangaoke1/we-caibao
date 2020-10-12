@@ -5,7 +5,7 @@
       <text>{{ count }}{{ isBottomShow }}</text>
     </view>
     
-    <view v-for="match in selectRaces" :key="match.id" style="background-color: #fff;"><u-race :match="match" :type="1"></u-race></view>
+    <view v-for="match in selectRaces" :key="match.id" style="background-color: #fff;"><f-race :match="match" :type="1"></f-race></view>
 
     <view style="height: 100rpx;"></view>
 
@@ -139,19 +139,19 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import { mapState, mapActions, mapMutations } from 'vuex';
-import uRace from './u-race.nvue';
+import fRace from './u-race.nvue';
 import WxcPopup from '@/components/wxc-popup/index.nvue';
 import { genCountStd, genCountMix } from '@/lib/jczqZS.js';
 import { genPrizeStd, genPrizeMix } from '@/lib/jczqJJ.js';
 import { limitMap, key2code, mixWayMap } from '@/lib/jczq.js';
 import lottery from '@/api/lottery/index.js';
 import proMixin from '@/mixins/pro.js';
-import hideKeyBoardMixin from '@/mixins/hideKeyBoard.js';
+import { hideKeyBoard } from '@/mixins/mixin.js';
 
 export default {
-  mixins: [proMixin, hideKeyBoardMixin],
+  mixins: [proMixin, hideKeyBoard],
   components: {
-    uRace,
+    fRace,
     WxcPopup
   },
   data() {

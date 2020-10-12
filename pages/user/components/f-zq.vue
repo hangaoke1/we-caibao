@@ -16,9 +16,7 @@
       </view>
       <view class="u-form-item">
         <view class="u-label f-30 grey-6">中奖金额</view>
-        <view class="f-30 f-bold red-6" v-if="['待出票', '出票成功'].includes(info.statusDesc)">
-          --
-        </view>
+        <view class="f-30 f-bold red-6" v-if="['待出票', '出票成功'].includes(info.statusDesc)">--</view>
         <view class="f-30 f-bold red-6" v-else>{{ (info.pureSchemePrize || 0).toFixed(2) }}元</view>
       </view>
       <view class="u-form-item">
@@ -29,7 +27,7 @@
         <view class="u-label f-30 grey-6">投注信息</view>
         <view class="u-value f-30 grey-6">
           {{ info.schemeContent[0].pass }} {{ info.schemeNumberUnit / info.multiple }}注{{
-            info.multiple
+          info.multiple
           }}倍
         </view>
       </view>
@@ -52,26 +50,38 @@
     <g-table v-else width="750">
       <g-tr>
         <g-td padding="0" col="150">
-          <view class="u-td-wrap"><text class="f-24">场次</text></view>
+          <view class="u-td-wrap">
+            <text class="f-24">场次</text>
+          </view>
         </g-td>
         <g-td padding="0" col="240">
-          <view class="u-td-wrap"><text class="f-24">主队对客队</text></view>
+          <view class="u-td-wrap">
+            <text class="f-24">主队对客队</text>
+          </view>
         </g-td>
         <g-td padding="0" col="240">
-          <view class="u-td-wrap"><text class="f-24">投注项</text></view>
+          <view class="u-td-wrap">
+            <text class="f-24">投注项</text>
+          </view>
         </g-td>
         <g-td padding="0" col="120">
-          <view class="u-td-wrap"><text class="f-24">彩果</text></view>
+          <view class="u-td-wrap">
+            <text class="f-24">彩果</text>
+          </view>
         </g-td>
       </g-tr>
 
       <g-tr v-for="item in showInfo.schemeContent[0].matches" :key="item.id">
         <g-td padding="0" col="150">
           <view class="u-td-wrap">
-            <text class="f-30 iconfont" :class="[item.matchId ? 'red-6': 'grey-1']" @click.stop="goH5(item)">&#xe609;</text>
+            <text
+              class="f-30 iconfont"
+              :class="[item.matchId ? 'red-6': 'grey-1']"
+              @click.stop="goH5(item)"
+            >&#xe609;</text>
             <text class="f-24">{{ fmtWeek(item.issue) }}{{ item.teamId }}</text>
-            <text class="f-24">{{ item.matchTime.split(' ')[0].slice(-5) }}</text>
-            <text class="f-24">{{ item.matchTime.split(' ')[1] }}</text>
+            <text class="f-24">{{ item.matchTime && item.matchTime.split(' ')[0].slice(-5) }}</text>
+            <text class="f-24">{{ item.matchTime && item.matchTime.split(' ')[1] }}</text>
           </view>
         </g-td>
         <g-td padding="0" col="240">
@@ -85,8 +95,10 @@
           <view class="u-td-wrap">
             <view v-for="(choose, index) in item.choose" :key="choose">
               <text class="f-24" :class="{'red-6': isHit(choose, item) }">
-                {{ [403, 401, 400].includes(choose) ? '(' + item.rate + ')' : ''
-                }}{{ map[choose].name }}[{{ item.odds[index] }}]
+                <text v-if="[403, 401, 400].includes(choose) && item.rate">({{item.rate}})</text>
+                <text>{{ map[choose].name }}</text>
+                <text v-if="item.odds">[{{item.odds[index] }}]</text>
+                <text v-else>[-]</text>
               </text>
             </view>
           </view>
@@ -95,9 +107,11 @@
           <view class="u-td-wrap">
             <text v-if="!item.teamId" class="f-24">比赛取消</text>
             <template v-else-if="item.bingo !== '-1'">
-              <text class="f-24 red-6" v-for="bingo in item.bingos" :key="bingo.name">
-                {{ bingo.value }}
-              </text>
+              <text
+                class="f-24 red-6"
+                v-for="bingo in item.bingos"
+                :key="bingo.name"
+              >{{ bingo.value }}</text>
             </template>
             <text v-else class="f-24">待开奖</text>
           </view>
@@ -108,75 +122,93 @@
 </template>
 
 <script>
-import _ from 'lodash';
-import dayjs from 'dayjs';
-import gTable from '@/components/vue-table/vue-table.vue';
-import gTr from '@/components/vue-table/vue-tr.vue';
-import gTd from '@/components/vue-table/vue-td.vue';
-import { map } from '@/lib/jczq.js';
-import { openUrl } from '@/util/index.js';
+import _ from "lodash";
+import dayjs from "dayjs";
+import gTable from "@/components/vue-table/vue-table.vue";
+import gTr from "@/components/vue-table/vue-tr.vue";
+import gTd from "@/components/vue-table/vue-td.vue";
+import { map } from "@/lib/jczq.js";
+import { openUrl } from "@/util/index.js";
 
 export default {
   props: {
-    info: Object
+    info: Object,
   },
   components: {
     gTable,
     gTr,
-    gTd
+    gTd,
   },
   data() {
     return {
       map,
-      showInfo: {}
+      showInfo: {},
     };
   },
   methods: {
     goH5(match) {
       if (!match.matchId) {
         return uni.showToast({
-          title: '暂无比赛直播',
-          icon: 'none'
-        })
+          title: "暂无比赛直播",
+          icon: "none",
+        });
       }
-      const url = 'https://h5.jdddata.com/communal/cartoon/fulllive?mid=' + match.matchId;
-      openUrl({url});
+      const url =
+        "https://h5.jdddata.com/communal/cartoon/fulllive?mid=" + match.matchId;
+      openUrl({ url });
     },
-    isHit (choose, item) {
-      const results = item.bingos.map(bingo => bingo.value);
+    isHit(choose, item) {
+      const results = item.bingos.map((bingo) => bingo.value);
       const chooseName = this.map[choose].name;
       return results.includes(chooseName);
     },
     genBingo(item) {
-      const bingos = item.bingo.split('/').map(item => {
+      if (!item.bingo) {
+        return [];
+      }
+      const bingos = item.bingo.split("/").map((item) => {
         const bingo = item.trim();
-        const bingoArr = bingo.split('：');
+        const bingoArr = bingo.split("：");
         return {
           name: bingoArr[0],
-          value: bingoArr[1]
+          value: bingoArr[1],
         };
       });
       return bingos;
     },
     fmtWeek(date) {
-      date = date + '';
-      date = date.slice(0, 4) + '-'  + date.slice(4, 6) + '-' + date.slice(6, 9) + ' 00:00:00'
-      const map = { 0: '周日', 1: '周一', 2: '周二', 3: '周三', 4: '周四', 5: '周五', 6: '周六' };
+      date = date + "";
+      date =
+        date.slice(0, 4) +
+        "-" +
+        date.slice(4, 6) +
+        "-" +
+        date.slice(6, 9) +
+        " 00:00:00";
+      const map = {
+        0: "周日",
+        1: "周一",
+        2: "周二",
+        3: "周三",
+        4: "周四",
+        5: "周五",
+        6: "周六",
+      };
       return map[dayjs(date).day()];
-    }
+    },
   },
   created() {
     this.showInfo = _.cloneDeep(this.info);
-    this.showInfo.schemeContent[0].matches.forEach(match => {
+    this.showInfo.schemeContent[0].matches.forEach((match) => {
       match.bingos = this.genBingo(match);
     });
     // console.log(this.showInfo)
-  }
+  },
 };
 </script>
 
 <style lang="less" scoped>
-@import '~@/styles/common_vue.less';
+@import "~@/styles/common_vue.less";
 .u-zq {
   box-sizing: border-box;
   width: 750rpx;

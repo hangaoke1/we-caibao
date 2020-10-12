@@ -3,7 +3,17 @@
  */
 import config from '@/config'
 export const openUrl = function(params) {
-  const {url, titletext = config.nameZh, showAction = true, showTitle = true, needRedirect = false} =  params;
+  const {
+    url,
+    titletext = config.nameZh,
+    showAction = true,
+    showTitle = true,
+    needRedirect = false
+  } = params;
+  // #ifdef H5
+  window.open(url)
+  return
+  // #endif
   const info = uni.getSystemInfoSync()
   const gifRatio = 658 / 494
   const width = info.windowWidth
@@ -65,11 +75,15 @@ export const openUrl = function(params) {
     offset: uni.getSystemInfoSync().statusBarHeight + 50,
     url: url
   });
- 
-  if(goUrl.indexOf('m.chart.icaile.com') > -1) {
-    w.setCssFile('_www/static/rmad11x5.css'); 
+
+  if (goUrl.indexOf('m.chart.icaile.com') > -1) {
+    w.setCssFile('_www/static/rmad11x5.css');
   }
-  
+
+  if (goUrl.indexOf('h5.jiangduoduo.com') > -1) {
+    w.setCssFile('_www/static/rmadDLT.css');
+  }
+
   w.addEventListener('close', () => {
     w = null;
   })
@@ -88,18 +102,18 @@ export const openUrl = function(params) {
  * 隐号
  */
 export const encryptMobile = (mobile) => {
-	const mobileStr = String(mobile);
-	const len = mobileStr.length;
-	const starIndex = len - 8;
-	const endIndex = len - 5;
-	mobile = mobileStr.replace(/\w/g, function(match, pos, originText) {
-			if (pos >= starIndex && pos <= endIndex) {
-					return '*';
-			} else {
-					return match;
-			}
-	});
-	return mobile;
+  const mobileStr = String(mobile);
+  const len = mobileStr.length;
+  const starIndex = len - 8;
+  const endIndex = len - 5;
+  mobile = mobileStr.replace(/\w/g, function(match, pos, originText) {
+    if (pos >= starIndex && pos <= endIndex) {
+      return '*';
+    } else {
+      return match;
+    }
+  });
+  return mobile;
 };
 
 /* 延迟 */
