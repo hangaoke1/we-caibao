@@ -35,7 +35,9 @@ export default {
 </script>
 
 <style lang="less">
+/* #ifndef APP-NVUE */
 @import '~@/styles/iconfont.less';
+/* #endif */
 </style>
 
 <style>
@@ -47,5 +49,7 @@ export default {
 </style>
 
 <style lang='scss'>
-	@import "uview-ui/index.scss";
+/* #ifndef APP-NVUE */
+@import "uview-ui/index.scss";
+/* #endif */
 </style>
