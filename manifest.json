@@ -63,8 +63,7 @@
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ],
-                "abiFilters" : [ "armeabi-v7a", "x86" ]
+                ]
             },
             /* ios打包配置 */
             "ios" : {},
@@ -128,11 +127,11 @@
                         "retina40l" : "",
                         "retina35" : ""
                     }
-                },
-                "androidStyle" : "common"
+                }
             }
         },
-        "compilerVersion" : 3
+        "compilerVersion" : 2,
+        "nvueLaunchMode" : "fast"
     },
     /* 快应用特有相关 */
     "quickapp" : {},
@@ -152,10 +151,5 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
-    },
-    "h5" : {
-        "devServer" : {
-            "https" : true
-        }
     }
 }
