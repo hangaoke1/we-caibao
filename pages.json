@@ -1,12 +1,12 @@
 {
   "easycom": {
-  		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
-  	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "",
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "",
         "app-plus": {
           "titleNView": {
             "buttons": [{
@@ -16,13 +16,28 @@
             }]
           }
         }
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+      }
+    }, {
+      "path": "pages/game/pintu",
+      "style": {
+        "navigationBarTitleText": "轻松拼图"
+      }
+    }, {
+      "path": "pages/game/mouse",
+      "style": {
+        "navigationBarTitleText": "轻松地鼠"
+      }
+    }, {
+      "path": "pages/processImage/processImage",
+      "style": {
+        "navigationBarTitleText": "图片处理"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
 }
