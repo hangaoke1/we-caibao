@@ -51,16 +51,17 @@ export default {
     wePanel,
     weRace
   },
-  data: () => ({
-    finished: false
-  }),
+  data() {
+    return {
+      finished: false
+    }
+  },
   computed: {
     ...mapState({
       info: state => state.jclq
     }),
     isEmpty() {
-      if (!this.info) { return false }
-      return _.get(this.info, 'dataList.length', 0) === 0 && this.finished
+      return _.get(this.info, 'dataList.length', 0) == 0 && this.finished
     },
     selectCount() {
       let count = 0;
@@ -193,6 +194,8 @@ export default {
       setTimeout(() => {
         uni.hideLoading()
       }, 500)
+    }).catch(() => {
+      this.finished = true
     });
   }
 };

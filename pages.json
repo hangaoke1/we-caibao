@@ -513,6 +513,14 @@
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/pailie3/pailie3",
+      "style": {
+        "navigationBarTitleText": "排列三",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "tabBar": {
@@ -550,8 +558,8 @@
     ]
   },
   "easycom": {
-		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
-	},
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "",

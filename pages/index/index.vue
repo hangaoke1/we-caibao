@@ -137,6 +137,7 @@ export default {
         10058: "/static/home/lanqiu_icon@3x.png",
         10059: "/static/home/zuqiu_icon@3x.png",
         10108: "/static/home/11xuan5_icon@3x.png",
+        10024: "/static/home/pailie3_icon@3x.png",
       },
       cpMap,
     };
@@ -144,9 +145,10 @@ export default {
   computed: {
     cpList() {
       if (this.hotInfo) {
-        return _.get(this, "hotInfo.list", []).filter(
+        const list = _.get(this, "hotInfo.list", []).filter(
           (item) => !!this.cpMap[item.lotteryId]
         );
+        return list
       } else {
         return [];
       }
@@ -255,6 +257,12 @@ export default {
       if (cp.lotteryId == 10026) {
         return uni.navigateTo({
           url: "/pages/daletou/daletou",
+        });
+      }
+
+      if (cp.lotteryId === 10024) {
+        return uni.navigateTo({
+          url: "/pages/pailie3/pailie3",
         });
       }
 

@@ -185,6 +185,8 @@ export default {
       setTimeout(() => {
         uni.hideLoading()
       }, 500)
+    }).catch(() => {
+      this.finished = true
     });
   },
   mounted() {}
