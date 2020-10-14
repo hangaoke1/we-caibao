@@ -11,12 +11,8 @@
       </view>
       <view class="u-tab-line" :style="lineStyle"></view>
     </view>
-    
-    <swiper
-      style="flex: 1;"
-      :current="activeIndex"
-      @change="handleTabChange"
-    >
+
+    <swiper style="flex: 1;" :current="activeIndex" @change="handleTabChange">
       <swiper-item v-for="(tabData, tabIndex) in dataList" :key="tabIndex" style="flex: 1;">
         <weex-list
           class="u-list"
@@ -25,15 +21,23 @@
           :active="tabIndex === activeIndex"
           @loadMore="loadMore(tabIndex, $event)"
         >
-          <view class="u-item" v-for="(item, index) in tabData.list" :key="item.schemeId" @click.stop="goDetail(item)">
+          <view
+            class="u-item"
+            v-for="(item, index) in tabData.list"
+            :key="item.schemeId"
+            @click.stop="goDetail(item)"
+          >
             <view class="u-top">
               <view class="u-top-left">
-                <text class="f-30">{{ item.lotteryName }}</text>
-                <text class="f-30 u-schemeAmount"> {{ item.schemeAmount }}</text>
+                <text class="f-30" v-if="item.lotteryName !== '排列3/5'">{{ item.lotteryName }}</text>
+                <text class="f-30" v-if="item.lotteryName === '排列3/5'">{{ [0, 6, 7, 11].includes(item.schemeNumberType) ? '排列三' : '排列五' }}</text>
+                <text class="f-30 u-schemeAmount">{{ item.schemeAmount }}</text>
                 <text class="f-30">元</text>
               </view>
               <view class="u-top-right">
-                <text class="f-30 u-schemeAmount" v-if="item.statusDesc === '中奖'">中{{ item.prize.toFixed(2) }}元</text>
+                <text class="f-30 u-schemeAmount" v-if="item.statusDesc === '中奖'">
+                  中{{ item.prize.toFixed(2) }}元
+                </text>
                 <text class="f-30" v-else>{{ item.statusDesc }}</text>
               </view>
             </view>
@@ -48,9 +52,15 @@
                   <text class="f-30 u-schemeAmount">{{ item.followMoney }}</text>
                   <text class="f-30">元</text>
                 </view>
-                <text class="f-30" v-else-if="item.orderType === 2">发单人: {{ item.publishName }}</text>
+                <text class="f-30" v-else-if="item.orderType === 2">
+                  发单人: {{ item.publishName }}
+                </text>
               </view>
-              <view class="u-bottom-right"><text class="f-30">{{ item.initiateTime.slice(5) }} {{ type[item.orderType] }}</text></view>
+              <view class="u-bottom-right">
+                <text class="f-30">
+                  {{ item.initiateTime.slice(5) }} {{ type[item.orderType] }}
+                </text>
+              </view>
             </view>
           </view>
         </weex-list>
@@ -288,5 +298,4 @@ export default {
 .u-schemeAmount {
   color: @red-6;
 }
-
 </style>

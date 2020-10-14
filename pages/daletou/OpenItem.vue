@@ -1,6 +1,6 @@
 <template>
   <view class="flex align-center p-2">
-    <view class="mr-3 font-s-3 flex-0" style="width: 180rpx;">{{ issue }}期</view>
+    <view class="mr-3 font-s-24 flex-0" style="width: 180rpx;">{{ issue }}期</view>
     <view class="flex align-center">
       <!-- 前驱号码 -->
       <view class="flex align-center">

@@ -2,31 +2,49 @@
   <view class="u-daletou">
     <view class="text-center font-s-3 py-2" v-if="info.issue">
       <text class="mr-2">第{{ info.issue }}期</text>
-      <text class="text-gray">截止时间{{info.sellEndTime}}</text>
-    </view> 
+      <text class="text-gray">截止时间{{ info.sellEndTime }}</text>
+    </view>
     <view class="text-center font-s-3 py-2" v-else>当前没有销售奖期</view>
     <view class="bg-hui" v-if="info.issue">
-      <view class="flex align-center" @click="show = !show">
+      <view class="flex align-center justify-between  pr-2" @click="show = !show">
         <open-item :issue="info.upIssue" :drawNumber="info.upDrawNumber"></open-item>
-        <text class="iconfont font-s-20 text-gray" v-show="!show">&#xe637;</text>
-        <text class="iconfont font-s-20 text-gray" v-show="show">&#xe638;</text>
+        <text class="iconfont font-s-2 text-gray" v-show="!show">&#xe637;</text>
+        <text class="iconfont font-s-2 text-gray" v-show="show">&#xe638;</text>
       </view>
-      <view v-show="show" v-for="item in oldList" :key="item.issue"><open-item :issue="item.issue" :drawNumber="item.drawNumber"></open-item></view>
+      <view v-show="show" v-for="item in oldList" :key="item.issue">
+        <open-item :issue="item.issue" :drawNumber="item.drawNumber"></open-item>
+      </view>
     </view>
 
     <view class="p-2">
       <!-- 前区 front -->
       <view class="font-s-3 mb-2">前区（至少选择5个）</view>
       <view class="flex flex-wrap align-center">
-        <view class="u-frontnum mr-2 mb-2" v-for="item in fontNums" :key="item" :class="{ 'u-font-active': selectFont.includes(item) }" @click="fontAdd(item)">{{ item }}</view>
+        <view
+          class="u-frontnum mr-2 mb-2"
+          v-for="item in fontNums"
+          :key="item"
+          :class="{ 'u-font-active': selectFont.includes(item) }"
+          @click="fontAdd(item)"
+        >
+          {{ item }}
+        </view>
       </view>
       <!-- 后区 back -->
       <view class="font-s-3 mb-2 mt-3">后区（至少选择2个）</view>
       <view class="flex flex-wrap align-center">
-        <view class="u-backnum mr-2 mb-2" v-for="item in backNums" :key="item" :class="{ 'u-back-active': selectBack.includes(item) }" @click="backAdd(item)">{{ item }}</view>
+        <view
+          class="u-backnum mr-2 mb-2"
+          v-for="item in backNums"
+          :key="item"
+          :class="{ 'u-back-active': selectBack.includes(item) }"
+          @click="backAdd(item)"
+        >
+          {{ item }}
+        </view>
       </view>
     </view>
-    
+
     <view class="u-bottom">
       <view class="u-action flex-0 text-center text-red font-s-3" @click.stop="emptyAll">清空</view>
       <view class="flex-1 text-center">
@@ -39,7 +57,12 @@
         </template>
       </view>
       <view class="u-float" @click.stop="aiChoose">机选</view>
-      <view class="u-action flex-0 text-center bg-red text-bai font-s-3" @click.stop="handleConfirm">确定</view>
+      <view
+        class="u-action flex-0 text-center bg-red text-bai font-s-3"
+        @click.stop="handleConfirm"
+      >
+        确定
+      </view>
     </view>
   </view>
 </template>
@@ -50,7 +73,7 @@ import { openUrl } from '@/util/index.js';
 import lottery from '@/api/lottery/index.js';
 import OpenItem from './OpenItem.vue';
 import { getFlagArrs } from '@/lib/common.js';
-import { genFrontNums, genBackNums, getRandomArrayElements } from '@/lib/daletou.js'
+import { genFrontNums, genBackNums, getRandomArrayElements } from '@/lib/daletou.js';
 export default {
   components: {
     OpenItem
@@ -78,20 +101,20 @@ export default {
     openUrl({
       url: 'https://h5.jiangduoduo.com/chart?lotteryId=1000',
       needRedirect: false
-    })
+    });
   },
   computed: {
-    count () {
+    count() {
       const fLen = this.selectFont.length;
       const bLen = this.selectBack.length;
       if (fLen < 5 || bLen < 2) {
         return 0;
       }
-      
+
       const f = getFlagArrs(fLen, 5).length;
       const b = getFlagArrs(bLen, 2).length;
-      
-      return f * b
+
+      return f * b;
     }
   },
   methods: {
@@ -103,17 +126,17 @@ export default {
       this.selectBack = selectBack.sort((a, b) => Number(a) - Number(b));
     },
     handleConfirm() {
-      if(!this.info.issueId) {
+      if (!this.info.issueId) {
         return uni.showToast({
           title: '当前没有销售奖期',
           icon: 'none'
-        })
+        });
       }
       if (!this.count) {
         return uni.showToast({
           title: '请至少选择1注',
           icon: 'none'
-        })
+        });
       }
       console.log('>>> 前区', this.selectFont);
       console.log('>>> 后区', this.selectBack);
@@ -121,13 +144,13 @@ export default {
       selectedAll.unshift({
         selectFont: this.selectFont,
         selectBack: this.selectBack
-      })
+      });
       uni.setStorageSync('daletou_selected', selectedAll);
       uni.setStorageSync('daletou__issueId', this.info.issueId);
       uni.setStorageSync('daletou__issue', this.info.issue);
       uni.navigateTo({
         url: '/pages/daletou/confirm'
-      })
+      });
     },
     emptyAll() {
       this.selectFont = [];

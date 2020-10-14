@@ -40,16 +40,17 @@ export default {
 /* #endif */
 </style>
 
+<style lang='scss'>
+/* #ifndef APP-NVUE */
+@import "uview-ui/index.scss";
+/* #endif */
+</style>
+
+
 <style>
 /* #ifndef APP-NVUE */
 /*每个页面公共css */
 @import '/styles/base.css';
 @import '/styles/animate.min.css';
-/* #endif */
-</style>
-
-<style lang='scss'>
-/* #ifndef APP-NVUE */
-@import "uview-ui/index.scss";
 /* #endif */
 </style>

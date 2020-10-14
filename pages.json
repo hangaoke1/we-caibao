@@ -238,6 +238,14 @@
       }
     },
     {
+      "path": "pages/lottery/10024",
+      "style": {
+        "navigationBarTitleText": "往期开奖",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/lottery/10026",
       "style": {
         "navigationBarTitleText": "往期开奖",
@@ -517,7 +525,15 @@
     {
       "path": "pages/pailie3/pailie3",
       "style": {
-        "navigationBarTitleText": "排列三",
+        "navigationBarTitleText": "排列3",
+        "navigationBarBackgroundColor": "#D42F2C",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/pailie3/confirm",
+      "style": {
+        "navigationBarTitleText": "投注单",
         "navigationBarBackgroundColor": "#D42F2C",
         "navigationBarTextStyle": "white"
       }

@@ -1,130 +1,160 @@
 <template>
-	<view class="u-openlottery">
-		<view class="u-list">
-      <view class="u-item" v-for="item in drawList" :key="item.lotteryId" @click.stop="goMore(item.lotteryId)">
+  <view class="u-openlottery">
+    <view class="u-list">
+      <view
+        class="u-item"
+        v-for="item in drawList"
+        :key="item.lotteryId"
+        @click.stop="goMore(item.lotteryId)"
+      >
         <view class="u-left">
           <view class="u-top">
-            <text class="f-36" style="width: 200rpx;">{{lotteryMap[item.lotteryId]}}</text>
+            <text class="f-36" style="width: 200rpx;" v-if="item.lotteryId != 10024">
+              {{ lotteryMap[item.lotteryId] }}
+            </text>
+            <text v-else class="f-36" style="width: 200rpx;">排列3/5</text>
             <view style="text-align: left;flex: 1;">
-              <text class="f-30 grey-6" style="text-align: left;">第{{item.issue}}期</text>
+              <text class="f-30 grey-6" style="text-align: left;">第{{ item.issue }}期</text>
             </view>
-            <text class="f-30 grey-6">{{item.drawTime.slice(0, 11)}}</text>
+            <text class="f-30 grey-6">{{ item.drawTime.slice(0, 11) }}</text>
           </view>
           <view class="u-bottom">
             <!-- 超级大乐透 -->
             <view v-if="item.lotteryId == 10026" class="u-result">
               <!-- 前驱 -->
-              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split('#')[0].split(',')" :key="item">
-                <text class="f-30 white-1">{{item}}</text>
+              <view
+                class="u-ball red-6-bg"
+                v-for="item in item.drawNumber.split('#')[0].split(',')"
+                :key="item"
+              >
+                <text class="f-30 white-1">{{ item }}</text>
               </view>
               <!-- 后驱 -->
-              <view class="u-ball blue-6-bg" v-for="item in item.drawNumber.split('#')[1].split(',')" :key="item">
-                <text class="f-30 white-1">{{item}}</text>
+              <view
+                class="u-ball blue-6-bg"
+                v-for="item in item.drawNumber.split('#')[1].split(',')"
+                :key="item"
+              >
+                <text class="f-30 white-1">{{ item }}</text>
               </view>
             </view>
             <!-- 胜负彩 -->
             <view v-if="item.lotteryId == 10039" class="u-result">
               <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item">
-               <text class="f-30 red-6">{{item}}</text>
+                <text class="f-30 red-6">{{ item }}</text>
               </view>
             </view>
             <!-- 任选9场 -->
             <view v-if="item.lotteryId == 10040" class="u-result">
               <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item">
-               <text class="f-30 red-6">{{item}}</text>
+                <text class="f-30 red-6">{{ item }}</text>
               </view>
             </view>
             <!-- 竞彩篮球 -->
             <view v-if="item.lotteryId == 10058" class="u-result">
               <view class="blue-6-bg u-notice">
-                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">{{text}} </text>
+                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">
+                  {{ text }}
+                </text>
               </view>
             </view>
             <!-- 竞彩足球 -->
             <view v-if="item.lotteryId == 10059" class="u-result">
               <view class="green-6-bg u-notice">
-                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">{{text}} </text>
+                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">
+                  {{ text }}
+                </text>
               </view>
             </view>
             <!-- 山东11选5 -->
             <view v-if="item.lotteryId == 10108" class="u-result">
               <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item">
-                <text class="f-30 white-1">{{item}}</text>
+                <text class="f-30 white-1">{{ item }}</text>
+              </view>
+            </view>
+            <!-- 组三 -->
+            <view v-if="item.lotteryId == 10024" class="u-result">
+              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item">
+                <text class="f-30 white-1">{{ item }}</text>
               </view>
             </view>
           </view>
         </view>
-        <view class="u-right">
-          <text class="iconfont grey-6">&#xe60d;</text>
-        </view>
+        <view class="u-right"><text class="iconfont grey-6">&#xe60d;</text></view>
       </view>
     </view>
-	</view>
+  </view>
 </template>
 
 <script>
-  import _ from 'lodash';
-  import lottery from '@/api/lottery/index.js';
-  import { map as lotteryMap } from '@/lib/lottery.js';
-  import proMixin from '@/mixins/pro.js';
-	export default {
-    mixins: [proMixin],
-		data() {
-			return {
-        lotteryMap,
-				drawList: []
-			}
-		},
-		methods: {
-      // 往期开奖
-			goMore(lotteryId) {
-        if (lotteryId == 10108) {
-          this.navigateTo({
-            url: '/pages/lottery/10108'
-          })
-        }
-        if (lotteryId == 10026) {
-          this.navigateTo({
-            url: '/pages/lottery/10026'
-          })
-        }
-        if (lotteryId == 10039) {
-          this.navigateTo({
-            url: '/pages/lottery/10039'
-          })
-        }
-        if (lotteryId == 10040) {
-          this.navigateTo({
-            url: '/pages/lottery/10040'
-          })
-        }
-        if (lotteryId == 10058) {
-          this.navigateTo({
-            url: '/pages/lottery/10058'
-          })
-        }
-        if (lotteryId == 10059) {
-          this.navigateTo({
-            url: '/pages/lottery/10059'
-          })
-        }
+import _ from 'lodash';
+import lottery from '@/api/lottery/index.js';
+import { map as lotteryMap } from '@/lib/lottery.js';
+import proMixin from '@/mixins/pro.js';
+export default {
+  mixins: [proMixin],
+  data() {
+    return {
+      lotteryMap,
+      drawList: []
+    };
+  },
+  methods: {
+    // 往期开奖
+    goMore(lotteryId) {
+      if (lotteryId == 10108) {
+        this.navigateTo({
+          url: '/pages/lottery/10108'
+        });
       }
-		},
-    onReady() {
-      lottery.getIssueNotifyAll().then(res => {
-        // 过滤不支持的彩票类型
-        const lotteryMap = {
-          10026: '超级大乐透',
-          10039: '胜负彩',
-          10040: '任选9场',
-          10058: '竞彩篮球',
-          10059: '竞彩足球',
-          10108: '山东11选5'
-        }
-        this.drawList = res.drawList.filter(item => !!lotteryMap[item.lotteryId]);
-      })
+      if (lotteryId == 10026) {
+        this.navigateTo({
+          url: '/pages/lottery/10026'
+        });
+      }
+      if (lotteryId == 10039) {
+        this.navigateTo({
+          url: '/pages/lottery/10039'
+        });
+      }
+      if (lotteryId == 10040) {
+        this.navigateTo({
+          url: '/pages/lottery/10040'
+        });
+      }
+      if (lotteryId == 10058) {
+        this.navigateTo({
+          url: '/pages/lottery/10058'
+        });
+      }
+      if (lotteryId == 10059) {
+        this.navigateTo({
+          url: '/pages/lottery/10059'
+        });
+      }
+      if (lotteryId == 10024) {
+        this.navigateTo({
+          url: '/pages/lottery/10024'
+        });
+      }
     }
-	}
+  },
+  onReady() {
+    lottery.getIssueNotifyAll().then(res => {
+      // 过滤不支持的彩票类型
+      const lotteryMap = {
+        10026: '超级大乐透',
+        10039: '胜负彩',
+        10040: '任选9场',
+        10058: '竞彩篮球',
+        10059: '竞彩足球',
+        10108: '山东11选5',
+        10024: '排列3'
+      };
+      this.drawList = res.drawList.filter(item => !!lotteryMap[item.lotteryId]);
+    });
+  }
+};
 </script>
 
 <style lang="less">

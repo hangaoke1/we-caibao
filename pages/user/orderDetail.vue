@@ -5,9 +5,17 @@
       <view class="u-title f-40 white-1 f-bold">{{ info.lotteryName }}</view>
     </view>
     <view class="u-info">
-       <image v-if="statusDesc === '中奖'" class="u-prize-icon" src="/static/icon_score_match_hit.png"></image>
-       <image v-if="statusDesc === '未中奖'" class="u-prize-icon" src="/static/icon_score_match_miss.png"></image>
- 
+      <image
+        v-if="statusDesc === '中奖'"
+        class="u-prize-icon"
+        src="/static/icon_score_match_hit.png"
+      ></image>
+      <image
+        v-if="statusDesc === '未中奖'"
+        class="u-prize-icon"
+        src="/static/icon_score_match_miss.png"
+      ></image>
+
       <view class="u-info-item">
         <view class="f-26 red-6">{{ (info.schemeAmount || 0).toFixed(1) }}元</view>
         <view class="f-26 grey-6" style="margin-top: 10rpx;">订单金额</view>
@@ -16,15 +24,17 @@
         <view class="f-26 red-6" v-if="['待出票', '出票成功'].includes(statusDesc)">---</view>
         <view class="f-26 grey-6" v-if="statusDesc === '未中奖'">0.00元</view>
         <view class="f-26 red-6" v-if="statusDesc === '中奖'">
-          {{ (info.pureSchemePrize || 0).toFixed(2) }}元
+          <text>{{ (info.pureSchemePrize || 0).toFixed(2) }}元</text>
         </view>
         <view class="f-26 grey-6" style="margin-top: 10rpx;">中奖金额</view>
       </view>
-      
+
       <view class="u-info-item" v-if="showCommendation && info.rewardAmount">
-        <view class="f-26 red-6" v-if="['待出票', '出票成功', '未中奖'].includes(statusDesc)">---</view>
+        <view class="f-26 red-6" v-if="['待出票', '出票成功', '未中奖'].includes(statusDesc)">
+          <text>---</text>
+        </view>
         <view class="f-26 red-6" v-if="statusDesc === '中奖'">
-          {{ (info.rewardAmount || 0).toFixed(2) }}元
+          <text>{{ (info.rewardAmount || 0).toFixed(2) }}元</text>
         </view>
         <view class="f-26 grey-6" style="margin-top: 10rpx;">平台活动</view>
       </view>
@@ -38,6 +48,7 @@
     <view v-if="info.lotteryId == 10058"><f-lq :info="info"></f-lq></view>
     <view v-if="info.lotteryId == 10059"><f-zq :info="info"></f-zq></view>
     <view v-if="info.lotteryId == 10108"><f-js11x5 :info="info"></f-js11x5></view>
+    <view v-if="info.lotteryId == 10024"><f-pailie3 :info="info"></f-pailie3></view>
   </view>
 </template>
 
@@ -50,6 +61,7 @@ import fJs11x5 from './components/f-js11x5.vue';
 import fToto14 from './components/f-toto14.vue';
 import fToto9 from './components/f-toto9.vue';
 import fDaletou from './components/f-daletou.vue';
+import fPailie3 from './components/f-pailie3.vue';
 export default {
   components: {
     fStatus,
@@ -58,7 +70,8 @@ export default {
     fJs11x5,
     fToto14,
     fToto9,
-    fDaletou
+    fDaletou,
+    fPailie3
   },
   data() {
     return {
@@ -69,14 +82,15 @@ export default {
         10040: '任选9场',
         10058: '竞彩篮球',
         10059: '竞彩足球',
-        10108: '山东11选5'
+        10108: '山东11选5',
+        10024: '排列3'
       },
       info: {}
     };
   },
   computed: {
     // 足球、篮球、11选5 显示嘉奖
-    showCommendation () {
+    showCommendation() {
       return ['10058', '10059', '10108'].includes(this.info.lotteryId + '');
     }
   },
