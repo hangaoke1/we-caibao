@@ -4,12 +4,16 @@
     <cell v-for="(item, index) in list" :key="index">
       <view class="u-item">
         <view class="u-title flex align-center justify-between">
-          <text class="f-30 grey-6">{{item.issue}}期</text>
-          <text class="f-30 grey-6">{{item.drawTime}}</text>
+          <text class="f-30 grey-6">{{ item.issue }}期</text>
+          <text class="f-30 grey-6">{{ item.drawTime }}</text>
         </view>
         <view class="u-result flex">
-          <view class="u-ball flex red-6-bg" v-for="num in item.drawNumber.split(',')" :key="num">
-            <text class="f-30 white-1">{{num}}</text>
+          <view
+            class="u-ball flex red-6-bg"
+            v-for="(num, index) in item.drawNumber.split(',')"
+            :key="index"
+          >
+            <text class="f-30 white-1">{{ num }}</text>
           </view>
         </view>
       </view>
@@ -18,21 +22,23 @@
 </template>
 
 <script>
-import lottery from '@/api/lottery/index.js'
+import lottery from '@/api/lottery/index.js';
 export default {
-  data () {
+  data() {
     return {
       list: []
-    }
+    };
   },
   onReady() {
-    lottery.getIssueNotify({
-      lotteryId: 10024,
-      firstRow: 0,
-      fetchSize: 10
-    }).then(res => {
-      this.list = res;
-    })
+    lottery
+      .getIssueNotify({
+        lotteryId: 10024,
+        firstRow: 0,
+        fetchSize: 10
+      })
+      .then(res => {
+        this.list = res;
+      });
   }
 };
 </script>

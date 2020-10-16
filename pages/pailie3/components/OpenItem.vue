@@ -4,9 +4,9 @@
     <view class="flex align-center">
       <view class="flex align-center">
         <view
-          v-for="num in getStartNumber(drawNumber)"
+          v-for="(num, index) in getStartNumber(drawNumber)"
           class="u-startnum flex align-center justify-center font-s-24 mr-2"
-          :key="num"
+          :key="index"
         >
           {{ num }}
         </view>

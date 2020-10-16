@@ -9,9 +9,7 @@
       >
         <view class="u-left">
           <view class="u-top">
-            <text class="f-36" style="width: 200rpx;" v-if="item.lotteryId != 10024">
-              {{ lotteryMap[item.lotteryId] }}
-            </text>
+            <text class="f-36" style="width: 200rpx;" v-if="item.lotteryId != 10024">{{ lotteryMap[item.lotteryId] }}</text>
             <text v-else class="f-36" style="width: 200rpx;">排列3/5</text>
             <view style="text-align: left;flex: 1;">
               <text class="f-30 grey-6" style="text-align: left;">第{{ item.issue }}期</text>
@@ -26,57 +24,41 @@
                 class="u-ball red-6-bg"
                 v-for="item in item.drawNumber.split('#')[0].split(',')"
                 :key="item"
-              >
-                <text class="f-30 white-1">{{ item }}</text>
-              </view>
+              ><text class="f-30 white-1">{{ item }}</text></view>
               <!-- 后驱 -->
               <view
                 class="u-ball blue-6-bg"
                 v-for="item in item.drawNumber.split('#')[1].split(',')"
                 :key="item"
-              >
-                <text class="f-30 white-1">{{ item }}</text>
-              </view>
+              ><text class="f-30 white-1">{{ item }}</text></view>
             </view>
             <!-- 胜负彩 -->
             <view v-if="item.lotteryId == 10039" class="u-result">
-              <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item">
-                <text class="f-30 red-6">{{ item }}</text>
-              </view>
+              <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item"><text class="f-30 red-6">{{ item }}</text></view>
             </view>
             <!-- 任选9场 -->
             <view v-if="item.lotteryId == 10040" class="u-result">
-              <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item">
-                <text class="f-30 red-6">{{ item }}</text>
-              </view>
+              <view class="u-rect" v-for="item in item.drawNumber.split('')" :key="item"><text class="f-30 red-6">{{ item }}</text></view>
             </view>
             <!-- 竞彩篮球 -->
             <view v-if="item.lotteryId == 10058" class="u-result">
               <view class="blue-6-bg u-notice">
-                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">
-                  {{ text }}
-                </text>
+                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">{{ text }}</text>
               </view>
             </view>
             <!-- 竞彩足球 -->
             <view v-if="item.lotteryId == 10059" class="u-result">
               <view class="green-6-bg u-notice">
-                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">
-                  {{ text }}
-                </text>
+                <text class="f-30 white-1" v-for="text in item.drawNumber.split(',')" :key="text">{{ text }}</text>
               </view>
             </view>
             <!-- 山东11选5 -->
             <view v-if="item.lotteryId == 10108" class="u-result">
-              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item">
-                <text class="f-30 white-1">{{ item }}</text>
-              </view>
+              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item"><text class="f-30 white-1">{{ item }}</text></view>
             </view>
             <!-- 组三 -->
             <view v-if="item.lotteryId == 10024" class="u-result">
-              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item">
-                <text class="f-30 white-1">{{ item }}</text>
-              </view>
+              <view class="u-ball red-6-bg" v-for="item in item.drawNumber.split(',')" :key="item"><text class="f-30 white-1">{{ item }}</text></view>
             </view>
           </view>
         </view>

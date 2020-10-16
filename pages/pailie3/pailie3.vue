@@ -140,7 +140,17 @@
 </template>
 
 <script>
-import _ from 'lodash';
+// 排列3直选 schemeNumberType=0
+// 排列3直选复式 schemeNumberType=0
+// 排列3 组3 schemeNumberType=6
+// 排列3 组3多选 schemeNumberType=6
+// 排列3 组6 schemeNumberType=7
+// 排列3 组6多选 schemeNumberType=7
+// 排列3 直选+直选 schemeNumberType=0
+// 排列3 直选+组3 schemeNumberType=11
+// 排列3 组3+组6 schemeNumberType=11
+// import _ from 'lodash';
+import { openUrl } from '@/util/index.js';
 import { factorial } from '@/lib/common.js';
 import lotteryApi from '@/api/lottery/index.js';
 import GBall from '@/components/g-ball.vue';
@@ -198,6 +208,12 @@ export default {
     uni.setStorageSync('pailie3_issue', '');
     this.getInfo();
     this.getHistory();
+  },
+  onNavigationBarButtonTap() {
+    openUrl({
+      url: 'https://h5.jiangduoduo.com/chart?lotteryId=1003',
+      needRedirect: false
+    });
   },
   methods: {
     aiChoose() {

@@ -525,9 +525,18 @@
     {
       "path": "pages/pailie3/pailie3",
       "style": {
-        "navigationBarTitleText": "排列3",
+        "navigationBarTitleText": "排列三",
         "navigationBarBackgroundColor": "#D42F2C",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "titleNView": {
+          "buttons": [
+            {
+              "text": "走势图",
+              "width": "80px",
+              "fontSize": "16px"
+            }
+          ]
+        }
       }
     },
     {
