@@ -27,11 +27,6 @@
       "style": {
         "navigationBarTitleText": "轻松地鼠"
       }
-    }, {
-      "path": "pages/processImage/processImage",
-      "style": {
-        "navigationBarTitleText": "图片处理"
-      }
     }
   ],
   "globalStyle": {
