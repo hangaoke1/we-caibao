@@ -2,7 +2,7 @@
   <view class="u-order">
     <view class="u-banner">
       <image class="u-banner-bg" src="/static/ds_top_bg.png"></image>
-      <view class="u-title f-40 white-1 f-bold" v-if="item.lotteryName !== '排列3/5'">{{ info.lotteryName }}</view>
+      <view class="u-title f-40 white-1 f-bold" v-if="info.lotteryName !== '排列3/5'">{{ info.lotteryName }}</view>
       <view class="u-title f-40 white-1 f-bold" v-else>排列3</view>
     </view>
     <view class="u-info">
