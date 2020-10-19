@@ -224,10 +224,12 @@ export default {
         this.zhixuan = [arr1, arr2, arr3];
       }
       if (this.type === 1) {
-        this.zu3 = [_.random(0, 9), _.random(0, 9), _.random(0, 9)].sort((a, b) => a - b);
+        const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        this.zu3 = _.sampleSize(arr, 2).sort((a, b) => a - b);
       }
       if (this.type === 2) {
-        this.zu6 = [_.random(0, 9), _.random(0, 9), _.random(0, 9)].sort((a, b) => a - b);
+        const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        this.zu6 = _.sampleSize(arr, 3).sort((a, b) => a - b);
       }
     },
     getCount(type, list) {

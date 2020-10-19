@@ -1,8 +1,8 @@
 <template>
   <view class="bg-bai mb-1">
     <view class="flex align-center flex-wrap">
-      <view v-for="num in selectFont" class="u-frontnum flex align-center justify-center font-s-3 mr-2 mb-2" :key="num">{{ num }}</view>
-      <view v-for="num in selectBack" class="u-backnum flex align-center justify-center font-s-3 mr-2 mb-2" :key="num">{{ num }}</view>
+      <view v-for="(num, index) in selectFont" class="u-frontnum flex align-center justify-center font-s-3 mr-2 mb-2" :key="index">{{ num }}</view>
+      <view v-for="(num, index) in selectBack" class="u-backnum flex align-center justify-center font-s-3 mr-2 mb-2" :key="index">{{ num }}</view>
     </view>
   </view>
 </template>

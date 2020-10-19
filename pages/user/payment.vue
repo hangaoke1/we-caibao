@@ -38,8 +38,16 @@
         </view>
 
         <view class="u-popup-content">
-          <view class="u-cell" v-for="channel in channelList" :key="channel.id" @click.stop="goPay(channel)">
-            <image style="width: 60rpx;height: 60rpx;margin-right: 10rpx;" src="/static/pay2.png"></image>
+          <view
+            class="u-cell"
+            v-for="channel in channelList"
+            :key="channel.id"
+            @click.stop="goPay(channel)"
+          >
+            <image
+              style="width: 60rpx;height: 60rpx;margin-right: 10rpx;"
+              src="/static/pay2.png"
+            ></image>
             <view>
               <view class="f-30" style="margin-bottom: 10rpx;">{{ channel.name }}</view>
               <view class="f-24 grey-6">{{ channel.info }}</view>
@@ -48,6 +56,14 @@
         </view>
       </view>
     </uni-popup>
+
+    <u-modal
+      v-model="show"
+      :content="content"
+      :show-cancel-button="true"
+      @confirm="handlePayConfrim"
+      @cancel="handlePayCancel"
+    ></u-modal>
   </view>
 </template>
 
@@ -55,12 +71,17 @@
 import user from '@/api/user';
 import { get, post } from '@/api/index';
 import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import { openUrl } from '@/util/index.js';
+import config from '@/config';
+import storage from '@/storage/index';
 export default {
   components: {
     uniPopup
   },
   data() {
     return {
+      show: false,
+      content: '是否完成充值',
       money: '',
       info: {
         moneyList: [188, 288, 388, 688, 888, 988]
@@ -70,6 +91,15 @@ export default {
     };
   },
   methods: {
+    handlePayConfrim() {
+      this.show = false
+      uni.switchTab({
+        url: '/pages/user/user'
+      });
+    },
+    handlePayCancel() {
+      this.show = false
+    },
     queryPayment() {
       user.queryPayment().then(res => {
         this.info = res;
@@ -98,15 +128,14 @@ export default {
     },
     goPay(channel) {
       var vm = this;
-    
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-      this.closePopup()
+      this.closePopup();
       uni.showLoading({
         title: '充值中'
       });
+      setTimeout(() => {
+        uni.hideLoading();
+        this.show = true;
+      }, 1000);
       // 请求获取h5链接
       let P_RequestType = '';
       if (uni.getSystemInfoSync().platform == 'android') {
@@ -114,14 +143,30 @@ export default {
       } else {
         P_RequestType = 3;
       }
-    
+
       const requestUrl = '/' + channel.appname;
+      const payUrl =
+        config.server +
+        requestUrl +
+        `?P_Amount=${this.money}&P_RequestType=${P_RequestType}&clientUserSession=${storage.get(
+          'SESSION'
+        )}`;
+      // 发起支付
+      if (uni.getSystemInfoSync().platform == 'android') {
+        openUrl({
+          url: payUrl,
+          title: '在线支付'
+        });
+      } else {
+        plus.runtime.openURL(payUrl, () => {});
+      }
+      return;
+
       get(requestUrl, {
         P_Amount: this.money,
         P_RequestType
       })
         .then(res => {
-          console.log('>>> 支付链接', res)
           this.loading = false;
           uni.hideLoading();
           const payH5 = res.url;
@@ -147,7 +192,7 @@ export default {
   },
   created() {
     this.queryPayment();
-  },
+  }
 };
 </script>
 
@@ -197,8 +242,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1rpx solid #ccc;
-  border-radius: 10rpx;
+  border: 1rpx solid #eee;
+  border-radius: 5rpx;
 }
 
 .u-bottom {
@@ -238,7 +283,7 @@ export default {
     padding: 20rpx;
     display: flex;
     align-items: center;
-    border: 1rpx solid #ccc;
+    border: 1rpx solid #eee;
     border-radius: 10rpx;
     margin-bottom: 10rpx;
   }

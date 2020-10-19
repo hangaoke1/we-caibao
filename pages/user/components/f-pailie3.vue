@@ -31,7 +31,7 @@
 
     <view class="bg-bai p-2 mt-2">
       <view class="u-title">开奖号码</view>
-      <view v-if="drawNumber"><d-open-item :drawNumber="drawNumber"></d-open-item></view>
+      <view v-if="drawNumber">{{drawNumber}}</view>
       <view v-else class="font-s-3 text-gray">待开奖</view>
     </view>
 
@@ -44,15 +44,13 @@
 
 <script>
 import _ from 'lodash';
-import DSelectItem from './DSelectItem.vue';
-import DOpenItem from './DOpenItem.vue';
 export default {
-  components: {
-    DSelectItem,
-    DOpenItem
-  },
+  components: {},
   props: {
     info: Object
+  },
+  created() {
+    console.log('>>> this.info', this.info)
   },
   computed: {
     additional() {
