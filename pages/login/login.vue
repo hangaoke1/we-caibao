@@ -15,7 +15,6 @@
             v-model="form.username"
             placeholder="请输入用户名"
             data-key="username"
-            @input="inputChange"
           />
         </view>
         <view class="input-item">
@@ -28,7 +27,6 @@
             maxlength="20"
             password
             data-key="password"
-            @input="inputChange"
             @confirm="toLogin"
           />
         </view>
@@ -63,10 +61,6 @@ export default {
   methods: {
     toForget() {
       this.$api.msg("请联系店主");
-    },
-    inputChange(e) {
-      const key = e.currentTarget.dataset.key;
-      this[key] = e.detail.value;
     },
     navBack() {
       uni.navigateBack();

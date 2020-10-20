@@ -15,7 +15,6 @@
             v-model="form.username"
             placeholder="请输入用户名"
             maxlength="11"
-            @input="inputChange"
           />
         </view>
         <view class="input-item">
@@ -28,7 +27,6 @@
             maxlength="20"
             password
             data-key="password"
-            @input="inputChange"
           />
         </view>
         <view class="input-item">
@@ -41,7 +39,6 @@
             maxlength="20"
             password
             data-key="password"
-            @input="inputChange"
           />
         </view>
         <view class="input-content">
@@ -52,7 +49,6 @@
             v-model="form.mobile"
             placeholder="请输入用户名"
             maxlength="11"
-            @input="inputChange"
           />
         </view>
         <view class="input-item">
@@ -85,20 +81,15 @@ export default {
       form: {
         username: "",
         password: "",
+        mobile: "",
         confirmPassword: "",
         superiorUserID: "",
       },
-      mobile: "",
-      password: "",
       logining: false,
     };
   },
   onLoad() {},
   methods: {
-    inputChange(e) {
-      const key = e.currentTarget.dataset.key;
-      this[key] = e.detail.value;
-    },
     navBack() {
       uni.navigateBack();
     },
@@ -115,6 +106,10 @@ export default {
       }
       if (this.form.password == "") {
         this.$api.msg("请输入密码");
+        return;
+      }
+      if (this.form.mobile == "") {
+        this.$api.msg("手机号不能为空");
         return;
       }
       if (this.form.password != this.form.confirmPassword) {
