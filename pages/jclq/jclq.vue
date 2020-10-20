@@ -191,9 +191,7 @@ export default {
     })
     this.updateJclq().then(() => {
       this.finished = true
-      setTimeout(() => {
-        uni.hideLoading()
-      }, 500)
+      uni.hideLoading()
     }).catch(() => {
       this.finished = true
     });

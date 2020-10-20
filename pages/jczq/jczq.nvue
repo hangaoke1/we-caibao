@@ -182,9 +182,7 @@ export default {
 
     this.updateJczq().then(() => {
       this.finished = true
-      setTimeout(() => {
-        uni.hideLoading()
-      }, 500)
+      uni.hideLoading()
     }).catch(() => {
       this.finished = true
     });
