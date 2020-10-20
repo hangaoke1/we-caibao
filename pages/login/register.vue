@@ -9,11 +9,11 @@
       <view class="welcome">欢迎注册！</view>
       <view class="input-content">
         <view class="input-item">
-          <text class="tit">手机号码</text>
+          <text class="tit">用户名</text>
           <input
-            type="number"
+            type="text"
             v-model="form.username"
-            placeholder="请输入手机号码"
+            placeholder="请输入用户名"
             maxlength="11"
             @input="inputChange"
           />
@@ -36,7 +36,7 @@
           <input
             type="mobile"
             v-model="form.confirmPassword"
-            placeholder="8-18位不含特殊字符的数字、字母组合"
+            placeholder="6-18位不含特殊字符的数字、字母组合"
             placeholder-class="input-empty"
             maxlength="20"
             password
@@ -44,8 +44,19 @@
             @input="inputChange"
           />
         </view>
+        <view class="input-content">
         <view class="input-item">
-          <text class="tit">邀请码(选填)</text>
+          <text class="tit">手机号</text>
+          <input
+            type="number"
+            v-model="form.mobile"
+            placeholder="请输入用户名"
+            maxlength="11"
+            @input="inputChange"
+          />
+        </view>
+        <view class="input-item">
+          <text class="tit">邀请码</text>
           <input
             type="text"
             v-model="form.superiorUserID"
