@@ -253,6 +253,13 @@ export default {
     },
     //点击彩票入口
     handleCpClick(cp) {
+      if (cp.isStop == 1) {
+        return uni.showToast({
+          title: "暂未开售",
+          icon: "none",
+        });
+      }
+
       // 大乐透
       if (cp.lotteryId == 10026) {
         return uni.navigateTo({
@@ -263,13 +270,6 @@ export default {
       if (cp.lotteryId === 10024) {
         return uni.navigateTo({
           url: "/pages/pailie3/pailie3",
-        });
-      }
-
-      if (cp.isStop == 1) {
-        return uni.showToast({
-          title: "暂未开售",
-          icon: "none",
         });
       }
 

@@ -41,13 +41,12 @@
             data-key="password"
           />
         </view>
-        <view class="input-content">
         <view class="input-item">
           <text class="tit">手机号</text>
           <input
             type="number"
             v-model="form.mobile"
-            placeholder="请输入用户名"
+            placeholder="请输入手机号"
             maxlength="11"
           />
         </view>
@@ -62,7 +61,7 @@
           />
         </view>
       </view>
-      <button class="confirm-btn" @click="toRegist" :disabled="logining">登录</button>
+      <button class="confirm-btn" @click="toRegist" :disabled="logining">注册</button>
     </view>
     <view class="register-section">
       已有账号?
