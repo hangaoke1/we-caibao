@@ -202,6 +202,7 @@ export default {
           listType: 1
         })
         .then(res => {
+          console.log('>>> 获取彩种', res)
           this.hotInfo = res;
           if (this.hotInfo.winningFlag) {
             uni.$emit('winLottery');
@@ -211,17 +212,17 @@ export default {
     },
     //点击彩票入口
     handleCpClick(cp) {
-      // 大乐透
-      if (cp.lotteryId == 10026) {
-        return uni.navigateTo({
-          url: '/pages/daletou/daletou'
-        });
-      }
-      
       if (cp.isStop == 1) {
         return uni.showToast({
           title: '暂未开售',
           icon: 'none'
+        });
+      }
+  
+      // 大乐透
+      if (cp.lotteryId == 10026) {
+        return uni.navigateTo({
+          url: '/pages/daletou/daletou'
         });
       }
       

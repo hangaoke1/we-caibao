@@ -155,7 +155,6 @@ export default {
           lotteryId: 10026
         })
         .then(res => {
-          console.log('>>> 当期大乐透', res);
           this.info = res;
         });
     },

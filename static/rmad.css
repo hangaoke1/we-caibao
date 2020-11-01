@@ -15,5 +15,13 @@
 }
 
 .app500-download {
-  display: none;
+  display: none!important;
+}
+
+.popup-newuser {
+  display: none!important;
+}
+
+#globalTabBar {
+  display: none!important;
 }
