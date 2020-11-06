@@ -57,14 +57,15 @@
           <text class="f-32 iconfont u-arrow" v-if="!userInfo.aliPay">&#xe60d;</text>
         </view>
       </view>
-      <view class="u-form-item" @click.stop="goBindingBankAccount">
+      <!-- TODO: 注释银行卡 -->
+      <!-- <view class="u-form-item" @click.stop="goBindingBankAccount">
         <view class="u-form-item__label">银行卡号</view>
         <view class="u-form-item__content">
           <text class="f-32 grey-6" v-if="userInfo.bankAccount">{{showBankAccount}}</text>
           <text class="f-32 grey-6" v-else>未绑定</text>
           <text class="f-32 iconfont u-arrow" v-if="!userInfo.bankAccount">&#xe60d;</text>
         </view>
-      </view>
+      </view> -->
       <view class="u-form-item" @click.stop="goChangePassword">
         <view class="u-form-item__label">修改密码</view>
         <view class="u-form-item__content">

@@ -10,15 +10,15 @@
         <view class="u-choose-in"></view>
       </view>
     </view>
-
-    <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
+    <!-- TODO: 注释银行卡 -->
+    <!-- <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
       <image class="u-icon" src="/static/pay4.png" />
       <view style="flex: 1;">
         <view class="font-s-32">银行卡</view>
         <view class="font-s-32 text-hui">极速提现</view>
       </view>
       <view class="font-s-32 blue-6">立即绑定</view>
-    </view>
+    </view> -->
 
     <view class="u-title" v-if="userInfo.aliPay" @click.stop="type = 1" v-show="!disableAlipay">
       <image class="u-icon" src="/static/pay2.png" />
