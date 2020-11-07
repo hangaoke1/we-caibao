@@ -245,10 +245,12 @@ export default {
     syncMoney () {
       this.money = this.groups.reduce((total, group) => { return total + Number(group.count) }, 0) * 2
     },
+    // TODO:bug onChange事件无法拿到value
     handleInputChange (event) {
-      this.money = event.detail.value
+      // this.money = event.detail.value
     },
-    handleMoneyBlur () {
+    handleMoneyBlur (event) {
+      this.money = event.detail.value
       if (this.type === -1) {
         this.$nextTick(() => {
           this.type = 0;
