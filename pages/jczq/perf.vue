@@ -6,7 +6,7 @@
         <view class="f-30" style="flex: 1;text-align: right;">计划购买</view>
         <view class="u-count" style="border: none;flex: 0 0 auto;;">
           <view class="u-icon f-30" @click.stop="moneyReduce">-</view>
-          <input class="u-count-input f-30" type="number" :value="money" @change="handleInputChange" @blur="handleMoneyBlur"/>
+          <input class="u-count-input f-30" type="number" :value="money" @input="handleInputChange" @blur="handleMoneyBlur"/>
           <view class="u-icon f-30" @click.stop="moneyAdd">+</view>
         </view>
         <view class="f-30" style="flex: 1;text-align: left;">元</view>
@@ -17,7 +17,7 @@
           :class="{ 'z-active': index === type }"
           v-for="(item, index) in ['平均优化', '博热优化', '博冷优化']"
           :key="item"
-          @click.stop="handleTypeChange(index)"
+          @click="handleTypeChange(index)"
         >
           {{ item }}
         </view>
