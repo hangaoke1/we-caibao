@@ -1,5 +1,5 @@
 export default {
-  name: 'YunMi Pro',
-  nameZh: '云米',
-  server: 'http://client.amdajj.com'
+  name: 'Zhong Cai',
+  nameZh: '众彩',
+  server: 'http://client.vcuces.com'
 }
