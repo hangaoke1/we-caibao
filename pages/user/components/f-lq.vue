@@ -45,20 +45,66 @@
       <view class="f-30 grey-6">订单方案</view>
       <view class="f-24 grey-3">赔率、盘口与奖金以实际出票为准</view>
     </view>
-    
+
     <view class="u-tip-2" v-if="info.statusDesc === '未中奖'">
       <view class="f-24 red-6">竞彩篮球存在高频率的变盘情况，导致一场比赛可能有多个赛果。</view>
     </view>
-    
+
     <view class="u-tip-2" v-if="info.statusDesc === '未中奖'">
       <view class="f-24 red-6">如有疑问，请核对方案中的比赛。</view>
     </view>
+
+    <u-table>
+      <u-tr>
+        <u-th>场次</u-th>
+        <u-th>客队对主队</u-th>
+        <u-th>投注项</u-th>
+        <u-th>彩果</u-th>
+      </u-tr>
+      <u-tr v-for="item in showInfo.schemeContent[0].matches" :key="item.matchCode">
+        <u-td>
+          <view class="u-td-wrap">
+            <text class="f-20">{{ fmtWeek(item.sp.issue) }}{{ item.sp.teamId }}</text>
+            <text class="f-20">{{ item.strMatchTime.split(' ')[0].slice(-5) }}</text>
+            <text class="f-20">{{ item.strMatchTime.split(' ')[1] }}</text>
+          </view>
+        </u-td>
+        <u-td>
+          <view class="u-td-wrap">
+            <text class="f-20">{{ item.guestName }}</text>
+            <text class="f-20 f-bold red-6">vs</text>
+            <text class="f-20">{{ item.hostName }}</text>
+          </view>
+        </u-td>
+        <u-td>
+          <view class="u-td-wrap">
+            <view v-for="(choose, index) in item.choose" :key="choose">
+              <text class="f-20" :class="{ 'red-6': isHit(choose, item) }">
+                <text v-if="choose == '201' || choose == '202'">({{ item.sp.basePoint }})</text>
+                <text v-if="choose == '100' || choose == '103'">({{ item.sp.rate }})</text>
+                <text>{{ code2PrizeName[choose] }}[{{ item.odds[index] }}]</text>
+              </text>
+            </view>
+          </view>
+        </u-td>
+        <u-td>
+          <view class="u-td-wrap">
+            <template v-if="item.bingo !== '-1'">
+              <text class="f-20 red-6" v-for="bingo in item.bingos" :key="bingo.name">
+                {{ bingo.value }}
+              </text>
+            </template>
+            <text v-else class="f-24">待开奖</text>
+          </view>
+        </u-td>
+      </u-tr>
+    </u-table>
 
     <view v-if="info.open == 0" class="u-hide">
       <text class="iconfont f-36 grey-6">&#xe6ad;</text>
       <text class="f-36 grey-6">开赛后可见</text>
     </view>
-    <g-table v-else width="750">
+<!--    <g-table v-else width="750">
       <g-tr>
         <g-td padding="0" col="140">
           <view class="u-td-wrap"><text class="f-24">场次</text></view>
@@ -92,9 +138,9 @@
         <g-td padding="0" col="240">
           <view class="u-td-wrap">
             <view v-for="(choose, index) in item.choose" :key="choose">
-              <text class="f-20" :class="{'red-6': isHit(choose, item) }">
-                <text v-if="choose == '201' || choose == '202'">({{item.sp.basePoint}})</text>
-                <text v-if="choose == '100' || choose == '103'">({{item.sp.rate}})</text>
+              <text class="f-20" :class="{ 'red-6': isHit(choose, item) }">
+                <text v-if="choose == '201' || choose == '202'">({{ item.sp.basePoint }})</text>
+                <text v-if="choose == '100' || choose == '103'">({{ item.sp.rate }})</text>
                 <text>{{ code2PrizeName[choose] }}[{{ item.odds[index] }}]</text>
               </text>
             </view>
@@ -111,7 +157,7 @@
           </view>
         </g-td>
       </g-tr>
-    </g-table>
+    </g-table> -->
   </view>
 </template>
 
@@ -140,10 +186,10 @@ export default {
     };
   },
   mounted() {
-    console.log(this.showInfo)
+    console.log(this.showInfo);
   },
   methods: {
-    isHit (choose, item) {
+    isHit(choose, item) {
       const results = item.bingos.map(bingo => bingo.value);
       const chooseName = this.code2PrizeName[choose];
       return results.includes(chooseName);
@@ -161,7 +207,7 @@ export default {
     },
     fmtWeek(date) {
       date = date + '';
-      date = date.slice(0, 4) + '-'  + date.slice(4, 6) + '-' + date.slice(6, 9) + ' 00:00:00'
+      date = date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6, 9) + ' 00:00:00';
       const map = { 0: '周日', 1: '周一', 2: '周二', 3: '周三', 4: '周四', 5: '周五', 6: '周六' };
       return map[dayjs(date).day()];
     }
@@ -216,7 +262,6 @@ export default {
 .u-tip-2:nth-last-of-type(1) {
   margin-bottom: 20rpx;
 }
-
 
 .u-td-wrap {
   box-sizing: border-box;
