@@ -2,8 +2,8 @@
     "name" : "众彩",
     "appid" : "__UNI__0F8E811",
     "description" : "实用的工具助手",
-    "versionName" : "4.1.0",
-    "versionCode" : 410,
+    "versionName" : "4.1.1",
+    "versionCode" : 411,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : "10000"

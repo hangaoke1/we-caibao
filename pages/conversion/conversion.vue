@@ -15,9 +15,9 @@
     </view>
 
     <view class="u-tip f-22">
-      <view>1. 与充值活动同享，比如充值送5%，那么转充则送6%</view>
-      <view>2. 无充值活动时，赠送1%彩金</view>
-      <view>3. 转充金额大于50元享受以上优惠</view>
+      <view>1. 转充与充值同享，赠送5%</view>
+      <view>2. 可提现余额均可以参与转充</view>
+      <view>3. 转充金额大于100享受以上优惠</view>
     </view>
 
     <button class="u-action f-30" type="warn" @click.stop="doSubmit">确认转充</button>
