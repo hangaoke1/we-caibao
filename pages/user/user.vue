@@ -208,13 +208,13 @@ export default {
         return uni.showModal({
           title: "温馨提示",
           content: "请先绑定支付宝或银行卡",
-          // cancelText: "绑银行卡",
+          cancelText: "绑银行卡",
           confirmText: "绑支付宝",
           success: function (res) {
             if (res.confirm) {
               vm.navTo("/pages/config/bindalipay", true);
             } else if (res.cancel) {
-              // vm.navTo("/pages/config/bindBankCard", true);
+              vm.navTo("/pages/config/bindBankCard", true);
             }
           },
         });
