@@ -11,14 +11,14 @@
       </view>
     </view>
     <!-- TODO: 注释银行卡 -->
-    <!-- <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
+    <view class="u-title" v-if="!userInfo.bankAccount" @click.stop="goBindBank">
       <image class="u-icon" src="/static/pay4.png" />
       <view style="flex: 1;">
         <view class="font-s-32">银行卡</view>
         <view class="font-s-32 text-hui">极速提现</view>
       </view>
       <view class="font-s-32 blue-6">立即绑定</view>
-    </view> -->
+    </view>
 
     <view class="u-title" v-if="userInfo.aliPay" @click.stop="type = 1" v-show="!disableAlipay">
       <image class="u-icon" src="/static/pay2.png" />
@@ -46,10 +46,10 @@
     </view>
 
     <view class="u-tip f-22">
-      <view>1. 每个账号每日只能提现3次</view>
-      <view>2. 为防止套现，充值金额不可提现</view>
-      <view>3. 中奖金额可全部用于提现或参与转充活动</view>
-      <view>4. 单次提现金额需大于50元</view>
+      <!-- <view>1. 每个账号每日只能提现3次</view> -->
+      <view>1. 为防止套现，充值金额不可提现</view>
+      <view>2. 中奖金额可全部用于提现或参与转充活动</view>
+      <view>3. 单次提现金额需大于50元</view>
     </view>
 
     <button class="u-action" type="warn" @click.stop="doSubmit">确认提现</button>
